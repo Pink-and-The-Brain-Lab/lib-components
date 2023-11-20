@@ -1,0 +1,47 @@
+@import "../styles/variables";
+@import "../styles/em";
+
+@mixin validate-state($color) {
+    box-shadow: 0 2px 0 -1px $color;
+
+    &:focus {
+        box-shadow: 0 3px 0 -1px $color;
+    }
+}
+
+.content {
+    .country-flag {
+        position: absolute;
+        left: 3px;
+        top: 11px;
+    }
+
+    .arrow {
+        position: absolute;
+        right: 3px;
+        top: 11px;
+        color: $emphasis-low;
+    }
+
+    .has-left-icon {
+        padding-left: 30px;
+    }
+
+    @include validate-state($divider);
+
+    &.invalid {
+        @include validate-state($st-red);
+    }
+
+    &.success {
+        @include validate-state($st-green);
+    }
+
+    &.warning {
+        @include validate-state($st-yellow);
+    }
+
+    &.info {
+        @include validate-state($st-blue);
+    }
+}

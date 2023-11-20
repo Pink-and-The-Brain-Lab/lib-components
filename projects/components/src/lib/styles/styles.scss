@@ -1,0 +1,35 @@
+@import "custom-styles";
+@import '@angular/cdk/overlay-prebuilt.css';
+@import './overrides-styles/cdk-overlay';
+
+html,
+body {
+    height: 100vh;
+    font-size: to-em(16);
+    background-color: $main;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: $alpha-9;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: $alpha-10;
+  }

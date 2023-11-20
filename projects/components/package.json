@@ -1,0 +1,18 @@
+{
+  "name": "components",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/common": "^15.1.0",
+    "@angular/core": "^15.1.0",
+    "google-libphonenumber": "3.2.30",
+    "ng2-tooltip-directive": "2.10.3",
+    "ngx-image-cropper": "7.0.1"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "sideEffects": false,
+  "devDependencies": {
+    "@types/google-libphonenumber": "^7.4.23"
+  }
+}
