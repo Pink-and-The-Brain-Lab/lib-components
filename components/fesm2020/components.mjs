@@ -1,15 +1,19 @@
 import * as i0 from '@angular/core';
-import { Component, Input, NgModule, Directive, Optional, forwardRef, HostListener, EventEmitter, Output, Host, TemplateRef, ContentChild, Injectable, QueryList, ViewChildren } from '@angular/core';
+import { Component, Input, NgModule, Directive, Optional, forwardRef, HostListener, EventEmitter, Output, Host, TemplateRef, ContentChild, Injectable, QueryList, ViewChildren, ViewChild, InjectionToken, Inject, Injector, ViewContainerRef } from '@angular/core';
 import * as i1 from '@angular/common';
 import { CommonModule } from '@angular/common';
 import * as i1$1 from '@angular/cdk/overlay';
 import { OverlayConfig, OverlayModule, OverlayContainer, FullscreenOverlayContainer } from '@angular/cdk/overlay';
-import { TemplatePortal } from '@angular/cdk/portal';
+import { TemplatePortal, ComponentPortal, PortalModule } from '@angular/cdk/portal';
 import * as i1$2 from '@angular/forms';
 import { NG_VALUE_ACCESSOR, FormsModule, FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Subject, takeUntil, startWith, pairwise, map } from 'rxjs';
 import { PhoneNumberUtil, PhoneNumberFormat } from 'google-libphonenumber';
+import * as i2 from 'ngx-image-cropper';
+import { ImageCropperComponent, ImageCropperModule } from 'ngx-image-cropper';
+import * as i4 from 'ng2-tooltip-directive';
+import { TooltipModule } from 'ng2-tooltip-directive';
 
 class UserStatusBulletComponent {
     constructor() {
@@ -240,11 +244,15 @@ class PopoverDirective {
     set positions(value) {
         this._positons = PopoverPositions.getPosition(value);
     }
+    set isFullscreen(value) {
+        this._isFullScreen = value;
+    }
     constructor(overlay, template, viewContainerRef) {
         this.overlay = overlay;
         this.template = template;
         this.viewContainerRef = viewContainerRef;
         this._positons = PopoverPositions.getPosition('EBSB');
+        this._isFullScreen = false;
     }
     open() {
         const position = this.overlay.position().flexibleConnectedTo(this._target).withPositions([this._positons]);
@@ -253,7 +261,9 @@ class PopoverDirective {
             backdropClass: 'cdk-overlay-transparent-backdrop',
             scrollStrategy: this.overlay.scrollStrategies.block(),
             positionStrategy: position,
-            maxHeight: '95%',
+            maxHeight: this._isFullScreen ? 'auto' : '95%',
+            height: this._isFullScreen ? '100%' : 'auto',
+            width: this._isFullScreen ? '100%' : 'auto',
             disposeOnNavigation: true,
         });
         this.overlayRef = this.overlay.create(config);
@@ -266,7 +276,7 @@ class PopoverDirective {
     }
 }
 PopoverDirective.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: PopoverDirective, deps: [{ token: i1$1.Overlay }, { token: i0.TemplateRef }, { token: i0.ViewContainerRef }], target: i0.ɵɵFactoryTarget.Directive });
-PopoverDirective.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "15.1.2", type: PopoverDirective, selector: "[cdkPopover]", inputs: { cdkPopover: "cdkPopover", target: ["cdkPopoverTarget", "target"], positions: ["cdkPopoverPositions", "positions"], close: ["cdkPopoverClose", "close"] }, ngImport: i0 });
+PopoverDirective.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "15.1.2", type: PopoverDirective, selector: "[cdkPopover]", inputs: { cdkPopover: "cdkPopover", target: ["cdkPopoverTarget", "target"], positions: ["cdkPopoverPositions", "positions"], isFullscreen: ["cdkPopoverFullScreen", "isFullscreen"], close: ["cdkPopoverClose", "close"] }, ngImport: i0 });
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: PopoverDirective, decorators: [{
             type: Directive,
             args: [{
@@ -283,6 +293,11 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImpor
             }, {
                 type: Input,
                 args: ['cdkPopoverPositions']
+            }], isFullscreen: [{
+                type: Optional
+            }, {
+                type: Input,
+                args: ['cdkPopoverFullScreen']
             }], close: [{
                 type: Input,
                 args: ['cdkPopoverClose']
@@ -629,8 +644,13 @@ class CustomSelectComponent {
         this.options = [];
         this.placeholder = 'Selecione';
         this.modelProperty = '';
+        this.label = '';
         this.isValid = false;
+        this.hasLeftIcon = false;
+        this.hasDivider = false;
         this.valueChanges = new EventEmitter();
+        this.customTemplate = {};
+        this.selectedTemplate = {};
         this.showOptions = false;
         this.formGroup = new FormGroup({
             input: new FormControl('')
@@ -656,30 +676,32 @@ class CustomSelectComponent {
     }
 }
 CustomSelectComponent.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: CustomSelectComponent, deps: [], target: i0.ɵɵFactoryTarget.Component });
-CustomSelectComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "15.1.2", type: CustomSelectComponent, selector: "cdk-custom-select", inputs: { options: "options", placeholder: "placeholder", modelProperty: "modelProperty", selectedOption: "selectedOption", isValid: "isValid" }, outputs: { valueChanges: "valueChanges" }, queries: [{ propertyName: "customTemplate", first: true, predicate: ["customTemplate"], descendants: true, read: TemplateRef, static: true }, { propertyName: "selectedTemplate", first: true, predicate: ["selectedTemplate"], descendants: true, read: TemplateRef, static: true }], usesOnChanges: true, ngImport: i0, template: "<div class=\"content\">\r\n  <div class=\"row-form position-relative\" #content>\r\n    <div class=\"country-flag\" *ngIf=\"selectedOption\">\r\n      <ng-container\r\n        *ngTemplateOutlet=\"\r\n          selectedTemplate;\r\n          context: { $implicit: selectedOption }\r\n        \"\r\n      ></ng-container>\r\n    </div>\r\n\r\n    <form [formGroup]=\"formGroup\">\r\n      <input\r\n        type=\"text\"\r\n        (focus)=\"showOptions = true\"\r\n        [attr.placeholder]=\"placeholder\"\r\n        formControlName=\"input\"\r\n        [class.not-empty]=\"selectedOption[modelProperty]\"\r\n        [class.success]=\"isValid\"\r\n        readonly\r\n        id=\"select\"\r\n      />\r\n      <label for=\"select\">code</label>\r\n    </form>\r\n\r\n    <span class=\"arrow\">\r\n      <i class=\"bi bi-chevron-down\" *ngIf=\"!showOptions\"></i>\r\n      <i class=\"bi bi-chevron-up\" *ngIf=\"showOptions\"></i>\r\n    </span>\r\n  </div>\r\n</div>\r\n\r\n<ul\r\n  class=\"options m-0\"\r\n  *cdkPopover=\"\r\n    showOptions;\r\n    target: content;\r\n    close: closePopover;\r\n    positions: 'SBST'\r\n  \"\r\n>\r\n  <ng-container\r\n    *ngFor=\"\r\n      let item of options;\r\n      let first = first;\r\n      let last = last;\r\n      let index = index\r\n    \"\r\n  >\r\n    <li\r\n      class=\"custom-option\"\r\n      [class.first]=\"first\"\r\n      [class.last]=\"last\"\r\n      (click)=\"getOption(item)\"\r\n    >\r\n      <ng-container\r\n        *ngTemplateOutlet=\"customTemplate; context: { $implicit: item, index }\"\r\n      ></ng-container>\r\n    </li>\r\n    <li class=\"divider\" *ngIf=\"index === 1\"></li>\r\n  </ng-container>\r\n</ul>\r\n", styles: [".content{box-shadow:0 2px 0 -1px #4e5463}.content .country-flag{position:absolute;left:3px;top:11px}.content .arrow{position:absolute;right:3px;top:11px;color:#7f858c}.content .not-empty{padding-left:30px}.content:focus{box-shadow:0 3px 0 -1px #4e5463}.content.invalid{box-shadow:0 2px 0 -1px #ff5d4f}.content.invalid:focus{box-shadow:0 3px 0 -1px #ff5d4f}.content.success{box-shadow:0 2px 0 -1px #00cb5f}.content.success:focus{box-shadow:0 3px 0 -1px #00cb5f}.content.warning{box-shadow:0 2px 0 -1px #fec23a}.content.warning:focus{box-shadow:0 3px 0 -1px #fec23a}.content.info{box-shadow:0 2px 0 -1px #109cf1}.content.info:focus{box-shadow:0 3px 0 -1px #109cf1}\n"], dependencies: [{ kind: "directive", type: i1.NgForOf, selector: "[ngFor][ngForOf]", inputs: ["ngForOf", "ngForTrackBy", "ngForTemplate"] }, { kind: "directive", type: i1.NgIf, selector: "[ngIf]", inputs: ["ngIf", "ngIfThen", "ngIfElse"] }, { kind: "directive", type: i1.NgTemplateOutlet, selector: "[ngTemplateOutlet]", inputs: ["ngTemplateOutletContext", "ngTemplateOutlet", "ngTemplateOutletInjector"] }, { kind: "directive", type: PopoverDirective, selector: "[cdkPopover]", inputs: ["cdkPopover", "cdkPopoverTarget", "cdkPopoverPositions", "cdkPopoverClose"] }, { kind: "directive", type: i1$2.ɵNgNoValidate, selector: "form:not([ngNoForm]):not([ngNativeValidate])" }, { kind: "directive", type: i1$2.DefaultValueAccessor, selector: "input:not([type=checkbox])[formControlName],textarea[formControlName],input:not([type=checkbox])[formControl],textarea[formControl],input:not([type=checkbox])[ngModel],textarea[ngModel],[ngDefaultControl]" }, { kind: "directive", type: i1$2.NgControlStatus, selector: "[formControlName],[ngModel],[formControl]" }, { kind: "directive", type: i1$2.NgControlStatusGroup, selector: "[formGroupName],[formArrayName],[ngModelGroup],[formGroup],form:not([ngNoForm]),[ngForm]" }, { kind: "directive", type: i1$2.FormGroupDirective, selector: "[formGroup]", inputs: ["formGroup"], outputs: ["ngSubmit"], exportAs: ["ngForm"] }, { kind: "directive", type: i1$2.FormControlName, selector: "[formControlName]", inputs: ["formControlName", "disabled", "ngModel"], outputs: ["ngModelChange"] }] });
+CustomSelectComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "15.1.2", type: CustomSelectComponent, selector: "cdk-custom-select", inputs: { options: "options", placeholder: "placeholder", modelProperty: "modelProperty", label: "label", selectedOption: "selectedOption", isValid: "isValid", hasLeftIcon: "hasLeftIcon", hasDivider: "hasDivider" }, outputs: { valueChanges: "valueChanges" }, queries: [{ propertyName: "customTemplate", first: true, predicate: ["customTemplate"], descendants: true, read: TemplateRef, static: true }, { propertyName: "selectedTemplate", first: true, predicate: ["selectedTemplate"], descendants: true, read: TemplateRef, static: true }], usesOnChanges: true, ngImport: i0, template: "<div class=\"content\">\r\n  <div class=\"row-form position-relative m-0\" #content>\r\n    <div class=\"country-flag\" *ngIf=\"selectedOption\">\r\n      <ng-container\r\n        *ngTemplateOutlet=\"\r\n          selectedTemplate;\r\n          context: { $implicit: selectedOption }\r\n        \"\r\n      ></ng-container>\r\n    </div>\r\n\r\n    <form [formGroup]=\"formGroup\">\r\n      <input\r\n        type=\"text\"\r\n        (focus)=\"showOptions = true\"\r\n        [attr.placeholder]=\"placeholder\"\r\n        formControlName=\"input\"\r\n        [class.has-left-icon]=\"hasLeftIcon\"\r\n        [class.not-empty]=\"selectedOption[modelProperty]\"\r\n        [class.success]=\"isValid\"\r\n        readonly\r\n        id=\"select\"\r\n      />\r\n      <label for=\"select\">{{ label }}</label>\r\n    </form>\r\n\r\n    <span class=\"arrow\">\r\n      <i class=\"bi bi-chevron-down\" *ngIf=\"!showOptions\"></i>\r\n      <i class=\"bi bi-chevron-up\" *ngIf=\"showOptions\"></i>\r\n    </span>\r\n  </div>\r\n</div>\r\n\r\n<ul\r\n  class=\"options m-0\"\r\n  *cdkPopover=\"\r\n    showOptions;\r\n    target: content;\r\n    close: closePopover;\r\n    positions: 'SBST'\r\n  \"\r\n>\r\n  <ng-container\r\n    *ngFor=\"\r\n      let item of options;\r\n      let first = first;\r\n      let last = last;\r\n      let index = index\r\n    \"\r\n  >\r\n    <li\r\n      class=\"custom-option\"\r\n      [class.first]=\"first\"\r\n      [class.last]=\"last\"\r\n      (click)=\"getOption(item)\"\r\n    >\r\n      <ng-container\r\n        *ngTemplateOutlet=\"customTemplate; context: { $implicit: item, index }\"\r\n      ></ng-container>\r\n    </li>\r\n    <li class=\"divider\" *ngIf=\"hasDivider && index === 1\"></li>\r\n  </ng-container>\r\n</ul>\r\n", styles: [".content{box-shadow:0 2px 0 -1px #4e5463}.content .country-flag{position:absolute;left:3px;top:11px}.content .arrow{position:absolute;right:3px;top:11px;color:#7f858c}.content .has-left-icon{padding-left:30px}.content:focus{box-shadow:0 3px 0 -1px #4e5463}.content.invalid{box-shadow:0 2px 0 -1px #ff5d4f}.content.invalid:focus{box-shadow:0 3px 0 -1px #ff5d4f}.content.success{box-shadow:0 2px 0 -1px #00cb5f}.content.success:focus{box-shadow:0 3px 0 -1px #00cb5f}.content.warning{box-shadow:0 2px 0 -1px #fec23a}.content.warning:focus{box-shadow:0 3px 0 -1px #fec23a}.content.info{box-shadow:0 2px 0 -1px #109cf1}.content.info:focus{box-shadow:0 3px 0 -1px #109cf1}\n"], dependencies: [{ kind: "directive", type: i1.NgForOf, selector: "[ngFor][ngForOf]", inputs: ["ngForOf", "ngForTrackBy", "ngForTemplate"] }, { kind: "directive", type: i1.NgIf, selector: "[ngIf]", inputs: ["ngIf", "ngIfThen", "ngIfElse"] }, { kind: "directive", type: i1.NgTemplateOutlet, selector: "[ngTemplateOutlet]", inputs: ["ngTemplateOutletContext", "ngTemplateOutlet", "ngTemplateOutletInjector"] }, { kind: "directive", type: PopoverDirective, selector: "[cdkPopover]", inputs: ["cdkPopover", "cdkPopoverTarget", "cdkPopoverPositions", "cdkPopoverFullScreen", "cdkPopoverClose"] }, { kind: "directive", type: i1$2.ɵNgNoValidate, selector: "form:not([ngNoForm]):not([ngNativeValidate])" }, { kind: "directive", type: i1$2.DefaultValueAccessor, selector: "input:not([type=checkbox])[formControlName],textarea[formControlName],input:not([type=checkbox])[formControl],textarea[formControl],input:not([type=checkbox])[ngModel],textarea[ngModel],[ngDefaultControl]" }, { kind: "directive", type: i1$2.NgControlStatus, selector: "[formControlName],[ngModel],[formControl]" }, { kind: "directive", type: i1$2.NgControlStatusGroup, selector: "[formGroupName],[formArrayName],[ngModelGroup],[formGroup],form:not([ngNoForm]),[ngForm]" }, { kind: "directive", type: i1$2.FormGroupDirective, selector: "[formGroup]", inputs: ["formGroup"], outputs: ["ngSubmit"], exportAs: ["ngForm"] }, { kind: "directive", type: i1$2.FormControlName, selector: "[formControlName]", inputs: ["formControlName", "disabled", "ngModel"], outputs: ["ngModelChange"] }] });
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: CustomSelectComponent, decorators: [{
             type: Component,
-            args: [{ selector: 'cdk-custom-select', template: "<div class=\"content\">\r\n  <div class=\"row-form position-relative\" #content>\r\n    <div class=\"country-flag\" *ngIf=\"selectedOption\">\r\n      <ng-container\r\n        *ngTemplateOutlet=\"\r\n          selectedTemplate;\r\n          context: { $implicit: selectedOption }\r\n        \"\r\n      ></ng-container>\r\n    </div>\r\n\r\n    <form [formGroup]=\"formGroup\">\r\n      <input\r\n        type=\"text\"\r\n        (focus)=\"showOptions = true\"\r\n        [attr.placeholder]=\"placeholder\"\r\n        formControlName=\"input\"\r\n        [class.not-empty]=\"selectedOption[modelProperty]\"\r\n        [class.success]=\"isValid\"\r\n        readonly\r\n        id=\"select\"\r\n      />\r\n      <label for=\"select\">code</label>\r\n    </form>\r\n\r\n    <span class=\"arrow\">\r\n      <i class=\"bi bi-chevron-down\" *ngIf=\"!showOptions\"></i>\r\n      <i class=\"bi bi-chevron-up\" *ngIf=\"showOptions\"></i>\r\n    </span>\r\n  </div>\r\n</div>\r\n\r\n<ul\r\n  class=\"options m-0\"\r\n  *cdkPopover=\"\r\n    showOptions;\r\n    target: content;\r\n    close: closePopover;\r\n    positions: 'SBST'\r\n  \"\r\n>\r\n  <ng-container\r\n    *ngFor=\"\r\n      let item of options;\r\n      let first = first;\r\n      let last = last;\r\n      let index = index\r\n    \"\r\n  >\r\n    <li\r\n      class=\"custom-option\"\r\n      [class.first]=\"first\"\r\n      [class.last]=\"last\"\r\n      (click)=\"getOption(item)\"\r\n    >\r\n      <ng-container\r\n        *ngTemplateOutlet=\"customTemplate; context: { $implicit: item, index }\"\r\n      ></ng-container>\r\n    </li>\r\n    <li class=\"divider\" *ngIf=\"index === 1\"></li>\r\n  </ng-container>\r\n</ul>\r\n", styles: [".content{box-shadow:0 2px 0 -1px #4e5463}.content .country-flag{position:absolute;left:3px;top:11px}.content .arrow{position:absolute;right:3px;top:11px;color:#7f858c}.content .not-empty{padding-left:30px}.content:focus{box-shadow:0 3px 0 -1px #4e5463}.content.invalid{box-shadow:0 2px 0 -1px #ff5d4f}.content.invalid:focus{box-shadow:0 3px 0 -1px #ff5d4f}.content.success{box-shadow:0 2px 0 -1px #00cb5f}.content.success:focus{box-shadow:0 3px 0 -1px #00cb5f}.content.warning{box-shadow:0 2px 0 -1px #fec23a}.content.warning:focus{box-shadow:0 3px 0 -1px #fec23a}.content.info{box-shadow:0 2px 0 -1px #109cf1}.content.info:focus{box-shadow:0 3px 0 -1px #109cf1}\n"] }]
+            args: [{ selector: 'cdk-custom-select', template: "<div class=\"content\">\r\n  <div class=\"row-form position-relative m-0\" #content>\r\n    <div class=\"country-flag\" *ngIf=\"selectedOption\">\r\n      <ng-container\r\n        *ngTemplateOutlet=\"\r\n          selectedTemplate;\r\n          context: { $implicit: selectedOption }\r\n        \"\r\n      ></ng-container>\r\n    </div>\r\n\r\n    <form [formGroup]=\"formGroup\">\r\n      <input\r\n        type=\"text\"\r\n        (focus)=\"showOptions = true\"\r\n        [attr.placeholder]=\"placeholder\"\r\n        formControlName=\"input\"\r\n        [class.has-left-icon]=\"hasLeftIcon\"\r\n        [class.not-empty]=\"selectedOption[modelProperty]\"\r\n        [class.success]=\"isValid\"\r\n        readonly\r\n        id=\"select\"\r\n      />\r\n      <label for=\"select\">{{ label }}</label>\r\n    </form>\r\n\r\n    <span class=\"arrow\">\r\n      <i class=\"bi bi-chevron-down\" *ngIf=\"!showOptions\"></i>\r\n      <i class=\"bi bi-chevron-up\" *ngIf=\"showOptions\"></i>\r\n    </span>\r\n  </div>\r\n</div>\r\n\r\n<ul\r\n  class=\"options m-0\"\r\n  *cdkPopover=\"\r\n    showOptions;\r\n    target: content;\r\n    close: closePopover;\r\n    positions: 'SBST'\r\n  \"\r\n>\r\n  <ng-container\r\n    *ngFor=\"\r\n      let item of options;\r\n      let first = first;\r\n      let last = last;\r\n      let index = index\r\n    \"\r\n  >\r\n    <li\r\n      class=\"custom-option\"\r\n      [class.first]=\"first\"\r\n      [class.last]=\"last\"\r\n      (click)=\"getOption(item)\"\r\n    >\r\n      <ng-container\r\n        *ngTemplateOutlet=\"customTemplate; context: { $implicit: item, index }\"\r\n      ></ng-container>\r\n    </li>\r\n    <li class=\"divider\" *ngIf=\"hasDivider && index === 1\"></li>\r\n  </ng-container>\r\n</ul>\r\n", styles: [".content{box-shadow:0 2px 0 -1px #4e5463}.content .country-flag{position:absolute;left:3px;top:11px}.content .arrow{position:absolute;right:3px;top:11px;color:#7f858c}.content .has-left-icon{padding-left:30px}.content:focus{box-shadow:0 3px 0 -1px #4e5463}.content.invalid{box-shadow:0 2px 0 -1px #ff5d4f}.content.invalid:focus{box-shadow:0 3px 0 -1px #ff5d4f}.content.success{box-shadow:0 2px 0 -1px #00cb5f}.content.success:focus{box-shadow:0 3px 0 -1px #00cb5f}.content.warning{box-shadow:0 2px 0 -1px #fec23a}.content.warning:focus{box-shadow:0 3px 0 -1px #fec23a}.content.info{box-shadow:0 2px 0 -1px #109cf1}.content.info:focus{box-shadow:0 3px 0 -1px #109cf1}\n"] }]
         }], propDecorators: { options: [{
                 type: Input
             }], placeholder: [{
                 type: Input
             }], modelProperty: [{
                 type: Input
+            }], label: [{
+                type: Input
             }], selectedOption: [{
                 type: Input
             }], isValid: [{
                 type: Input
+            }], hasLeftIcon: [{
+                type: Input
+            }], hasDivider: [{
+                type: Input
             }], valueChanges: [{
                 type: Output
-            }], 
-        // @ts-ignore
-        customTemplate: [{
+            }], customTemplate: [{
                 type: ContentChild,
                 args: ["customTemplate", { static: true, read: TemplateRef }]
-            }], 
-        // @ts-ignore
-        selectedTemplate: [{
+            }], selectedTemplate: [{
                 type: ContentChild,
                 args: ["selectedTemplate", { static: true, read: TemplateRef }]
             }] } });
@@ -2546,10 +2568,10 @@ class PhoneNumberComponent {
     }
 }
 PhoneNumberComponent.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: PhoneNumberComponent, deps: [{ token: PhoneValidationService }], target: i0.ɵɵFactoryTarget.Component });
-PhoneNumberComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "15.1.2", type: PhoneNumberComponent, selector: "cdk-phone-number", outputs: { validationPhoneEvent: "validationPhoneEvent" }, ngImport: i0, template: "<form [formGroup]=\"formGroup\" class=\"d-flex flex-column\" (submit)=\"verifyPhoneNumber()\">\r\n  <div class=\"d-flex justify-content-between\">\r\n    <div class=\"row-form mt-0 flex-grow-0\">\r\n      <cdk-custom-select\r\n        placeholder=\"\"\r\n        modelProperty=\"dial_code\"\r\n        [options]=\"options\"\r\n        [selectedOption]=\"selectedOption\"\r\n        [isValid]=\"phoneNumber && phoneNumber.touched && !phoneNumber.errors\"\r\n        (valueChanges)=\"getSelectedCountry($event)\"\r\n        class=\"me-3 d-block\"\r\n      >\r\n        <ng-template #customTemplate let-item let-index let-_index=\"index\">\r\n          <span>\r\n            <i class=\"me-2 flag-icon flag-icon-{{ item?.flag }}\"></i>\r\n            ({{ item?.dial_code }}) {{ item?.name }}\r\n          </span>\r\n\r\n          <span aria-hidden=\"true\" *ngIf=\"_index === 1\" class=\"divider\"></span>\r\n        </ng-template>\r\n\r\n        <ng-template #selectedTemplate let-item>\r\n          <i class=\"me-2 flag-icon flag-icon-{{ item?.flag }}\"></i>\r\n        </ng-template>\r\n      </cdk-custom-select>\r\n    </div>\r\n\r\n    <div class=\"row-form position-relative flex-grow-1 w-100\">\r\n      <input\r\n        type=\"text\"\r\n        id=\"phoneNumber\"\r\n        formControlName=\"phoneNumber\"\r\n        cdkInputValidation\r\n        [class.validated]=\"phoneValidated\"\r\n      />\r\n      <label for=\"phoneNumber\">Phone number</label>\r\n\r\n      <small *ngIf=\"phoneNumber && phoneNumber.touched && phoneNumber.errors\">\r\n        <span *ngIf=\"phoneNumber && phoneNumber.errors['required']\">Phone number is required</span>\r\n        <span *ngIf=\"phoneNumber && phoneNumber.value.length && phoneNumber.errors['isInvalidPhoneNumber']\">{{ labelPhoneNumberValidation }}</span>\r\n      </small>\r\n\r\n      <span class=\"validation-icon\">\r\n        <i class=\"bi bi-check2 check\" *ngIf=\"phoneValidated && phoneAvailable\"></i>\r\n        <i class=\"bi bi-x-lg error\" *ngIf=\"phoneValidated && !phoneAvailable\"></i>\r\n      </span>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"d-flex justify-content-end mt-3\">\r\n    <button type=\"submit\" class=\"btn btn-dark\" [disabled]=\"!phoneNumber.value.length || phoneNumber.errors\" [cdkLoadingButton]=\"isLoading\" *ngIf=\"!phoneValidated || !phoneAvailable\">\r\n      <cdk-spinner>Verify Phone</cdk-spinner>\r\n    </button>\r\n    <button type=\"button\" class=\"btn btn-outline-success\" disabled *ngIf=\"phoneValidated && phoneAvailable\">Phone Verified</button>\r\n  </div>\r\n\r\n</form>\r\n", styles: ["form{width:100%;max-width:500px}form cdk-custom-select{width:90px}form input.validated{padding-right:30px}form .validation-icon{position:absolute;top:11px;right:3px}form .validation-icon .check{color:#00cb5f}form .validation-icon .error{color:#ff5d4f}\n"], dependencies: [{ kind: "directive", type: i1.NgIf, selector: "[ngIf]", inputs: ["ngIf", "ngIfThen", "ngIfElse"] }, { kind: "component", type: CustomSelectComponent, selector: "cdk-custom-select", inputs: ["options", "placeholder", "modelProperty", "selectedOption", "isValid"], outputs: ["valueChanges"] }, { kind: "directive", type: i1$2.ɵNgNoValidate, selector: "form:not([ngNoForm]):not([ngNativeValidate])" }, { kind: "directive", type: i1$2.DefaultValueAccessor, selector: "input:not([type=checkbox])[formControlName],textarea[formControlName],input:not([type=checkbox])[formControl],textarea[formControl],input:not([type=checkbox])[ngModel],textarea[ngModel],[ngDefaultControl]" }, { kind: "directive", type: i1$2.NgControlStatus, selector: "[formControlName],[ngModel],[formControl]" }, { kind: "directive", type: i1$2.NgControlStatusGroup, selector: "[formGroupName],[formArrayName],[ngModelGroup],[formGroup],form:not([ngNoForm]),[ngForm]" }, { kind: "directive", type: i1$2.FormGroupDirective, selector: "[formGroup]", inputs: ["formGroup"], outputs: ["ngSubmit"], exportAs: ["ngForm"] }, { kind: "directive", type: i1$2.FormControlName, selector: "[formControlName]", inputs: ["formControlName", "disabled", "ngModel"], outputs: ["ngModelChange"] }, { kind: "directive", type: InputValidationDirective, selector: "[cdkInputValidation]" }, { kind: "directive", type: LoadingButtonDirective, selector: "[cdkLoadingButton]", inputs: ["cdkLoadingButton"] }, { kind: "component", type: SpinnerComponent, selector: "cdk-spinner" }] });
+PhoneNumberComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "15.1.2", type: PhoneNumberComponent, selector: "cdk-phone-number", outputs: { validationPhoneEvent: "validationPhoneEvent" }, ngImport: i0, template: "<form [formGroup]=\"formGroup\" class=\"d-flex flex-column\" (submit)=\"verifyPhoneNumber()\">\r\n  <div class=\"d-flex justify-content-between\">\r\n    <div class=\"row-form mt-0 flex-grow-0\">\r\n      <cdk-custom-select\r\n        placeholder=\"\"\r\n        modelProperty=\"dial_code\"\r\n        label=\"code\"\r\n        [options]=\"options\"\r\n        [selectedOption]=\"selectedOption\"\r\n        [isValid]=\"phoneNumber && phoneNumber.touched && !phoneNumber.errors\"\r\n        (valueChanges)=\"getSelectedCountry($event)\"\r\n        [hasLeftIcon]=\"true\"\r\n        [hasDivider]=\"true\"\r\n        class=\"me-3 d-block\"\r\n      >\r\n        <ng-template #customTemplate let-item let-index let-_index=\"index\">\r\n          <span>\r\n            <i class=\"me-2 flag-icon flag-icon-{{ item?.flag }}\"></i>\r\n            ({{ item?.dial_code }}) {{ item?.name }}\r\n          </span>\r\n\r\n          <span aria-hidden=\"true\" *ngIf=\"_index === 1\" class=\"divider\"></span>\r\n        </ng-template>\r\n\r\n        <ng-template #selectedTemplate let-item>\r\n          <i class=\"me-2 flag-icon flag-icon-{{ item?.flag }}\"></i>\r\n        </ng-template>\r\n      </cdk-custom-select>\r\n    </div>\r\n\r\n    <div class=\"row-form position-relative flex-grow-1 w-100\">\r\n      <input\r\n        type=\"text\"\r\n        id=\"phoneNumber\"\r\n        formControlName=\"phoneNumber\"\r\n        cdkInputValidation\r\n        [class.validated]=\"phoneValidated\"\r\n      />\r\n      <label for=\"phoneNumber\">Phone number</label>\r\n\r\n      <small *ngIf=\"phoneNumber && phoneNumber.touched && phoneNumber.errors\">\r\n        <span *ngIf=\"phoneNumber && phoneNumber.errors['required']\">Phone number is required</span>\r\n        <span *ngIf=\"phoneNumber && phoneNumber.value.length && phoneNumber.errors['isInvalidPhoneNumber']\">{{ labelPhoneNumberValidation }}</span>\r\n      </small>\r\n\r\n      <span class=\"validation-icon\">\r\n        <i class=\"bi bi-check2 check\" *ngIf=\"phoneValidated && phoneAvailable\"></i>\r\n        <i class=\"bi bi-x-lg error\" *ngIf=\"phoneValidated && !phoneAvailable\"></i>\r\n      </span>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"d-flex justify-content-end mt-3\">\r\n    <button type=\"submit\" class=\"btn btn-dark\" [disabled]=\"!phoneNumber.value.length || phoneNumber.errors\" [cdkLoadingButton]=\"isLoading\" *ngIf=\"!phoneValidated || !phoneAvailable\">\r\n      <cdk-spinner>Verify Phone</cdk-spinner>\r\n    </button>\r\n    <button type=\"button\" class=\"btn btn-outline-success\" disabled *ngIf=\"phoneValidated && phoneAvailable\">Phone Verified</button>\r\n  </div>\r\n\r\n</form>\r\n", styles: ["form{width:100%;max-width:500px}form cdk-custom-select{width:90px}form input.validated{padding-right:30px}form .validation-icon{position:absolute;top:11px;right:3px}form .validation-icon .check{color:#00cb5f}form .validation-icon .error{color:#ff5d4f}\n"], dependencies: [{ kind: "directive", type: i1.NgIf, selector: "[ngIf]", inputs: ["ngIf", "ngIfThen", "ngIfElse"] }, { kind: "component", type: CustomSelectComponent, selector: "cdk-custom-select", inputs: ["options", "placeholder", "modelProperty", "label", "selectedOption", "isValid", "hasLeftIcon", "hasDivider"], outputs: ["valueChanges"] }, { kind: "directive", type: i1$2.ɵNgNoValidate, selector: "form:not([ngNoForm]):not([ngNativeValidate])" }, { kind: "directive", type: i1$2.DefaultValueAccessor, selector: "input:not([type=checkbox])[formControlName],textarea[formControlName],input:not([type=checkbox])[formControl],textarea[formControl],input:not([type=checkbox])[ngModel],textarea[ngModel],[ngDefaultControl]" }, { kind: "directive", type: i1$2.NgControlStatus, selector: "[formControlName],[ngModel],[formControl]" }, { kind: "directive", type: i1$2.NgControlStatusGroup, selector: "[formGroupName],[formArrayName],[ngModelGroup],[formGroup],form:not([ngNoForm]),[ngForm]" }, { kind: "directive", type: i1$2.FormGroupDirective, selector: "[formGroup]", inputs: ["formGroup"], outputs: ["ngSubmit"], exportAs: ["ngForm"] }, { kind: "directive", type: i1$2.FormControlName, selector: "[formControlName]", inputs: ["formControlName", "disabled", "ngModel"], outputs: ["ngModelChange"] }, { kind: "directive", type: InputValidationDirective, selector: "[cdkInputValidation]" }, { kind: "directive", type: LoadingButtonDirective, selector: "[cdkLoadingButton]", inputs: ["cdkLoadingButton"] }, { kind: "component", type: SpinnerComponent, selector: "cdk-spinner" }] });
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: PhoneNumberComponent, decorators: [{
             type: Component,
-            args: [{ selector: 'cdk-phone-number', template: "<form [formGroup]=\"formGroup\" class=\"d-flex flex-column\" (submit)=\"verifyPhoneNumber()\">\r\n  <div class=\"d-flex justify-content-between\">\r\n    <div class=\"row-form mt-0 flex-grow-0\">\r\n      <cdk-custom-select\r\n        placeholder=\"\"\r\n        modelProperty=\"dial_code\"\r\n        [options]=\"options\"\r\n        [selectedOption]=\"selectedOption\"\r\n        [isValid]=\"phoneNumber && phoneNumber.touched && !phoneNumber.errors\"\r\n        (valueChanges)=\"getSelectedCountry($event)\"\r\n        class=\"me-3 d-block\"\r\n      >\r\n        <ng-template #customTemplate let-item let-index let-_index=\"index\">\r\n          <span>\r\n            <i class=\"me-2 flag-icon flag-icon-{{ item?.flag }}\"></i>\r\n            ({{ item?.dial_code }}) {{ item?.name }}\r\n          </span>\r\n\r\n          <span aria-hidden=\"true\" *ngIf=\"_index === 1\" class=\"divider\"></span>\r\n        </ng-template>\r\n\r\n        <ng-template #selectedTemplate let-item>\r\n          <i class=\"me-2 flag-icon flag-icon-{{ item?.flag }}\"></i>\r\n        </ng-template>\r\n      </cdk-custom-select>\r\n    </div>\r\n\r\n    <div class=\"row-form position-relative flex-grow-1 w-100\">\r\n      <input\r\n        type=\"text\"\r\n        id=\"phoneNumber\"\r\n        formControlName=\"phoneNumber\"\r\n        cdkInputValidation\r\n        [class.validated]=\"phoneValidated\"\r\n      />\r\n      <label for=\"phoneNumber\">Phone number</label>\r\n\r\n      <small *ngIf=\"phoneNumber && phoneNumber.touched && phoneNumber.errors\">\r\n        <span *ngIf=\"phoneNumber && phoneNumber.errors['required']\">Phone number is required</span>\r\n        <span *ngIf=\"phoneNumber && phoneNumber.value.length && phoneNumber.errors['isInvalidPhoneNumber']\">{{ labelPhoneNumberValidation }}</span>\r\n      </small>\r\n\r\n      <span class=\"validation-icon\">\r\n        <i class=\"bi bi-check2 check\" *ngIf=\"phoneValidated && phoneAvailable\"></i>\r\n        <i class=\"bi bi-x-lg error\" *ngIf=\"phoneValidated && !phoneAvailable\"></i>\r\n      </span>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"d-flex justify-content-end mt-3\">\r\n    <button type=\"submit\" class=\"btn btn-dark\" [disabled]=\"!phoneNumber.value.length || phoneNumber.errors\" [cdkLoadingButton]=\"isLoading\" *ngIf=\"!phoneValidated || !phoneAvailable\">\r\n      <cdk-spinner>Verify Phone</cdk-spinner>\r\n    </button>\r\n    <button type=\"button\" class=\"btn btn-outline-success\" disabled *ngIf=\"phoneValidated && phoneAvailable\">Phone Verified</button>\r\n  </div>\r\n\r\n</form>\r\n", styles: ["form{width:100%;max-width:500px}form cdk-custom-select{width:90px}form input.validated{padding-right:30px}form .validation-icon{position:absolute;top:11px;right:3px}form .validation-icon .check{color:#00cb5f}form .validation-icon .error{color:#ff5d4f}\n"] }]
+            args: [{ selector: 'cdk-phone-number', template: "<form [formGroup]=\"formGroup\" class=\"d-flex flex-column\" (submit)=\"verifyPhoneNumber()\">\r\n  <div class=\"d-flex justify-content-between\">\r\n    <div class=\"row-form mt-0 flex-grow-0\">\r\n      <cdk-custom-select\r\n        placeholder=\"\"\r\n        modelProperty=\"dial_code\"\r\n        label=\"code\"\r\n        [options]=\"options\"\r\n        [selectedOption]=\"selectedOption\"\r\n        [isValid]=\"phoneNumber && phoneNumber.touched && !phoneNumber.errors\"\r\n        (valueChanges)=\"getSelectedCountry($event)\"\r\n        [hasLeftIcon]=\"true\"\r\n        [hasDivider]=\"true\"\r\n        class=\"me-3 d-block\"\r\n      >\r\n        <ng-template #customTemplate let-item let-index let-_index=\"index\">\r\n          <span>\r\n            <i class=\"me-2 flag-icon flag-icon-{{ item?.flag }}\"></i>\r\n            ({{ item?.dial_code }}) {{ item?.name }}\r\n          </span>\r\n\r\n          <span aria-hidden=\"true\" *ngIf=\"_index === 1\" class=\"divider\"></span>\r\n        </ng-template>\r\n\r\n        <ng-template #selectedTemplate let-item>\r\n          <i class=\"me-2 flag-icon flag-icon-{{ item?.flag }}\"></i>\r\n        </ng-template>\r\n      </cdk-custom-select>\r\n    </div>\r\n\r\n    <div class=\"row-form position-relative flex-grow-1 w-100\">\r\n      <input\r\n        type=\"text\"\r\n        id=\"phoneNumber\"\r\n        formControlName=\"phoneNumber\"\r\n        cdkInputValidation\r\n        [class.validated]=\"phoneValidated\"\r\n      />\r\n      <label for=\"phoneNumber\">Phone number</label>\r\n\r\n      <small *ngIf=\"phoneNumber && phoneNumber.touched && phoneNumber.errors\">\r\n        <span *ngIf=\"phoneNumber && phoneNumber.errors['required']\">Phone number is required</span>\r\n        <span *ngIf=\"phoneNumber && phoneNumber.value.length && phoneNumber.errors['isInvalidPhoneNumber']\">{{ labelPhoneNumberValidation }}</span>\r\n      </small>\r\n\r\n      <span class=\"validation-icon\">\r\n        <i class=\"bi bi-check2 check\" *ngIf=\"phoneValidated && phoneAvailable\"></i>\r\n        <i class=\"bi bi-x-lg error\" *ngIf=\"phoneValidated && !phoneAvailable\"></i>\r\n      </span>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"d-flex justify-content-end mt-3\">\r\n    <button type=\"submit\" class=\"btn btn-dark\" [disabled]=\"!phoneNumber.value.length || phoneNumber.errors\" [cdkLoadingButton]=\"isLoading\" *ngIf=\"!phoneValidated || !phoneAvailable\">\r\n      <cdk-spinner>Verify Phone</cdk-spinner>\r\n    </button>\r\n    <button type=\"button\" class=\"btn btn-outline-success\" disabled *ngIf=\"phoneValidated && phoneAvailable\">Phone Verified</button>\r\n  </div>\r\n\r\n</form>\r\n", styles: ["form{width:100%;max-width:500px}form cdk-custom-select{width:90px}form input.validated{padding-right:30px}form .validation-icon{position:absolute;top:11px;right:3px}form .validation-icon .check{color:#00cb5f}form .validation-icon .error{color:#ff5d4f}\n"] }]
         }], ctorParameters: function () { return [{ type: PhoneValidationService }]; }, propDecorators: { validationPhoneEvent: [{
                 type: Output
             }] } });
@@ -2599,6 +2621,7 @@ class CodeValidationComponent {
         this.validate = new EventEmitter();
         this.destroy$ = new Subject();
         this.focusedInput = 0;
+        this.backspaceControl = 0;
         this.formGroup = new FormGroup({
             _0: new FormControl('', [Validators.required]),
             _1: new FormControl('', [Validators.required]),
@@ -2629,9 +2652,7 @@ class CodeValidationComponent {
             const parsedInputChanged = parseInt(value.changedKey.replace(/_/gi, ''));
             if (value.isAdding) {
                 this.setInputFocus(parsedInputChanged + 1);
-            }
-            else {
-                this.setInputFocus(parsedInputChanged - 1);
+                this.backspaceControl = 0;
             }
         });
     }
@@ -2649,10 +2670,11 @@ class CodeValidationComponent {
         this.focusedInput = index;
     }
     backToPreviousInput() {
-        const inputValue = '' + this.formGroup.get(`_${this.focusedInput}`)?.value;
-        if (inputValue?.length)
+        this.backspaceControl++;
+        if (this.backspaceControl < 2)
             return;
         this.setInputFocus(this.focusedInput - 1);
+        this.backspaceControl = 0;
     }
     onKeyDownHandler(event) {
         if (event.key === 'Backspace') {
@@ -2734,6 +2756,757 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImpor
                 }]
         }] });
 
+const convertoToBlobURL = (file) => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+        const srcData = new Blob([new Uint8Array(reader.result)], { type: file.type });
+        const urlFile = URL.createObjectURL(srcData);
+        resolve(urlFile);
+    };
+    reader.onerror = reject;
+    reader.readAsArrayBuffer(file);
+});
+
+class ChoseImageComponent {
+    constructor() {
+        this.buttonText = 'Choose Image';
+        this.aditionalText = 'or choose a color below';
+        this.imageFile = new EventEmitter();
+        this.inputFile = {};
+    }
+    selectFile() {
+        this.inputFile.nativeElement.click();
+    }
+    getFile(event) {
+        const target = event.target;
+        if (target.files?.length) {
+            const image = target.files[0];
+            convertoToBlobURL(image).then(response => this.imageFile.emit(response));
+        }
+    }
+}
+ChoseImageComponent.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: ChoseImageComponent, deps: [], target: i0.ɵɵFactoryTarget.Component });
+ChoseImageComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "15.1.2", type: ChoseImageComponent, selector: "cdk-chose-image", inputs: { buttonText: "buttonText", aditionalText: "aditionalText" }, outputs: { imageFile: "imageFile" }, viewQueries: [{ propertyName: "inputFile", first: true, predicate: ["inputFile"], descendants: true }], ngImport: i0, template: "<div class=\"d-flex mt-4 align-items-center\">\r\n    <button type=\"button\" class=\"btn btn-outline-secondary\" (click)=\"selectFile()\">{{ buttonText }}</button>\r\n    <p class=\"ms-3\">{{ aditionalText }}</p>\r\n    <input type=\"file\" accept=\"image/*\" hidden #inputFile (change)=\"getFile($event)\" />\r\n</div>", styles: ["p{font-weight:600;font-size:.875em;color:#b3b6bc;margin:0}\n"] });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: ChoseImageComponent, decorators: [{
+            type: Component,
+            args: [{ selector: 'cdk-chose-image', template: "<div class=\"d-flex mt-4 align-items-center\">\r\n    <button type=\"button\" class=\"btn btn-outline-secondary\" (click)=\"selectFile()\">{{ buttonText }}</button>\r\n    <p class=\"ms-3\">{{ aditionalText }}</p>\r\n    <input type=\"file\" accept=\"image/*\" hidden #inputFile (change)=\"getFile($event)\" />\r\n</div>", styles: ["p{font-weight:600;font-size:.875em;color:#b3b6bc;margin:0}\n"] }]
+        }], propDecorators: { buttonText: [{
+                type: Input
+            }], aditionalText: [{
+                type: Input
+            }], imageFile: [{
+                type: Output
+            }], inputFile: [{
+                type: ViewChild,
+                args: ['inputFile']
+            }] } });
+
+class ChoseImageModule {
+}
+ChoseImageModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: ChoseImageModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule });
+ChoseImageModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "15.1.2", ngImport: i0, type: ChoseImageModule, declarations: [ChoseImageComponent], imports: [CommonModule], exports: [ChoseImageComponent] });
+ChoseImageModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: ChoseImageModule, imports: [CommonModule] });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: ChoseImageModule, decorators: [{
+            type: NgModule,
+            args: [{
+                    declarations: [
+                        ChoseImageComponent
+                    ],
+                    exports: [
+                        ChoseImageComponent
+                    ],
+                    imports: [
+                        CommonModule
+                    ]
+                }]
+        }] });
+
+class ProfilePreviewComponent {
+    constructor() {
+        this.color = '';
+        this.imageFile = '';
+        this.userName = '';
+        this.profileName = '';
+        this.defaultUserName = 'chosen name';
+        this.defaultProfileName = 'profile name';
+    }
+    get isDefaultUserName() {
+        return this.userName.toLowerCase().trim() === this.defaultUserName;
+    }
+    get isDefaultProfileName() {
+        return this.profileName.toLowerCase().trim() === this.defaultProfileName;
+    }
+}
+ProfilePreviewComponent.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: ProfilePreviewComponent, deps: [], target: i0.ɵɵFactoryTarget.Component });
+ProfilePreviewComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "15.1.2", type: ProfilePreviewComponent, selector: "app-profile-preview", inputs: { color: "color", imageFile: "imageFile", userName: "userName", profileName: "profileName" }, ngImport: i0, template: "<div class=\"content d-flex flex-column align-items-center justify-content-center\">\r\n    <cdk-avatar size=\"xxl\" name=\"Avatar\" [color]=\"color\" [imageUrl]=\"imageFile\"></cdk-avatar>\r\n    <div class=\"mt-3 user-name\" [class.blink]=\"!userName.length\" [class.default-text]=\"isDefaultUserName\">{{ userName }}</div>\r\n    <div class=\"mt-2 profile-name\" [class.blink]=\"!profileName.length\" [class.default-text]=\"isDefaultProfileName\">{{ profileName }}</div>\r\n</div>", styles: [".content{width:240px;min-height:280px;background-color:#212329;padding:16px}.content .user-name{font-size:1.125em;font-weight:600;line-height:1.75em;color:#dfdfdf}.content .user-name.blink{background-color:#262930;width:136px;height:16px;border-radius:50px;margin-top:16px}.content .profile-name{font-size:11px;font-weight:600;line-height:16px;text-transform:uppercase;color:#b3b6bc}.content .profile-name.blink{background-color:#262930;width:80px;height:10px;border-radius:50px;margin-top:12px}.content .default-text{color:#7f858c}\n"], dependencies: [{ kind: "component", type: AvatarComponent, selector: "cdk-avatar", inputs: ["imageUrl", "size", "mask", "maskType", "secondMaskType", "status", "color", "name"] }] });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: ProfilePreviewComponent, decorators: [{
+            type: Component,
+            args: [{ selector: 'app-profile-preview', template: "<div class=\"content d-flex flex-column align-items-center justify-content-center\">\r\n    <cdk-avatar size=\"xxl\" name=\"Avatar\" [color]=\"color\" [imageUrl]=\"imageFile\"></cdk-avatar>\r\n    <div class=\"mt-3 user-name\" [class.blink]=\"!userName.length\" [class.default-text]=\"isDefaultUserName\">{{ userName }}</div>\r\n    <div class=\"mt-2 profile-name\" [class.blink]=\"!profileName.length\" [class.default-text]=\"isDefaultProfileName\">{{ profileName }}</div>\r\n</div>", styles: [".content{width:240px;min-height:280px;background-color:#212329;padding:16px}.content .user-name{font-size:1.125em;font-weight:600;line-height:1.75em;color:#dfdfdf}.content .user-name.blink{background-color:#262930;width:136px;height:16px;border-radius:50px;margin-top:16px}.content .profile-name{font-size:11px;font-weight:600;line-height:16px;text-transform:uppercase;color:#b3b6bc}.content .profile-name.blink{background-color:#262930;width:80px;height:10px;border-radius:50px;margin-top:12px}.content .default-text{color:#7f858c}\n"] }]
+        }], propDecorators: { color: [{
+                type: Input
+            }], imageFile: [{
+                type: Input
+            }], userName: [{
+                type: Input
+            }], profileName: [{
+                type: Input
+            }] } });
+
+class ProfilePreviewModule {
+}
+ProfilePreviewModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: ProfilePreviewModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule });
+ProfilePreviewModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "15.1.2", ngImport: i0, type: ProfilePreviewModule, declarations: [ProfilePreviewComponent], imports: [CommonModule,
+        AvatarModule], exports: [ProfilePreviewComponent] });
+ProfilePreviewModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: ProfilePreviewModule, imports: [CommonModule,
+        AvatarModule] });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: ProfilePreviewModule, decorators: [{
+            type: NgModule,
+            args: [{
+                    declarations: [
+                        ProfilePreviewComponent
+                    ],
+                    exports: [
+                        ProfilePreviewComponent
+                    ],
+                    imports: [
+                        CommonModule,
+                        AvatarModule,
+                    ]
+                }]
+        }] });
+
+class ColorSelectorComponent {
+    constructor() {
+        this.colorChanged = new EventEmitter();
+        this.selectedColor = '#7A87CC';
+        this.options1 = [
+            '#7A87CC',
+            '#9D7CDC',
+            '#BA69C9',
+            '#F06291',
+            '#E9787A',
+            '#FF8D5B',
+            '#FFA826',
+            '#F3D457',
+        ];
+        this.options2 = [
+            '#C7D048',
+            '#9CCB63',
+            '#72C392',
+            '#4FCFD7',
+            '#7CDFE6',
+            '#5CB1FF',
+            '#43C0FF',
+            '#8D6E62',
+        ];
+    }
+    ngOnInit() {
+        this.selectColor(this.selectedColor);
+    }
+    selectColor(color) {
+        this.selectedColor = color;
+        this.colorChanged.emit(color);
+    }
+}
+ColorSelectorComponent.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: ColorSelectorComponent, deps: [], target: i0.ɵɵFactoryTarget.Component });
+ColorSelectorComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "15.1.2", type: ColorSelectorComponent, selector: "cdk-color-selector", outputs: { colorChanged: "colorChanged" }, ngImport: i0, template: "<div class=\"d-flex align-items-center justify-content-between mt-4\">\r\n    <span\r\n        *ngFor=\"let item of options1\"\r\n        class=\"d-flex justify-content-center align-items-center\"\r\n        [style.backgroundColor]=\"item\"\r\n        (click)=\"selectColor(item)\"\r\n    >\r\n        <i class=\"bi bi-check-lg\" *ngIf=\"selectedColor === item\"></i>\r\n    </span>\r\n</div>\r\n\r\n<div class=\"d-flex align-items-center justify-content-between mt-4\">\r\n    <span\r\n        *ngFor=\"let item of options2\"\r\n        class=\"d-flex justify-content-center align-items-center\"\r\n        [style.backgroundColor]=\"item\"\r\n        (click)=\"selectColor(item)\"\r\n    >\r\n        <i class=\"bi bi-check-lg\" *ngIf=\"selectedColor === item\"></i>\r\n    </span>\r\n</div>", styles: ["span{width:28px;height:28px;border-radius:50%;cursor:pointer}span i{color:#fff}\n"], dependencies: [{ kind: "directive", type: i1.NgForOf, selector: "[ngFor][ngForOf]", inputs: ["ngForOf", "ngForTrackBy", "ngForTemplate"] }, { kind: "directive", type: i1.NgIf, selector: "[ngIf]", inputs: ["ngIf", "ngIfThen", "ngIfElse"] }] });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: ColorSelectorComponent, decorators: [{
+            type: Component,
+            args: [{ selector: 'cdk-color-selector', template: "<div class=\"d-flex align-items-center justify-content-between mt-4\">\r\n    <span\r\n        *ngFor=\"let item of options1\"\r\n        class=\"d-flex justify-content-center align-items-center\"\r\n        [style.backgroundColor]=\"item\"\r\n        (click)=\"selectColor(item)\"\r\n    >\r\n        <i class=\"bi bi-check-lg\" *ngIf=\"selectedColor === item\"></i>\r\n    </span>\r\n</div>\r\n\r\n<div class=\"d-flex align-items-center justify-content-between mt-4\">\r\n    <span\r\n        *ngFor=\"let item of options2\"\r\n        class=\"d-flex justify-content-center align-items-center\"\r\n        [style.backgroundColor]=\"item\"\r\n        (click)=\"selectColor(item)\"\r\n    >\r\n        <i class=\"bi bi-check-lg\" *ngIf=\"selectedColor === item\"></i>\r\n    </span>\r\n</div>", styles: ["span{width:28px;height:28px;border-radius:50%;cursor:pointer}span i{color:#fff}\n"] }]
+        }], propDecorators: { colorChanged: [{
+                type: Output
+            }] } });
+
+class ColorSelectorModule {
+}
+ColorSelectorModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: ColorSelectorModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule });
+ColorSelectorModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "15.1.2", ngImport: i0, type: ColorSelectorModule, declarations: [ColorSelectorComponent], imports: [CommonModule], exports: [ColorSelectorComponent] });
+ColorSelectorModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: ColorSelectorModule, imports: [CommonModule] });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: ColorSelectorModule, decorators: [{
+            type: NgModule,
+            args: [{
+                    declarations: [
+                        ColorSelectorComponent
+                    ],
+                    exports: [
+                        ColorSelectorComponent
+                    ],
+                    imports: [
+                        CommonModule
+                    ]
+                }]
+        }] });
+
+class RangeComponent {
+    constructor() {
+        this.min = 0;
+        this.max = 100;
+        this.step = 1;
+        this.selectedRange = new EventEmitter();
+    }
+    change(event) {
+        const target = event.target;
+        this.selectedRange.emit(target.value);
+    }
+}
+RangeComponent.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: RangeComponent, deps: [], target: i0.ɵɵFactoryTarget.Component });
+RangeComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "15.1.2", type: RangeComponent, selector: "cdk-range", inputs: { min: "min", max: "max", step: "step" }, outputs: { selectedRange: "selectedRange" }, ngImport: i0, template: "<input type=\"range\" [min]=\"min\" [max]=\"max\" [step]=\"step\" value=\"0\" (change)=\"change($event)\" />", styles: ["input[type=range]{-webkit-appearance:none;appearance:none;background:transparent;cursor:pointer;width:100%}input[type=range]:focus{outline:none}input[type=range]::-webkit-slider-runnable-track{background-color:#4e5463;border-radius:.5em;height:.25em}input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;margin-top:-2px;background-color:#b3b6bc;height:.5em;width:.5em;border-radius:50%}input[type=range]::-moz-range-track{background-color:#4e5463;border-radius:.5em;height:.5em}input[type=range]::-moz-range-thumb{border:none;margin-top:-2px;background-color:#b3b6bc;height:.5em;width:.5em;border-radius:50%}\n"] });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: RangeComponent, decorators: [{
+            type: Component,
+            args: [{ selector: 'cdk-range', template: "<input type=\"range\" [min]=\"min\" [max]=\"max\" [step]=\"step\" value=\"0\" (change)=\"change($event)\" />", styles: ["input[type=range]{-webkit-appearance:none;appearance:none;background:transparent;cursor:pointer;width:100%}input[type=range]:focus{outline:none}input[type=range]::-webkit-slider-runnable-track{background-color:#4e5463;border-radius:.5em;height:.25em}input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;margin-top:-2px;background-color:#b3b6bc;height:.5em;width:.5em;border-radius:50%}input[type=range]::-moz-range-track{background-color:#4e5463;border-radius:.5em;height:.5em}input[type=range]::-moz-range-thumb{border:none;margin-top:-2px;background-color:#b3b6bc;height:.5em;width:.5em;border-radius:50%}\n"] }]
+        }], propDecorators: { min: [{
+                type: Input
+            }], max: [{
+                type: Input
+            }], step: [{
+                type: Input
+            }], selectedRange: [{
+                type: Output
+            }] } });
+
+class RangeModule {
+}
+RangeModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: RangeModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule });
+RangeModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "15.1.2", ngImport: i0, type: RangeModule, declarations: [RangeComponent], imports: [CommonModule], exports: [RangeComponent] });
+RangeModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: RangeModule, imports: [CommonModule] });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: RangeModule, decorators: [{
+            type: NgModule,
+            args: [{
+                    declarations: [
+                        RangeComponent
+                    ],
+                    exports: [
+                        RangeComponent
+                    ],
+                    imports: [
+                        CommonModule
+                    ]
+                }]
+        }] });
+
+const IMAGE_DATA = new InjectionToken('IMAGE_DATA');
+
+const MODAL_SERVICE_DATA = new InjectionToken('MODAL_SERVICE_DATA');
+
+class CropperComponent {
+    constructor(imageFile, modalService) {
+        this.imageFile = imageFile;
+        this.modalService = modalService;
+        this.imageCropper = {};
+        this.imageCroppedFile = '';
+        this.imageRotation = 0;
+        this.imageFlipH = false;
+        this.imageZoom = 1;
+        this.imageCroppedFile = imageFile;
+    }
+    imageCropped(event) {
+        this.imageCroppedFile = event.objectUrl || this.imageFile;
+        this.modalService.getComponentResultData(this.imageCroppedFile);
+    }
+    selectedRange(event) {
+        const baseDeg = 45;
+        const maxDeg = 180;
+        const parsedRange = parseInt(event);
+        const totalToRotate = (parsedRange * maxDeg) / 100 / baseDeg;
+        this.imageRotation = totalToRotate;
+    }
+    rotateImage() {
+        this.imageRotation++;
+    }
+    invertImage() {
+        this.imageFlipH = !this.imageFlipH;
+    }
+    zoomOutImage() {
+        if (this.imageZoom <= 1)
+            return;
+        this.imageZoom--;
+    }
+    zoomInImage() {
+        if (this.imageZoom >= 10)
+            return;
+        this.imageZoom++;
+    }
+}
+CropperComponent.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: CropperComponent, deps: [{ token: IMAGE_DATA }, { token: MODAL_SERVICE_DATA }], target: i0.ɵɵFactoryTarget.Component });
+CropperComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "15.1.2", type: CropperComponent, selector: "cdk-cropper", viewQueries: [{ propertyName: "imageCropper", first: true, predicate: ImageCropperComponent, descendants: true }], ngImport: i0, template: "<div class=\"d-flex align-items-center flex-column\">\r\n    <cdk-avatar\r\n        size=\"xl\"\r\n        [imageUrl]=\"imageCroppedFile\"\r\n    ></cdk-avatar>\r\n\r\n    <div class=\"preview mt-4\">\r\n        <image-cropper\r\n            [imageURL]=\"imageFile\"\r\n            [aspectRatio]=\"1 / 1\"\r\n            [canvasRotation]=\"imageRotation\"\r\n            [maintainAspectRatio]=\"false\"\r\n            [transform]=\"{\r\n                flipH: imageFlipH,\r\n                scale: imageZoom\r\n            }\"\r\n            (imageCropped)=\"imageCropped($event)\"\r\n        ></image-cropper>\r\n    </div>\r\n\r\n    <div class=\"controls mt-2 w-100\">\r\n        <div class=\"row\">\r\n            <div class=\"col-6 d-flex align-items-center justify-content-between\">\r\n                <span class=\"me-2\">Rotate</span>\r\n                <cdk-range (selectedRange)=\"selectedRange($event)\"></cdk-range>\r\n            </div>\r\n\r\n            <div class=\"col-6\">\r\n                <div class=\"d-flex align-items-center justify-content-between\">\r\n                    <i class=\"bi bi-arrow-clockwise\" tooltip=\"Rotate\" placement=\"top\" (click)=\"rotateImage()\"></i>\r\n                    <i class=\"bi bi-symmetry-vertical\" tooltip=\"Invert\" placement=\"top\" (click)=\"invertImage()\"></i>\r\n                    <i class=\"bi bi-dash\" tooltip=\"Zoom out\" placement=\"top\" (click)=\"zoomOutImage()\"></i>\r\n                    <i class=\"bi bi-plus\" tooltip=\"Zoom in\" placement=\"top\" (click)=\"zoomInImage()\"></i>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n</div>", styles: ["image-cropper{padding:0!important;width:300px;height:300px}span{color:#b3b6bc;font-size:.6875em;font-weight:600;line-height:.75em}cdk-range{display:contents}i{font-size:.875em;cursor:pointer;color:#b3b6bc}\n"], dependencies: [{ kind: "component", type: AvatarComponent, selector: "cdk-avatar", inputs: ["imageUrl", "size", "mask", "maskType", "secondMaskType", "status", "color", "name"] }, { kind: "component", type: i2.ImageCropperComponent, selector: "image-cropper", inputs: ["imageChangedEvent", "imageURL", "imageBase64", "imageFile", "imageAltText", "output", "format", "transform", "maintainAspectRatio", "aspectRatio", "resetCropOnAspectRatioChange", "resizeToWidth", "resizeToHeight", "cropperMinWidth", "cropperMinHeight", "cropperMaxHeight", "cropperMaxWidth", "cropperStaticWidth", "cropperStaticHeight", "canvasRotation", "initialStepSize", "roundCropper", "onlyScaleDown", "imageQuality", "autoCrop", "backgroundColor", "containWithinAspectRatio", "hideResizeSquares", "allowMoveImage", "cropper", "alignImage", "disabled", "hidden"], outputs: ["imageCropped", "startCropImage", "imageLoaded", "cropperReady", "loadImageFailed", "transformChange"] }, { kind: "component", type: RangeComponent, selector: "cdk-range", inputs: ["min", "max", "step"], outputs: ["selectedRange"] }, { kind: "directive", type: i4.TooltipDirective, selector: "[tooltip]", inputs: ["options", "tooltip", "placement", "autoPlacement", "content-type", "contentType", "hide-delay-mobile", "hideDelayTouchscreen", "z-index", "zIndex", "animation-duration", "animationDuration", "trigger", "tooltip-class", "tooltipClass", "display", "display-mobile", "displayTouchscreen", "shadow", "theme", "offset", "width", "max-width", "maxWidth", "id", "show-delay", "showDelay", "hide-delay", "hideDelay", "hideDelayAfterClick", "pointerEvents", "position"], outputs: ["events"], exportAs: ["tooltip"] }] });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: CropperComponent, decorators: [{
+            type: Component,
+            args: [{ selector: 'cdk-cropper', template: "<div class=\"d-flex align-items-center flex-column\">\r\n    <cdk-avatar\r\n        size=\"xl\"\r\n        [imageUrl]=\"imageCroppedFile\"\r\n    ></cdk-avatar>\r\n\r\n    <div class=\"preview mt-4\">\r\n        <image-cropper\r\n            [imageURL]=\"imageFile\"\r\n            [aspectRatio]=\"1 / 1\"\r\n            [canvasRotation]=\"imageRotation\"\r\n            [maintainAspectRatio]=\"false\"\r\n            [transform]=\"{\r\n                flipH: imageFlipH,\r\n                scale: imageZoom\r\n            }\"\r\n            (imageCropped)=\"imageCropped($event)\"\r\n        ></image-cropper>\r\n    </div>\r\n\r\n    <div class=\"controls mt-2 w-100\">\r\n        <div class=\"row\">\r\n            <div class=\"col-6 d-flex align-items-center justify-content-between\">\r\n                <span class=\"me-2\">Rotate</span>\r\n                <cdk-range (selectedRange)=\"selectedRange($event)\"></cdk-range>\r\n            </div>\r\n\r\n            <div class=\"col-6\">\r\n                <div class=\"d-flex align-items-center justify-content-between\">\r\n                    <i class=\"bi bi-arrow-clockwise\" tooltip=\"Rotate\" placement=\"top\" (click)=\"rotateImage()\"></i>\r\n                    <i class=\"bi bi-symmetry-vertical\" tooltip=\"Invert\" placement=\"top\" (click)=\"invertImage()\"></i>\r\n                    <i class=\"bi bi-dash\" tooltip=\"Zoom out\" placement=\"top\" (click)=\"zoomOutImage()\"></i>\r\n                    <i class=\"bi bi-plus\" tooltip=\"Zoom in\" placement=\"top\" (click)=\"zoomInImage()\"></i>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n</div>", styles: ["image-cropper{padding:0!important;width:300px;height:300px}span{color:#b3b6bc;font-size:.6875em;font-weight:600;line-height:.75em}cdk-range{display:contents}i{font-size:.875em;cursor:pointer;color:#b3b6bc}\n"] }]
+        }], ctorParameters: function () { return [{ type: undefined, decorators: [{
+                    type: Inject,
+                    args: [IMAGE_DATA]
+                }] }, { type: undefined, decorators: [{
+                    type: Inject,
+                    args: [MODAL_SERVICE_DATA]
+                }] }]; }, propDecorators: { imageCropper: [{
+                type: ViewChild,
+                args: [ImageCropperComponent]
+            }] } });
+
+class CropperModule {
+}
+CropperModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: CropperModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule });
+CropperModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "15.1.2", ngImport: i0, type: CropperModule, declarations: [CropperComponent], imports: [CommonModule,
+        AvatarModule,
+        ImageCropperModule,
+        RangeModule,
+        TooltipModule], exports: [CommonModule] });
+CropperModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: CropperModule, imports: [CommonModule,
+        AvatarModule,
+        ImageCropperModule,
+        RangeModule,
+        TooltipModule, CommonModule] });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: CropperModule, decorators: [{
+            type: NgModule,
+            args: [{
+                    declarations: [
+                        CropperComponent
+                    ],
+                    exports: [
+                        CommonModule
+                    ],
+                    imports: [
+                        CommonModule,
+                        AvatarModule,
+                        ImageCropperModule,
+                        RangeModule,
+                        TooltipModule,
+                    ]
+                }]
+        }] });
+
+const OVERLAY_DATA = new InjectionToken('OVERLAY_DATA');
+
+class ModalOverlayRef {
+    constructor(overlayRef) {
+        this.overlayRef = overlayRef;
+        this.accepted = new Subject();
+        this.declined = new Subject();
+    }
+    close() {
+        this.overlayRef.dispose();
+    }
+    accept(data) {
+        this.close();
+        if (data)
+            this.accepted.next(data);
+    }
+    decline() {
+        this.close();
+        this.declined.next();
+    }
+}
+
+class ModalComponent {
+    constructor(dialogRef, modalData, cdref, modalService) {
+        this.dialogRef = dialogRef;
+        this.modalData = modalData;
+        this.cdref = cdref;
+        this.modalService = modalService;
+        this.destroy$ = new Subject();
+        this.resultData = {};
+        this.modalService.componentResultData.subscribe((data) => this.resultData = data);
+    }
+    ngAfterViewInit() {
+        const injector = this.createInjector();
+        this.modalContainer.createComponent(this.modalData.component, {
+            injector
+        });
+    }
+    ngAfterViewChecked() {
+        this.cdref.detectChanges();
+    }
+    ngOnDestroy() {
+        this.destroy$.next(true);
+        this.destroy$.unsubscribe();
+    }
+    accept() {
+        this.dialogRef.accept(this.resultData);
+    }
+    decline() {
+        this.dialogRef.decline();
+    }
+    close() {
+        this.dialogRef.close();
+    }
+    createInjector() {
+        return Injector.create({
+            providers: [
+                { provide: IMAGE_DATA, useValue: this.modalData.data },
+                { provide: MODAL_SERVICE_DATA, useValue: this.modalService },
+            ],
+        });
+    }
+}
+ModalComponent.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: ModalComponent, deps: [{ token: ModalOverlayRef }, { token: OVERLAY_DATA }, { token: i0.ChangeDetectorRef }, { token: ModalService }], target: i0.ɵɵFactoryTarget.Component });
+ModalComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "15.1.2", type: ModalComponent, selector: "cdk-modal", viewQueries: [{ propertyName: "modalContainer", first: true, predicate: ["modalContainer"], descendants: true, read: ViewContainerRef }], ngImport: i0, template: "<div class=\"content p-4\">\r\n    <header class=\"d-flex justify-content-between align-items-center mb-4\">\r\n        <h2>{{ modalData.title }}</h2>\r\n        <button type=\"button\" class=\"close\" *ngIf=\"modalData.showCloseButton\" (click)=\"close()\"><i class=\"bi bi-x-lg\"></i></button>\r\n    </header>\r\n\r\n    <ng-template #modalContainer></ng-template>\r\n    \r\n    <footer class=\"d-flex justify-content-end align-items-center mt-4\">\r\n        <button type=\"button\" class=\"btn btn-outline-secondary me-2\" *ngIf=\"modalData.declineButtonLabel?.length\" (click)=\"decline()\">{{ modalData.declineButtonLabel }}</button>\r\n        <button type=\"button\" class=\"btn btn-primary\" *ngIf=\"modalData.acceptButtonLabel?.length\" (click)=\"accept()\">{{ modalData.acceptButtonLabel }}</button>\r\n    </footer>\r\n</div>", styles: [".content{background-color:#343945;width:350px;border-radius:4px;box-shadow:0 4px 12px #0000004d}.content h2{font-weight:700;font-size:1em;line-height:1.25em;margin:0;color:#dfdfdf}.content .close{border:0;color:#dfdfdf;background-color:transparent}\n"], dependencies: [{ kind: "directive", type: i1.NgIf, selector: "[ngIf]", inputs: ["ngIf", "ngIfThen", "ngIfElse"] }] });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: ModalComponent, decorators: [{
+            type: Component,
+            args: [{ selector: 'cdk-modal', template: "<div class=\"content p-4\">\r\n    <header class=\"d-flex justify-content-between align-items-center mb-4\">\r\n        <h2>{{ modalData.title }}</h2>\r\n        <button type=\"button\" class=\"close\" *ngIf=\"modalData.showCloseButton\" (click)=\"close()\"><i class=\"bi bi-x-lg\"></i></button>\r\n    </header>\r\n\r\n    <ng-template #modalContainer></ng-template>\r\n    \r\n    <footer class=\"d-flex justify-content-end align-items-center mt-4\">\r\n        <button type=\"button\" class=\"btn btn-outline-secondary me-2\" *ngIf=\"modalData.declineButtonLabel?.length\" (click)=\"decline()\">{{ modalData.declineButtonLabel }}</button>\r\n        <button type=\"button\" class=\"btn btn-primary\" *ngIf=\"modalData.acceptButtonLabel?.length\" (click)=\"accept()\">{{ modalData.acceptButtonLabel }}</button>\r\n    </footer>\r\n</div>", styles: [".content{background-color:#343945;width:350px;border-radius:4px;box-shadow:0 4px 12px #0000004d}.content h2{font-weight:700;font-size:1em;line-height:1.25em;margin:0;color:#dfdfdf}.content .close{border:0;color:#dfdfdf;background-color:transparent}\n"] }]
+        }], ctorParameters: function () { return [{ type: ModalOverlayRef }, { type: undefined, decorators: [{
+                    type: Inject,
+                    args: [OVERLAY_DATA]
+                }] }, { type: i0.ChangeDetectorRef }, { type: ModalService }]; }, propDecorators: { modalContainer: [{
+                type: ViewChild,
+                args: ['modalContainer', { read: ViewContainerRef, static: false }]
+            }] } });
+
+class ModalService {
+    constructor(overlay) {
+        this.overlay = overlay;
+        this.OVERLAY_CONFIG = {
+            hasBackdrop: true,
+            backdropClass: 'cdk-overlay-dark-backdrop',
+            panelClass: 'tm-file-preview-dialog-panel',
+            maxWidth: '100%',
+            clickOutsideToClose: true,
+            showCloseButton: true,
+        };
+        this.componentResultData = new Subject();
+    }
+    getOverlayConfig(config) {
+        const positionStrategy = this.overlay
+            .position()
+            .global()
+            .centerHorizontally()
+            .centerVertically();
+        const overlayConfig = new OverlayConfig({
+            scrollStrategy: this.overlay.scrollStrategies.block(),
+            ...config,
+            positionStrategy,
+        });
+        return overlayConfig;
+    }
+    createOverlay(config) {
+        const overlayConfig = this.getOverlayConfig(config);
+        return this.overlay.create(overlayConfig);
+    }
+    createInjector(config, dialogRef) {
+        return Injector.create({
+            providers: [
+                { provide: ModalOverlayRef, useValue: dialogRef },
+                { provide: OVERLAY_DATA, useValue: config },
+            ],
+        });
+    }
+    open(modalConfig) {
+        const dialogConfig = { ...this.OVERLAY_CONFIG, ...modalConfig };
+        this.overlayRef = this.createOverlay(dialogConfig);
+        const dialogRef = new ModalOverlayRef(this.overlayRef);
+        const injector = this.createInjector(dialogConfig, dialogRef);
+        const portal = new ComponentPortal(ModalComponent, null, injector);
+        const containerRef = this.overlayRef.attach(portal);
+        this.listenBackdropClick(dialogConfig);
+        containerRef.instance;
+        return dialogRef;
+    }
+    listenBackdropClick(modalConfig) {
+        if (modalConfig?.clickOutsideToClose) {
+            this.overlayRef?.backdropClick().subscribe(() => {
+                this.overlayRef?.dispose();
+            });
+        }
+    }
+    getComponentResultData(data) {
+        this.componentResultData.next(data);
+    }
+}
+ModalService.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: ModalService, deps: [{ token: i1$1.Overlay }], target: i0.ɵɵFactoryTarget.Injectable });
+ModalService.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: ModalService });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: ModalService, decorators: [{
+            type: Injectable
+        }], ctorParameters: function () { return [{ type: i1$1.Overlay }]; } });
+
+class ModalModule {
+}
+ModalModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: ModalModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule });
+ModalModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "15.1.2", ngImport: i0, type: ModalModule, declarations: [ModalComponent], imports: [CommonModule,
+        OverlayModule,
+        PortalModule], exports: [ModalComponent] });
+ModalModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: ModalModule, providers: [
+        ModalService,
+    ], imports: [CommonModule,
+        OverlayModule,
+        PortalModule] });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: ModalModule, decorators: [{
+            type: NgModule,
+            args: [{
+                    declarations: [
+                        ModalComponent
+                    ],
+                    exports: [
+                        ModalComponent,
+                    ],
+                    imports: [
+                        CommonModule,
+                        OverlayModule,
+                        PortalModule,
+                    ],
+                    providers: [
+                        ModalService,
+                    ],
+                    entryComponents: [
+                        ModalComponent
+                    ]
+                }]
+        }] });
+
+class CheckboxComponent {
+    constructor() {
+        this.label = '';
+        this.value = false;
+        this.change = new EventEmitter();
+        this.id = Math.round(Math.random() * 100000);
+        this.form = new FormGroup({
+            input: new FormControl(this.value)
+        });
+    }
+    get input() {
+        return !!this.form.get('input')?.value;
+    }
+    changeValue() {
+        this.change.emit(this.input);
+    }
+}
+CheckboxComponent.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: CheckboxComponent, deps: [], target: i0.ɵɵFactoryTarget.Component });
+CheckboxComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "15.1.2", type: CheckboxComponent, selector: "cdk-checkbox", inputs: { label: "label", value: "value" }, outputs: { change: "change" }, ngImport: i0, template: "<form [formGroup]=\"form\">\r\n    <label for=\"checkbox{{ id }}\" class=\"container d-flex m-0 p-0\">\r\n        <input type=\"checkbox\" id=\"checkbox{{ id }}\" formControlName=\"input\" (change)=\"changeValue()\" />\r\n        <span class=\"checkmark\"></span>\r\n        <i class=\"bi bi-check\"></i>\r\n        {{ label }}\r\n    </label>\r\n</form>\r\n", styles: [".container{position:relative;cursor:pointer;-webkit-user-select:none;user-select:none;color:#b3b6bc;font-size:.75em;font-weight:400}.container input{position:absolute;opacity:0;cursor:pointer;height:0;width:0}.container i{position:absolute;color:#000;left:-5px;top:-11px;font-size:2em;display:none}.checkmark{height:16px;width:16px;border:1px solid #fff;display:block;margin-right:5px}.container input:checked~.checkmark{background-color:#fff}.container input:checked~i{display:block}\n"], dependencies: [{ kind: "directive", type: i1$2.ɵNgNoValidate, selector: "form:not([ngNoForm]):not([ngNativeValidate])" }, { kind: "directive", type: i1$2.CheckboxControlValueAccessor, selector: "input[type=checkbox][formControlName],input[type=checkbox][formControl],input[type=checkbox][ngModel]" }, { kind: "directive", type: i1$2.NgControlStatus, selector: "[formControlName],[ngModel],[formControl]" }, { kind: "directive", type: i1$2.NgControlStatusGroup, selector: "[formGroupName],[formArrayName],[ngModelGroup],[formGroup],form:not([ngNoForm]),[ngForm]" }, { kind: "directive", type: i1$2.FormGroupDirective, selector: "[formGroup]", inputs: ["formGroup"], outputs: ["ngSubmit"], exportAs: ["ngForm"] }, { kind: "directive", type: i1$2.FormControlName, selector: "[formControlName]", inputs: ["formControlName", "disabled", "ngModel"], outputs: ["ngModelChange"] }] });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: CheckboxComponent, decorators: [{
+            type: Component,
+            args: [{ selector: 'cdk-checkbox', template: "<form [formGroup]=\"form\">\r\n    <label for=\"checkbox{{ id }}\" class=\"container d-flex m-0 p-0\">\r\n        <input type=\"checkbox\" id=\"checkbox{{ id }}\" formControlName=\"input\" (change)=\"changeValue()\" />\r\n        <span class=\"checkmark\"></span>\r\n        <i class=\"bi bi-check\"></i>\r\n        {{ label }}\r\n    </label>\r\n</form>\r\n", styles: [".container{position:relative;cursor:pointer;-webkit-user-select:none;user-select:none;color:#b3b6bc;font-size:.75em;font-weight:400}.container input{position:absolute;opacity:0;cursor:pointer;height:0;width:0}.container i{position:absolute;color:#000;left:-5px;top:-11px;font-size:2em;display:none}.checkmark{height:16px;width:16px;border:1px solid #fff;display:block;margin-right:5px}.container input:checked~.checkmark{background-color:#fff}.container input:checked~i{display:block}\n"] }]
+        }], propDecorators: { label: [{
+                type: Input
+            }], value: [{
+                type: Input
+            }], change: [{
+                type: Output
+            }] } });
+
+class CheckboxModule {
+}
+CheckboxModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: CheckboxModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule });
+CheckboxModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "15.1.2", ngImport: i0, type: CheckboxModule, declarations: [CheckboxComponent], imports: [CommonModule,
+        FormsModule,
+        ReactiveFormsModule], exports: [CheckboxComponent] });
+CheckboxModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: CheckboxModule, imports: [CommonModule,
+        FormsModule,
+        ReactiveFormsModule] });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: CheckboxModule, decorators: [{
+            type: NgModule,
+            args: [{
+                    declarations: [
+                        CheckboxComponent
+                    ],
+                    exports: [
+                        CheckboxComponent
+                    ],
+                    imports: [
+                        CommonModule,
+                        FormsModule,
+                        ReactiveFormsModule,
+                    ]
+                }]
+        }] });
+
+class PasswordValidationDirective {
+    set password(value) {
+        this.validatePassword(value);
+    }
+    constructor(element, renderer) {
+        this.element = element;
+        this.renderer = renderer;
+        this.errorColor = '#ff5d4f';
+        this.successColor = '#00cb5f';
+        this.isValid = new EventEmitter();
+    }
+    ngAfterViewInit() {
+        const children = this.element.nativeElement.children;
+        this.totalCharacters = children[0];
+        this.number = children[1];
+        this.letter = children[2];
+    }
+    validatePassword(value) {
+        const isLengthValid = value.length >= 8;
+        const hasNumber = new RegExp(/\d/g).test(value);
+        const hasLetter = new RegExp(/\D/g).test(value);
+        this.colorizeElements(this.totalCharacters, isLengthValid);
+        this.colorizeElements(this.number, hasNumber);
+        this.colorizeElements(this.letter, hasLetter);
+        this.isValid.emit(isLengthValid && hasNumber && hasLetter);
+    }
+    colorizeElements(element, value) {
+        if (!element)
+            return;
+        if (value) {
+            this.renderer.setStyle(element, 'color', this.successColor);
+            this.renderer.setStyle(element, 'font-weight', 'bold');
+        }
+        else {
+            this.renderer.setStyle(element, 'color', this.errorColor);
+        }
+    }
+}
+PasswordValidationDirective.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: PasswordValidationDirective, deps: [{ token: i0.ElementRef }, { token: i0.Renderer2 }], target: i0.ɵɵFactoryTarget.Directive });
+PasswordValidationDirective.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "14.0.0", version: "15.1.2", type: PasswordValidationDirective, selector: "[cdkPasswordValidation]", inputs: { password: ["cdkPasswordValidation", "password"] }, outputs: { isValid: "isValid" }, ngImport: i0 });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: PasswordValidationDirective, decorators: [{
+            type: Directive,
+            args: [{
+                    selector: '[cdkPasswordValidation]'
+                }]
+        }], ctorParameters: function () { return [{ type: i0.ElementRef }, { type: i0.Renderer2 }]; }, propDecorators: { password: [{
+                type: Input,
+                args: ['cdkPasswordValidation']
+            }], isValid: [{
+                type: Output
+            }] } });
+
+class PasswordValidationModule {
+}
+PasswordValidationModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: PasswordValidationModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule });
+PasswordValidationModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "15.1.2", ngImport: i0, type: PasswordValidationModule, declarations: [PasswordValidationDirective], imports: [CommonModule], exports: [PasswordValidationDirective] });
+PasswordValidationModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: PasswordValidationModule, imports: [CommonModule] });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: PasswordValidationModule, decorators: [{
+            type: NgModule,
+            args: [{
+                    declarations: [
+                        PasswordValidationDirective
+                    ],
+                    exports: [
+                        PasswordValidationDirective
+                    ],
+                    imports: [
+                        CommonModule
+                    ]
+                }]
+        }] });
+
+class CreatePasswordComponent {
+    constructor() {
+        this.destroy$ = new Subject();
+        this.passwordValidation = new EventEmitter();
+        this.submitEvent = new EventEmitter();
+        this.passwordEvent = new EventEmitter();
+        this.inputConfig = ['password', 'password'];
+        this.isPasswordValid = false;
+        this.passwordsAreEquals = () => {
+            return () => {
+                return this.password?.value === this.confirmPassword?.value ? null : { passwordsDiferent: true };
+            };
+        };
+        this.form = new FormGroup({
+            password: new FormControl('', [Validators.required]),
+            confirmPassword: new FormControl('', [Validators.required, this.passwordsAreEquals()]),
+        });
+    }
+    ngOnInit() {
+        this.form.valueChanges
+            .pipe(takeUntil(this.destroy$))
+            .subscribe(() => {
+            this.passwordValidation.emit(this._passwordValidation);
+            if (!this._passwordValidation)
+                return;
+            this.passwordEvent.emit({
+                password: this.password?.value,
+                confirmPassword: this.confirmPassword?.value
+            });
+        });
+    }
+    ngOnDestroy() {
+        this.destroy$.next(true);
+        this.destroy$.unsubscribe();
+    }
+    validatePassword(value) {
+        this.isPasswordValid = value;
+    }
+    ;
+    get password() {
+        return this.form?.get('password');
+    }
+    get confirmPassword() {
+        return this.form?.get('confirmPassword');
+    }
+    get _passwordValidation() {
+        const arePassValid = this.password?.valid && this.confirmPassword?.valid;
+        const arePassEquals = this.password?.value === this.confirmPassword?.value;
+        return this.isPasswordValid && !!arePassValid && arePassEquals;
+    }
+    togglePasswordVisibility(index, type) {
+        this.inputConfig[index] = type;
+    }
+    submit() {
+        if (!this._passwordValidation)
+            return;
+        this.submitEvent.emit();
+    }
+}
+CreatePasswordComponent.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: CreatePasswordComponent, deps: [], target: i0.ɵɵFactoryTarget.Component });
+CreatePasswordComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "15.1.2", type: CreatePasswordComponent, selector: "app-create-password", outputs: { passwordValidation: "passwordValidation", submitEvent: "submitEvent", passwordEvent: "passwordEvent" }, ngImport: i0, template: "<form [formGroup]=\"form\" class=\"d-flex flex-column\" (submit)=\"submit()\">\r\n    <div class=\"row-form right-icon w-100\">\r\n        <input [type]=\"inputConfig[0]\" cdkInputValidation formControlName=\"password\" />\r\n        <label>Password</label>\r\n        <i class=\"bi bi-eye\" *ngIf=\"inputConfig[0] !== 'password'\" (click)=\"togglePasswordVisibility(0, 'password')\"></i>\r\n        <i class=\"bi bi-eye-slash\" *ngIf=\"inputConfig[0] === 'password'\" (click)=\"togglePasswordVisibility(0, 'text')\"></i>\r\n\r\n        <small *ngIf=\"password && password.touched && password.errors\">\r\n            <span *ngIf=\"password && password.errors['required']\">Password is required</span>\r\n        </small>\r\n    </div>\r\n\r\n    <p\r\n        class=\"mt-4 mb-0\"\r\n        [cdkPasswordValidation]=\"password?.value\"\r\n        (isValid)=\"validatePassword($event)\"\r\n    >\r\n        At least <span>8 characters</span>, including a <span>number</span> and a <span>letter</span>\r\n    </p>\r\n\r\n    <div class=\"row-form right-icon w-100\">\r\n        <input [type]=\"inputConfig[1]\" cdkInputValidation formControlName=\"confirmPassword\" />\r\n        <label>Confirm Password</label>\r\n        <i class=\"bi bi-eye\" *ngIf=\"inputConfig[1] !== 'password'\" (click)=\"togglePasswordVisibility(1, 'password')\"></i>\r\n        <i class=\"bi bi-eye-slash\" *ngIf=\"inputConfig[1] === 'password'\" (click)=\"togglePasswordVisibility(1, 'text')\"></i>\r\n\r\n        <small *ngIf=\"confirmPassword && confirmPassword.touched && confirmPassword.errors\">\r\n            <span *ngIf=\"confirmPassword && confirmPassword.errors['required']\">Password confirmations is required</span>\r\n            <span *ngIf=\"password && confirmPassword.errors['passwordsDiferent']\">Password and confirmation need to be equals</span>\r\n        </small>\r\n    </div>\r\n\r\n    <button type=\"submit\" hidden></button>\r\n</form>", styles: ["p{color:#7f858c;font-size:.875em}i{color:#7f858c;cursor:pointer}\n"], dependencies: [{ kind: "directive", type: i1.NgIf, selector: "[ngIf]", inputs: ["ngIf", "ngIfThen", "ngIfElse"] }, { kind: "directive", type: InputValidationDirective, selector: "[cdkInputValidation]" }, { kind: "directive", type: i1$2.ɵNgNoValidate, selector: "form:not([ngNoForm]):not([ngNativeValidate])" }, { kind: "directive", type: i1$2.DefaultValueAccessor, selector: "input:not([type=checkbox])[formControlName],textarea[formControlName],input:not([type=checkbox])[formControl],textarea[formControl],input:not([type=checkbox])[ngModel],textarea[ngModel],[ngDefaultControl]" }, { kind: "directive", type: i1$2.NgControlStatus, selector: "[formControlName],[ngModel],[formControl]" }, { kind: "directive", type: i1$2.NgControlStatusGroup, selector: "[formGroupName],[formArrayName],[ngModelGroup],[formGroup],form:not([ngNoForm]),[ngForm]" }, { kind: "directive", type: i1$2.FormGroupDirective, selector: "[formGroup]", inputs: ["formGroup"], outputs: ["ngSubmit"], exportAs: ["ngForm"] }, { kind: "directive", type: i1$2.FormControlName, selector: "[formControlName]", inputs: ["formControlName", "disabled", "ngModel"], outputs: ["ngModelChange"] }, { kind: "directive", type: PasswordValidationDirective, selector: "[cdkPasswordValidation]", inputs: ["cdkPasswordValidation"], outputs: ["isValid"] }] });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: CreatePasswordComponent, decorators: [{
+            type: Component,
+            args: [{ selector: 'app-create-password', template: "<form [formGroup]=\"form\" class=\"d-flex flex-column\" (submit)=\"submit()\">\r\n    <div class=\"row-form right-icon w-100\">\r\n        <input [type]=\"inputConfig[0]\" cdkInputValidation formControlName=\"password\" />\r\n        <label>Password</label>\r\n        <i class=\"bi bi-eye\" *ngIf=\"inputConfig[0] !== 'password'\" (click)=\"togglePasswordVisibility(0, 'password')\"></i>\r\n        <i class=\"bi bi-eye-slash\" *ngIf=\"inputConfig[0] === 'password'\" (click)=\"togglePasswordVisibility(0, 'text')\"></i>\r\n\r\n        <small *ngIf=\"password && password.touched && password.errors\">\r\n            <span *ngIf=\"password && password.errors['required']\">Password is required</span>\r\n        </small>\r\n    </div>\r\n\r\n    <p\r\n        class=\"mt-4 mb-0\"\r\n        [cdkPasswordValidation]=\"password?.value\"\r\n        (isValid)=\"validatePassword($event)\"\r\n    >\r\n        At least <span>8 characters</span>, including a <span>number</span> and a <span>letter</span>\r\n    </p>\r\n\r\n    <div class=\"row-form right-icon w-100\">\r\n        <input [type]=\"inputConfig[1]\" cdkInputValidation formControlName=\"confirmPassword\" />\r\n        <label>Confirm Password</label>\r\n        <i class=\"bi bi-eye\" *ngIf=\"inputConfig[1] !== 'password'\" (click)=\"togglePasswordVisibility(1, 'password')\"></i>\r\n        <i class=\"bi bi-eye-slash\" *ngIf=\"inputConfig[1] === 'password'\" (click)=\"togglePasswordVisibility(1, 'text')\"></i>\r\n\r\n        <small *ngIf=\"confirmPassword && confirmPassword.touched && confirmPassword.errors\">\r\n            <span *ngIf=\"confirmPassword && confirmPassword.errors['required']\">Password confirmations is required</span>\r\n            <span *ngIf=\"password && confirmPassword.errors['passwordsDiferent']\">Password and confirmation need to be equals</span>\r\n        </small>\r\n    </div>\r\n\r\n    <button type=\"submit\" hidden></button>\r\n</form>", styles: ["p{color:#7f858c;font-size:.875em}i{color:#7f858c;cursor:pointer}\n"] }]
+        }], propDecorators: { passwordValidation: [{
+                type: Output
+            }], submitEvent: [{
+                type: Output
+            }], passwordEvent: [{
+                type: Output
+            }] } });
+
+class CreatePasswordModule {
+}
+CreatePasswordModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: CreatePasswordModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule });
+CreatePasswordModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "14.0.0", version: "15.1.2", ngImport: i0, type: CreatePasswordModule, declarations: [CreatePasswordComponent], imports: [CommonModule,
+        InputValidationModule,
+        FormsModule,
+        ReactiveFormsModule,
+        PasswordValidationModule], exports: [CreatePasswordComponent] });
+CreatePasswordModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: CreatePasswordModule, imports: [CommonModule,
+        InputValidationModule,
+        FormsModule,
+        ReactiveFormsModule,
+        PasswordValidationModule] });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: CreatePasswordModule, decorators: [{
+            type: NgModule,
+            args: [{
+                    declarations: [
+                        CreatePasswordComponent
+                    ],
+                    exports: [
+                        CreatePasswordComponent
+                    ],
+                    imports: [
+                        CommonModule,
+                        InputValidationModule,
+                        FormsModule,
+                        ReactiveFormsModule,
+                        PasswordValidationModule,
+                    ]
+                }]
+        }] });
+
+class LocalStorageManager {
+    static set(name, value) {
+        const sanitizedName = LocalStorageManager.sanitizeName(name);
+        const stringfyValue = JSON.stringify(value);
+        window.localStorage.setItem(`#${sanitizedName}`, stringfyValue);
+    }
+    static get(name) {
+        const sanitizedName = LocalStorageManager.sanitizeName(name);
+        const value = window.localStorage.getItem(`#${sanitizedName}`);
+        if (!!value) {
+            const parsedValue = JSON.parse(value);
+            return parsedValue;
+        }
+        return null;
+    }
+    static remove(name) {
+        const sanitizedName = LocalStorageManager.sanitizeName(name);
+        window.localStorage.removeItem(`#${sanitizedName}`);
+    }
+    static sanitizeName(name) {
+        return name.trim().replace(/\s/gi, '_').replace(/[^\w\s]/gi, '').toUpperCase();
+    }
+}
+
 /*
  * Public API Surface of components
  */
@@ -2742,5 +3515,5 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImpor
  * Generated bundle index. Do not edit.
  */
 
-export { AvatarComponent, AvatarModule, CodeValidationComponent, CodeValidationModule, CustomSelectComponent, CustomSelectModule, InputValidationDirective, InputValidationModule, LoadingButtonDirective, LoadingButtonModule, LogoComponent, LogoModule, PhoneNumberComponent, PhoneNumberModule, PopoverDirective, PopoverModule, RadioButtonComponent, RadioButtonModule, SpinnerComponent, SpinnerModule, ToogleComponent, ToogleModule, UserStatusBulletComponent, UserStatusBulletModule };
+export { AvatarComponent, AvatarModule, CheckboxComponent, CheckboxModule, ChoseImageComponent, ChoseImageModule, CodeValidationComponent, CodeValidationModule, ColorSelectorComponent, ColorSelectorModule, CreatePasswordComponent, CreatePasswordModule, CropperComponent, CropperModule, CustomSelectComponent, CustomSelectModule, InputValidationDirective, InputValidationModule, LoadingButtonDirective, LoadingButtonModule, LocalStorageManager, LogoComponent, LogoModule, ModalComponent, ModalModule, ModalOverlayRef, ModalService, PasswordValidationDirective, PasswordValidationModule, PhoneNumberComponent, PhoneNumberModule, PopoverDirective, PopoverModule, ProfilePreviewComponent, ProfilePreviewModule, RadioButtonComponent, RadioButtonModule, RangeComponent, RangeModule, SpinnerComponent, SpinnerModule, ToogleComponent, ToogleModule, UserStatusBulletComponent, UserStatusBulletModule, convertoToBlobURL };
 //# sourceMappingURL=components.mjs.map

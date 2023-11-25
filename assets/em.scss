@@ -1,0 +1,7 @@
+@use 'sass:math';
+
+$base-size: 16;
+
+@function to-em($value) {
+    @return  math.div($value, $base-size) + em;
+}

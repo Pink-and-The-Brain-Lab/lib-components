@@ -5,8 +5,11 @@ export declare class CustomSelectComponent<T> implements OnInit, OnChanges {
     options: T[];
     placeholder: string;
     modelProperty: string;
+    label: string;
     selectedOption: any;
     isValid: boolean;
+    hasLeftIcon: boolean;
+    hasDivider: boolean;
     valueChanges: EventEmitter<T>;
     customTemplate: TemplateRef<any>;
     selectedTemplate: TemplateRef<any>;
@@ -20,5 +23,5 @@ export declare class CustomSelectComponent<T> implements OnInit, OnChanges {
     closePopover: () => boolean;
     getOption(option: any): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<CustomSelectComponent<any>, never>;
-    static ɵcmp: i0.ɵɵComponentDeclaration<CustomSelectComponent<any>, "cdk-custom-select", never, { "options": "options"; "placeholder": "placeholder"; "modelProperty": "modelProperty"; "selectedOption": "selectedOption"; "isValid": "isValid"; }, { "valueChanges": "valueChanges"; }, ["customTemplate", "selectedTemplate"], never, false, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<CustomSelectComponent<any>, "cdk-custom-select", never, { "options": "options"; "placeholder": "placeholder"; "modelProperty": "modelProperty"; "label": "label"; "selectedOption": "selectedOption"; "isValid": "isValid"; "hasLeftIcon": "hasLeftIcon"; "hasDivider": "hasDivider"; }, { "valueChanges": "valueChanges"; }, ["customTemplate", "selectedTemplate"], never, false, never>;
 }

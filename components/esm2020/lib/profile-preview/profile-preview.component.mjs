@@ -1,0 +1,34 @@
+import { Component, Input } from '@angular/core';
+import * as i0 from "@angular/core";
+import * as i1 from "../avatar/avatar.component";
+export class ProfilePreviewComponent {
+    constructor() {
+        this.color = '';
+        this.imageFile = '';
+        this.userName = '';
+        this.profileName = '';
+        this.defaultUserName = 'chosen name';
+        this.defaultProfileName = 'profile name';
+    }
+    get isDefaultUserName() {
+        return this.userName.toLowerCase().trim() === this.defaultUserName;
+    }
+    get isDefaultProfileName() {
+        return this.profileName.toLowerCase().trim() === this.defaultProfileName;
+    }
+}
+ProfilePreviewComponent.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: ProfilePreviewComponent, deps: [], target: i0.ɵɵFactoryTarget.Component });
+ProfilePreviewComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "15.1.2", type: ProfilePreviewComponent, selector: "app-profile-preview", inputs: { color: "color", imageFile: "imageFile", userName: "userName", profileName: "profileName" }, ngImport: i0, template: "<div class=\"content d-flex flex-column align-items-center justify-content-center\">\r\n    <cdk-avatar size=\"xxl\" name=\"Avatar\" [color]=\"color\" [imageUrl]=\"imageFile\"></cdk-avatar>\r\n    <div class=\"mt-3 user-name\" [class.blink]=\"!userName.length\" [class.default-text]=\"isDefaultUserName\">{{ userName }}</div>\r\n    <div class=\"mt-2 profile-name\" [class.blink]=\"!profileName.length\" [class.default-text]=\"isDefaultProfileName\">{{ profileName }}</div>\r\n</div>", styles: [".content{width:240px;min-height:280px;background-color:#212329;padding:16px}.content .user-name{font-size:1.125em;font-weight:600;line-height:1.75em;color:#dfdfdf}.content .user-name.blink{background-color:#262930;width:136px;height:16px;border-radius:50px;margin-top:16px}.content .profile-name{font-size:11px;font-weight:600;line-height:16px;text-transform:uppercase;color:#b3b6bc}.content .profile-name.blink{background-color:#262930;width:80px;height:10px;border-radius:50px;margin-top:12px}.content .default-text{color:#7f858c}\n"], dependencies: [{ kind: "component", type: i1.AvatarComponent, selector: "cdk-avatar", inputs: ["imageUrl", "size", "mask", "maskType", "secondMaskType", "status", "color", "name"] }] });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: ProfilePreviewComponent, decorators: [{
+            type: Component,
+            args: [{ selector: 'app-profile-preview', template: "<div class=\"content d-flex flex-column align-items-center justify-content-center\">\r\n    <cdk-avatar size=\"xxl\" name=\"Avatar\" [color]=\"color\" [imageUrl]=\"imageFile\"></cdk-avatar>\r\n    <div class=\"mt-3 user-name\" [class.blink]=\"!userName.length\" [class.default-text]=\"isDefaultUserName\">{{ userName }}</div>\r\n    <div class=\"mt-2 profile-name\" [class.blink]=\"!profileName.length\" [class.default-text]=\"isDefaultProfileName\">{{ profileName }}</div>\r\n</div>", styles: [".content{width:240px;min-height:280px;background-color:#212329;padding:16px}.content .user-name{font-size:1.125em;font-weight:600;line-height:1.75em;color:#dfdfdf}.content .user-name.blink{background-color:#262930;width:136px;height:16px;border-radius:50px;margin-top:16px}.content .profile-name{font-size:11px;font-weight:600;line-height:16px;text-transform:uppercase;color:#b3b6bc}.content .profile-name.blink{background-color:#262930;width:80px;height:10px;border-radius:50px;margin-top:12px}.content .default-text{color:#7f858c}\n"] }]
+        }], propDecorators: { color: [{
+                type: Input
+            }], imageFile: [{
+                type: Input
+            }], userName: [{
+                type: Input
+            }], profileName: [{
+                type: Input
+            }] } });
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoicHJvZmlsZS1wcmV2aWV3LmNvbXBvbmVudC5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uL3Byb2plY3RzL2NvbXBvbmVudHMvc3JjL2xpYi9wcm9maWxlLXByZXZpZXcvcHJvZmlsZS1wcmV2aWV3LmNvbXBvbmVudC50cyIsIi4uLy4uLy4uLy4uLy4uL3Byb2plY3RzL2NvbXBvbmVudHMvc3JjL2xpYi9wcm9maWxlLXByZXZpZXcvcHJvZmlsZS1wcmV2aWV3LmNvbXBvbmVudC5odG1sIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBLE9BQU8sRUFBRSxTQUFTLEVBQUUsS0FBSyxFQUFFLE1BQU0sZUFBZSxDQUFDOzs7QUFPakQsTUFBTSxPQUFPLHVCQUF1QjtJQUxwQztRQU1XLFVBQUssR0FBRyxFQUFFLENBQUM7UUFDWCxjQUFTLEdBQUcsRUFBRSxDQUFDO1FBQ2YsYUFBUSxHQUFHLEVBQUUsQ0FBQztRQUNkLGdCQUFXLEdBQUcsRUFBRSxDQUFDO1FBRWxCLG9CQUFlLEdBQUcsYUFBYSxDQUFDO1FBQ2hDLHVCQUFrQixHQUFHLGNBQWMsQ0FBQztLQVM3QztJQVBDLElBQUksaUJBQWlCO1FBQ25CLE9BQU8sSUFBSSxDQUFDLFFBQVEsQ0FBQyxXQUFXLEVBQUUsQ0FBQyxJQUFJLEVBQUUsS0FBSyxJQUFJLENBQUMsZUFBZSxDQUFDO0lBQ3JFLENBQUM7SUFFRCxJQUFJLG9CQUFvQjtRQUN0QixPQUFPLElBQUksQ0FBQyxXQUFXLENBQUMsV0FBVyxFQUFFLENBQUMsSUFBSSxFQUFFLEtBQUssSUFBSSxDQUFDLGtCQUFrQixDQUFDO0lBQzNFLENBQUM7O29IQWZVLHVCQUF1Qjt3R0FBdkIsdUJBQXVCLGlLQ1BwQyxxZUFJTTsyRkRHTyx1QkFBdUI7a0JBTG5DLFNBQVM7K0JBQ0UscUJBQXFCOzhCQUt0QixLQUFLO3NCQUFiLEtBQUs7Z0JBQ0csU0FBUztzQkFBakIsS0FBSztnQkFDRyxRQUFRO3NCQUFoQixLQUFLO2dCQUNHLFdBQVc7c0JBQW5CLEtBQUsiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBDb21wb25lbnQsIElucHV0IH0gZnJvbSAnQGFuZ3VsYXIvY29yZSc7XHJcblxyXG5AQ29tcG9uZW50KHtcclxuICBzZWxlY3RvcjogJ2FwcC1wcm9maWxlLXByZXZpZXcnLFxyXG4gIHRlbXBsYXRlVXJsOiAnLi9wcm9maWxlLXByZXZpZXcuY29tcG9uZW50Lmh0bWwnLFxyXG4gIHN0eWxlVXJsczogWycuL3Byb2ZpbGUtcHJldmlldy5jb21wb25lbnQuc2NzcyddXHJcbn0pXHJcbmV4cG9ydCBjbGFzcyBQcm9maWxlUHJldmlld0NvbXBvbmVudCB7XHJcbiAgQElucHV0KCkgY29sb3IgPSAnJztcclxuICBASW5wdXQoKSBpbWFnZUZpbGUgPSAnJztcclxuICBASW5wdXQoKSB1c2VyTmFtZSA9ICcnO1xyXG4gIEBJbnB1dCgpIHByb2ZpbGVOYW1lID0gJyc7XHJcblxyXG4gIHByaXZhdGUgZGVmYXVsdFVzZXJOYW1lID0gJ2Nob3NlbiBuYW1lJztcclxuICBwcml2YXRlIGRlZmF1bHRQcm9maWxlTmFtZSA9ICdwcm9maWxlIG5hbWUnO1xyXG5cclxuICBnZXQgaXNEZWZhdWx0VXNlck5hbWUoKTogYm9vbGVhbiB7XHJcbiAgICByZXR1cm4gdGhpcy51c2VyTmFtZS50b0xvd2VyQ2FzZSgpLnRyaW0oKSA9PT0gdGhpcy5kZWZhdWx0VXNlck5hbWU7XHJcbiAgfVxyXG5cclxuICBnZXQgaXNEZWZhdWx0UHJvZmlsZU5hbWUoKTogYm9vbGVhbiB7XHJcbiAgICByZXR1cm4gdGhpcy5wcm9maWxlTmFtZS50b0xvd2VyQ2FzZSgpLnRyaW0oKSA9PT0gdGhpcy5kZWZhdWx0UHJvZmlsZU5hbWU7XHJcbiAgfVxyXG59XHJcbiIsIjxkaXYgY2xhc3M9XCJjb250ZW50IGQtZmxleCBmbGV4LWNvbHVtbiBhbGlnbi1pdGVtcy1jZW50ZXIganVzdGlmeS1jb250ZW50LWNlbnRlclwiPlxyXG4gICAgPGNkay1hdmF0YXIgc2l6ZT1cInh4bFwiIG5hbWU9XCJBdmF0YXJcIiBbY29sb3JdPVwiY29sb3JcIiBbaW1hZ2VVcmxdPVwiaW1hZ2VGaWxlXCI+PC9jZGstYXZhdGFyPlxyXG4gICAgPGRpdiBjbGFzcz1cIm10LTMgdXNlci1uYW1lXCIgW2NsYXNzLmJsaW5rXT1cIiF1c2VyTmFtZS5sZW5ndGhcIiBbY2xhc3MuZGVmYXVsdC10ZXh0XT1cImlzRGVmYXVsdFVzZXJOYW1lXCI+e3sgdXNlck5hbWUgfX08L2Rpdj5cclxuICAgIDxkaXYgY2xhc3M9XCJtdC0yIHByb2ZpbGUtbmFtZVwiIFtjbGFzcy5ibGlua109XCIhcHJvZmlsZU5hbWUubGVuZ3RoXCIgW2NsYXNzLmRlZmF1bHQtdGV4dF09XCJpc0RlZmF1bHRQcm9maWxlTmFtZVwiPnt7IHByb2ZpbGVOYW1lIH19PC9kaXY+XHJcbjwvZGl2PiJdfQ==

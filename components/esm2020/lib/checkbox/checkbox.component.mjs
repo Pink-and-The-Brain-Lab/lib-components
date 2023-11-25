@@ -1,0 +1,34 @@
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import * as i0 from "@angular/core";
+import * as i1 from "@angular/forms";
+export class CheckboxComponent {
+    constructor() {
+        this.label = '';
+        this.value = false;
+        this.change = new EventEmitter();
+        this.id = Math.round(Math.random() * 100000);
+        this.form = new FormGroup({
+            input: new FormControl(this.value)
+        });
+    }
+    get input() {
+        return !!this.form.get('input')?.value;
+    }
+    changeValue() {
+        this.change.emit(this.input);
+    }
+}
+CheckboxComponent.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: CheckboxComponent, deps: [], target: i0.ɵɵFactoryTarget.Component });
+CheckboxComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "15.1.2", type: CheckboxComponent, selector: "cdk-checkbox", inputs: { label: "label", value: "value" }, outputs: { change: "change" }, ngImport: i0, template: "<form [formGroup]=\"form\">\r\n    <label for=\"checkbox{{ id }}\" class=\"container d-flex m-0 p-0\">\r\n        <input type=\"checkbox\" id=\"checkbox{{ id }}\" formControlName=\"input\" (change)=\"changeValue()\" />\r\n        <span class=\"checkmark\"></span>\r\n        <i class=\"bi bi-check\"></i>\r\n        {{ label }}\r\n    </label>\r\n</form>\r\n", styles: [".container{position:relative;cursor:pointer;-webkit-user-select:none;user-select:none;color:#b3b6bc;font-size:.75em;font-weight:400}.container input{position:absolute;opacity:0;cursor:pointer;height:0;width:0}.container i{position:absolute;color:#000;left:-5px;top:-11px;font-size:2em;display:none}.checkmark{height:16px;width:16px;border:1px solid #fff;display:block;margin-right:5px}.container input:checked~.checkmark{background-color:#fff}.container input:checked~i{display:block}\n"], dependencies: [{ kind: "directive", type: i1.ɵNgNoValidate, selector: "form:not([ngNoForm]):not([ngNativeValidate])" }, { kind: "directive", type: i1.CheckboxControlValueAccessor, selector: "input[type=checkbox][formControlName],input[type=checkbox][formControl],input[type=checkbox][ngModel]" }, { kind: "directive", type: i1.NgControlStatus, selector: "[formControlName],[ngModel],[formControl]" }, { kind: "directive", type: i1.NgControlStatusGroup, selector: "[formGroupName],[formArrayName],[ngModelGroup],[formGroup],form:not([ngNoForm]),[ngForm]" }, { kind: "directive", type: i1.FormGroupDirective, selector: "[formGroup]", inputs: ["formGroup"], outputs: ["ngSubmit"], exportAs: ["ngForm"] }, { kind: "directive", type: i1.FormControlName, selector: "[formControlName]", inputs: ["formControlName", "disabled", "ngModel"], outputs: ["ngModelChange"] }] });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: CheckboxComponent, decorators: [{
+            type: Component,
+            args: [{ selector: 'cdk-checkbox', template: "<form [formGroup]=\"form\">\r\n    <label for=\"checkbox{{ id }}\" class=\"container d-flex m-0 p-0\">\r\n        <input type=\"checkbox\" id=\"checkbox{{ id }}\" formControlName=\"input\" (change)=\"changeValue()\" />\r\n        <span class=\"checkmark\"></span>\r\n        <i class=\"bi bi-check\"></i>\r\n        {{ label }}\r\n    </label>\r\n</form>\r\n", styles: [".container{position:relative;cursor:pointer;-webkit-user-select:none;user-select:none;color:#b3b6bc;font-size:.75em;font-weight:400}.container input{position:absolute;opacity:0;cursor:pointer;height:0;width:0}.container i{position:absolute;color:#000;left:-5px;top:-11px;font-size:2em;display:none}.checkmark{height:16px;width:16px;border:1px solid #fff;display:block;margin-right:5px}.container input:checked~.checkmark{background-color:#fff}.container input:checked~i{display:block}\n"] }]
+        }], propDecorators: { label: [{
+                type: Input
+            }], value: [{
+                type: Input
+            }], change: [{
+                type: Output
+            }] } });
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiY2hlY2tib3guY29tcG9uZW50LmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiLi4vLi4vLi4vLi4vLi4vcHJvamVjdHMvY29tcG9uZW50cy9zcmMvbGliL2NoZWNrYm94L2NoZWNrYm94LmNvbXBvbmVudC50cyIsIi4uLy4uLy4uLy4uLy4uL3Byb2plY3RzL2NvbXBvbmVudHMvc3JjL2xpYi9jaGVja2JveC9jaGVja2JveC5jb21wb25lbnQuaHRtbCJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQSxPQUFPLEVBQUUsU0FBUyxFQUFFLFlBQVksRUFBRSxLQUFLLEVBQUUsTUFBTSxFQUFFLE1BQU0sZUFBZSxDQUFDO0FBQ3ZFLE9BQU8sRUFBRSxXQUFXLEVBQUUsU0FBUyxFQUFFLE1BQU0sZ0JBQWdCLENBQUM7OztBQU94RCxNQUFNLE9BQU8saUJBQWlCO0lBTDlCO1FBT1csVUFBSyxHQUFHLEVBQUUsQ0FBQztRQUNYLFVBQUssR0FBRyxLQUFLLENBQUM7UUFDYixXQUFNLEdBQUcsSUFBSSxZQUFZLEVBQVcsQ0FBQztRQUUvQyxPQUFFLEdBQUcsSUFBSSxDQUFDLEtBQUssQ0FBQyxJQUFJLENBQUMsTUFBTSxFQUFFLEdBQUcsTUFBTSxDQUFDLENBQUM7UUFFeEMsU0FBSSxHQUFHLElBQUksU0FBUyxDQUFDO1lBQ25CLEtBQUssRUFBRSxJQUFJLFdBQVcsQ0FBQyxJQUFJLENBQUMsS0FBSyxDQUFDO1NBQ25DLENBQUMsQ0FBQztLQVVKO0lBUkMsSUFBSSxLQUFLO1FBQ1AsT0FBTyxDQUFDLENBQUMsSUFBSSxDQUFDLElBQUksQ0FBQyxHQUFHLENBQUMsT0FBTyxDQUFDLEVBQUUsS0FBSyxDQUFDO0lBQ3pDLENBQUM7SUFFRCxXQUFXO1FBQ1QsSUFBSSxDQUFDLE1BQU0sQ0FBQyxJQUFJLENBQUMsSUFBSSxDQUFDLEtBQUssQ0FBQyxDQUFDO0lBQy9CLENBQUM7OzhHQWxCVSxpQkFBaUI7a0dBQWpCLGlCQUFpQiwrSENSOUIsd1dBUUE7MkZEQWEsaUJBQWlCO2tCQUw3QixTQUFTOytCQUNFLGNBQWM7OEJBTWYsS0FBSztzQkFBYixLQUFLO2dCQUNHLEtBQUs7c0JBQWIsS0FBSztnQkFDSSxNQUFNO3NCQUFmLE1BQU0iLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBDb21wb25lbnQsIEV2ZW50RW1pdHRlciwgSW5wdXQsIE91dHB1dCB9IGZyb20gJ0Bhbmd1bGFyL2NvcmUnO1xyXG5pbXBvcnQgeyBGb3JtQ29udHJvbCwgRm9ybUdyb3VwIH0gZnJvbSAnQGFuZ3VsYXIvZm9ybXMnO1xyXG5cclxuQENvbXBvbmVudCh7XHJcbiAgc2VsZWN0b3I6ICdjZGstY2hlY2tib3gnLFxyXG4gIHRlbXBsYXRlVXJsOiAnLi9jaGVja2JveC5jb21wb25lbnQuaHRtbCcsXHJcbiAgc3R5bGVVcmxzOiBbJy4vY2hlY2tib3guY29tcG9uZW50LnNjc3MnXVxyXG59KVxyXG5leHBvcnQgY2xhc3MgQ2hlY2tib3hDb21wb25lbnQge1xyXG5cclxuICBASW5wdXQoKSBsYWJlbCA9ICcnO1xyXG4gIEBJbnB1dCgpIHZhbHVlID0gZmFsc2U7XHJcbiAgQE91dHB1dCgpIGNoYW5nZSA9IG5ldyBFdmVudEVtaXR0ZXI8Ym9vbGVhbj4oKTtcclxuXHJcbiAgaWQgPSBNYXRoLnJvdW5kKE1hdGgucmFuZG9tKCkgKiAxMDAwMDApO1xyXG4gIFxyXG4gIGZvcm0gPSBuZXcgRm9ybUdyb3VwKHtcclxuICAgIGlucHV0OiBuZXcgRm9ybUNvbnRyb2wodGhpcy52YWx1ZSlcclxuICB9KTtcclxuXHJcbiAgZ2V0IGlucHV0KCk6IGJvb2xlYW4ge1xyXG4gICAgcmV0dXJuICEhdGhpcy5mb3JtLmdldCgnaW5wdXQnKT8udmFsdWU7XHJcbiAgfVxyXG5cclxuICBjaGFuZ2VWYWx1ZSgpIHtcclxuICAgIHRoaXMuY2hhbmdlLmVtaXQodGhpcy5pbnB1dCk7XHJcbiAgfVxyXG5cclxufVxyXG4iLCI8Zm9ybSBbZm9ybUdyb3VwXT1cImZvcm1cIj5cclxuICAgIDxsYWJlbCBmb3I9XCJjaGVja2JveHt7IGlkIH19XCIgY2xhc3M9XCJjb250YWluZXIgZC1mbGV4IG0tMCBwLTBcIj5cclxuICAgICAgICA8aW5wdXQgdHlwZT1cImNoZWNrYm94XCIgaWQ9XCJjaGVja2JveHt7IGlkIH19XCIgZm9ybUNvbnRyb2xOYW1lPVwiaW5wdXRcIiAoY2hhbmdlKT1cImNoYW5nZVZhbHVlKClcIiAvPlxyXG4gICAgICAgIDxzcGFuIGNsYXNzPVwiY2hlY2ttYXJrXCI+PC9zcGFuPlxyXG4gICAgICAgIDxpIGNsYXNzPVwiYmkgYmktY2hlY2tcIj48L2k+XHJcbiAgICAgICAge3sgbGFiZWwgfX1cclxuICAgIDwvbGFiZWw+XHJcbjwvZm9ybT5cclxuIl19

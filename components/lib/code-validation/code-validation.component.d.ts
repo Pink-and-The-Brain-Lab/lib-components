@@ -7,6 +7,7 @@ export declare class CodeValidationComponent implements OnInit, OnDestroy, After
     validate: EventEmitter<string>;
     private destroy$;
     private focusedInput;
+    private backspaceControl;
     formGroup: FormGroup<{
         _0: FormControl<string | null>;
         _1: FormControl<string | null>;
