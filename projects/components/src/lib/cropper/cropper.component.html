@@ -1,0 +1,39 @@
+<div class="d-flex align-items-center flex-column">
+    <cdk-avatar
+        size="xl"
+        [imageUrl]="imageCroppedFile"
+    ></cdk-avatar>
+
+    <div class="preview mt-4">
+        <image-cropper
+            [imageURL]="imageFile"
+            [aspectRatio]="1 / 1"
+            [canvasRotation]="imageRotation"
+            [maintainAspectRatio]="false"
+            [transform]="{
+                flipH: imageFlipH,
+                scale: imageZoom
+            }"
+            (imageCropped)="imageCropped($event)"
+        ></image-cropper>
+    </div>
+
+    <div class="controls mt-2 w-100">
+        <div class="row">
+            <div class="col-6 d-flex align-items-center justify-content-between">
+                <span class="me-2">Rotate</span>
+                <cdk-range (selectedRange)="selectedRange($event)"></cdk-range>
+            </div>
+
+            <div class="col-6">
+                <div class="d-flex align-items-center justify-content-between">
+                    <i class="bi bi-arrow-clockwise" tooltip="Rotate" placement="top" (click)="rotateImage()"></i>
+                    <i class="bi bi-symmetry-vertical" tooltip="Invert" placement="top" (click)="invertImage()"></i>
+                    <i class="bi bi-dash" tooltip="Zoom out" placement="top" (click)="zoomOutImage()"></i>
+                    <i class="bi bi-plus" tooltip="Zoom in" placement="top" (click)="zoomInImage()"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,107 @@
+@import "../em";
+
+@mixin input-state($color) {
+    box-shadow: 0 2px 0 -1px $color;
+
+    &:focus {
+        box-shadow: 0 3px 0 -1px $color;
+    }
+}
+
+input:-webkit-autofill {
+    background-clip: text;
+    -webkit-text-fill-color: $emphasis-low;
+}
+
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    box-shadow: 0 3px 0 -1px $divider;
+}
+
+.row-form {
+    position: relative;
+    margin-top: 25px;
+
+    * {
+        transition: all .3s ease-in-out;
+    }
+
+    input {
+        background-color: transparent;
+        width: 100%;
+        padding: 10px 0;
+        border: 0;
+        color: $emphasis-low;
+        @include input-state($divider);
+
+        &.invalid {
+            @include input-state($st-red);
+        }
+
+        &.success {
+            @include input-state($st-green);
+        }
+
+        &.warning {
+            @include input-state($st-yellow);
+        }
+
+        &.info {
+            @include input-state($st-blue);
+        }
+    }
+
+    &.right-icon {
+        input {
+            padding-right: 30px;
+        }
+
+        i {
+            position: absolute;
+            right: 5px;
+            top: 11px;
+
+            &.invalid {
+                color: $st-red;
+            }
+    
+            &.success {
+                color: $st-green;
+            }
+    
+            &.warning {
+                color: $st-yellow;
+            }
+    
+            &.info {
+                color: $st-blue;
+            }
+        }
+    }
+
+    label {
+        font-size: to-em(14);
+        color: $emphasis-low;
+        text-align: left;
+        display: block;
+        position: absolute;
+        top: 11px;
+        margin-left: 2px;
+    }
+
+    input:focus + label,
+    input:placeholder-shown + label,
+    input.not-empty + label {
+        font-size: to-em(12);
+        top: -8px;
+    }
+
+    small {
+        font-size: to-em(10);
+        position: absolute;
+        left: 2px;
+        bottom: -15px;
+        color: $st-red;
+        text-align: left;
+    }
+}

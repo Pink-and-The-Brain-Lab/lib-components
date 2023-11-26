@@ -1,0 +1,61 @@
+@import "../styles/variables";
+
+label {
+    display: flex;
+    width: 100%;
+    cursor: pointer;
+    align-items: center;
+    margin-bottom: 8px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    &.reverse {
+        flex-direction: row-reverse;
+        justify-content: space-between;
+
+        span {
+            margin-right: 0;
+        }
+    }
+
+    input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        width: 0;
+        height: 0;
+    }
+
+    span {
+        display: block;
+        width: 18px;
+        height: 18px;
+        border: 1px solid $surface-1;
+        margin-right: 8px;
+        border-radius: 50%;
+    }
+
+    p {
+        font-weight: 400;
+        font-size: 14px;
+        color: $emphasis-low;
+        margin: 0 !important;
+    }
+}
+
+label:hover input ~ span {
+    border: 3px solid $st-aqua;
+}
+
+label input:checked ~ span {
+    border: 5px solid $st-blue;
+    background-color: $white;
+}
+
+label input:checked ~ p {
+    font-weight: 600;
+    font-size: 14px;
+    color: $emphasis-high;
+}

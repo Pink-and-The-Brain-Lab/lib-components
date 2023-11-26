@@ -1,0 +1,13 @@
+<label [attr.for]="id" [class.reverse]="position === 'end'">
+    <input
+        type="radio"
+        [value]="value"
+        [(ngModel)]="model"
+        [disabled]="disabled"
+        [name]="name"
+        #ctrl="ngModel"
+        [attr.id]="id"
+    />
+    <span></span>
+    <p><ng-content></ng-content></p>
+</label>
