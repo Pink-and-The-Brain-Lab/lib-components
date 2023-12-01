@@ -14,6 +14,10 @@ import * as i2 from 'ngx-image-cropper';
 import { ImageCropperComponent, ImageCropperModule } from 'ngx-image-cropper';
 import * as i4 from 'ng2-tooltip-directive';
 import { TooltipModule } from 'ng2-tooltip-directive';
+import { HttpClient } from '@angular/common/http';
+import * as i1$3 from '@ngx-translate/core';
+import { TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 class UserStatusBulletComponent {
     constructor() {
@@ -3507,6 +3511,36 @@ class LocalStorageManager {
     }
 }
 
+function HttpLoaderFactory(http) {
+    return new TranslateHttpLoader(http);
+}
+const I18N_CONFIG = {
+    defaultLanguage: 'en',
+    loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+    }
+};
+
+class I18nService {
+    constructor(translate) {
+        this.translate = translate;
+    }
+    start() {
+        this.translate.addLangs(['en', 'pt', 'es', 'fr']);
+        this.translate.setDefaultLang('en');
+    }
+}
+I18nService.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: I18nService, deps: [{ token: i1$3.TranslateService }], target: i0.ɵɵFactoryTarget.Injectable });
+I18nService.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: I18nService, providedIn: 'root' });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: I18nService, decorators: [{
+            type: Injectable,
+            args: [{
+                    providedIn: 'root'
+                }]
+        }], ctorParameters: function () { return [{ type: i1$3.TranslateService }]; } });
+
 /*
  * Public API Surface of components
  */
@@ -3515,5 +3549,5 @@ class LocalStorageManager {
  * Generated bundle index. Do not edit.
  */
 
-export { AvatarComponent, AvatarModule, CheckboxComponent, CheckboxModule, ChoseImageComponent, ChoseImageModule, CodeValidationComponent, CodeValidationModule, ColorSelectorComponent, ColorSelectorModule, CreatePasswordComponent, CreatePasswordModule, CropperComponent, CropperModule, CustomSelectComponent, CustomSelectModule, InputValidationDirective, InputValidationModule, LoadingButtonDirective, LoadingButtonModule, LocalStorageManager, LogoComponent, LogoModule, ModalComponent, ModalModule, ModalOverlayRef, ModalService, PasswordValidationDirective, PasswordValidationModule, PhoneNumberComponent, PhoneNumberModule, PopoverDirective, PopoverModule, ProfilePreviewComponent, ProfilePreviewModule, RadioButtonComponent, RadioButtonModule, RangeComponent, RangeModule, SpinnerComponent, SpinnerModule, ToogleComponent, ToogleModule, UserStatusBulletComponent, UserStatusBulletModule, convertoToBlobURL };
+export { AvatarComponent, AvatarModule, CheckboxComponent, CheckboxModule, ChoseImageComponent, ChoseImageModule, CodeValidationComponent, CodeValidationModule, ColorSelectorComponent, ColorSelectorModule, CreatePasswordComponent, CreatePasswordModule, CropperComponent, CropperModule, CustomSelectComponent, CustomSelectModule, HttpLoaderFactory, I18N_CONFIG, I18nService, InputValidationDirective, InputValidationModule, LoadingButtonDirective, LoadingButtonModule, LocalStorageManager, LogoComponent, LogoModule, ModalComponent, ModalModule, ModalOverlayRef, ModalService, PasswordValidationDirective, PasswordValidationModule, PhoneNumberComponent, PhoneNumberModule, PopoverDirective, PopoverModule, ProfilePreviewComponent, ProfilePreviewModule, RadioButtonComponent, RadioButtonModule, RangeComponent, RangeModule, SpinnerComponent, SpinnerModule, ToogleComponent, ToogleModule, UserStatusBulletComponent, UserStatusBulletModule, convertoToBlobURL };
 //# sourceMappingURL=components.mjs.map
