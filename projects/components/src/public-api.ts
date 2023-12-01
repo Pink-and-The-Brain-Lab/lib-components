@@ -71,3 +71,5 @@ export * from './lib/create-password/create-password.module';
 // utils
 export * from './lib/utils/convert-file';
 export * from './lib/utils/local-storage-manager';
+export * from './lib/i18n/i18n.config';
+export * from './lib/i18n/i18n.service';
