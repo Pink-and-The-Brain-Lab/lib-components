@@ -8,7 +8,7 @@ import { TemplatePortal, ComponentPortal, PortalModule } from '@angular/cdk/port
 import * as i1$2 from '@angular/forms';
 import { NG_VALUE_ACCESSOR, FormsModule, FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { Subject, takeUntil, startWith, pairwise, map } from 'rxjs';
+import { Subject, takeUntil, startWith, pairwise, map, forkJoin } from 'rxjs';
 import { PhoneNumberUtil, PhoneNumberFormat } from 'google-libphonenumber';
 import * as i2 from 'ngx-image-cropper';
 import { ImageCropperComponent, ImageCropperModule } from 'ngx-image-cropper';
@@ -3536,12 +3536,50 @@ const I18N_CONFIG = {
 };
 
 class I18nService {
-    constructor(translate) {
-        this.translate = translate;
+    constructor(translateService) {
+        this.translateService = translateService;
+        this.languageOptions = new Subject();
+        this.observerLangChange();
+    }
+    observerLangChange() {
+        this.translateService.onLangChange
+            .subscribe(() => {
+            this.buildLanguageOptions();
+        });
     }
     start() {
-        this.translate.addLangs(['en', 'pt', 'es', 'fr']);
-        this.translate.setDefaultLang('en');
+        this.translateService.addLangs(['en', 'pt', 'es', 'fr']);
+        this.translateService.setDefaultLang('en');
+        this.buildLanguageOptions();
+    }
+    buildLanguageOptions() {
+        const ENGLISH = this.translateService.get('ENGLISH');
+        const PORTUGUESE = this.translateService.get('PORTUGUESE');
+        const SPANISH = this.translateService.get('SPANISH');
+        const FRENCH = this.translateService.get('FRENCH');
+        forkJoin([
+            ENGLISH,
+            PORTUGUESE,
+            SPANISH,
+            FRENCH
+        ]).subscribe(_response => {
+            this.languageOptions.next([{
+                    value: 'en',
+                    label: _response[0],
+                }, {
+                    value: 'pt',
+                    label: _response[1],
+                }, {
+                    value: 'es',
+                    label: _response[2],
+                }, {
+                    value: 'fr',
+                    label: _response[3],
+                }]);
+        });
+    }
+    changeLanguage(language) {
+        this.translateService.use(language.value);
     }
 }
 I18nService.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: I18nService, deps: [{ token: i1$3.TranslateService }], target: i0.ɵɵFactoryTarget.Injectable });
