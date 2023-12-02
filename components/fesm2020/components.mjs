@@ -3554,6 +3554,7 @@ class I18nService {
             SPANISH,
             FRENCH
         ]).subscribe(_response => {
+            console.log(`languages: ${_response}`);
             this.languageOptions.next([{
                     value: 'en',
                     label: _response[0],
