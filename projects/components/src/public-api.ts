@@ -67,12 +67,10 @@ export * from './lib/password-validation/password-validation.module';
 export * from './lib/create-password/create-password.component';
 export * from './lib/create-password/create-password.module';
 
-
 // utils
 export * from './lib/utils/convert-file';
 export * from './lib/utils/local-storage-manager';
 
 // i18n
 export * from './lib/i18n/i18n.config';
-export * from './lib/i18n/i18n.service';
 export * from './lib/i18n/models/language-option.model';
