@@ -13,22 +13,28 @@ export class I18nService {
     public translateService: TranslateService,
   ) {
     this.observerLangChange();
+
+    this.languageOptions
+      .subscribe(
+        (response) => console.log('languageOptions: ', response)
+      );
   }
 
   private observerLangChange() {
     this.translateService.onLangChange
       .subscribe(() => {
-        this.buildLanguageOptions();
+        this.buildLanguageOptions('observerLangChange');
       });
   }
 
   start() {
     this.translateService.addLangs(['en', 'pt', 'es', 'fr']);
     this.translateService.setDefaultLang('en');
-    this.buildLanguageOptions();
+    this.buildLanguageOptions('start');
   }
 
-  private buildLanguageOptions() {
+  private buildLanguageOptions(from: string) {
+    console.log(`buildLanguageOptions from ${from}`)
     const ENGLISH =  this.translateService.get('ENGLISH');
     const PORTUGUESE = this.translateService.get('PORTUGUESE');
     const SPANISH = this.translateService.get('SPANISH');
