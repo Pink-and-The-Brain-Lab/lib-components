@@ -8,14 +8,13 @@ import { TemplatePortal, ComponentPortal, PortalModule } from '@angular/cdk/port
 import * as i1$2 from '@angular/forms';
 import { NG_VALUE_ACCESSOR, FormsModule, FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { Subject, takeUntil, startWith, pairwise, map, forkJoin } from 'rxjs';
+import { Subject, takeUntil, startWith, pairwise, map } from 'rxjs';
 import { PhoneNumberUtil, PhoneNumberFormat } from 'google-libphonenumber';
 import * as i2 from 'ngx-image-cropper';
 import { ImageCropperComponent, ImageCropperModule } from 'ngx-image-cropper';
 import * as i4 from 'ng2-tooltip-directive';
 import { TooltipModule } from 'ng2-tooltip-directive';
 import { HttpClient } from '@angular/common/http';
-import * as i1$3 from '@ngx-translate/core';
 import { TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
@@ -3523,66 +3522,6 @@ const I18N_CONFIG = {
     }
 };
 
-class I18nService {
-    constructor(translateService) {
-        this.translateService = translateService;
-        this.languageOptions = new Subject();
-        this.observerLangChange();
-        this.languageOptions
-            .subscribe((response) => console.log('languageOptions: ', response));
-    }
-    observerLangChange() {
-        this.translateService.onLangChange
-            .subscribe(() => {
-            this.buildLanguageOptions('observerLangChange');
-        });
-    }
-    start() {
-        this.translateService.addLangs(['en', 'pt', 'es', 'fr']);
-        this.translateService.setDefaultLang('en');
-        this.buildLanguageOptions('start');
-    }
-    buildLanguageOptions(from) {
-        console.log(`buildLanguageOptions from ${from}`);
-        const ENGLISH = this.translateService.get('ENGLISH');
-        const PORTUGUESE = this.translateService.get('PORTUGUESE');
-        const SPANISH = this.translateService.get('SPANISH');
-        const FRENCH = this.translateService.get('FRENCH');
-        forkJoin([
-            ENGLISH,
-            PORTUGUESE,
-            SPANISH,
-            FRENCH
-        ]).subscribe(_response => {
-            console.log(`languages: ${_response}`);
-            this.languageOptions.next([{
-                    value: 'en',
-                    label: _response[0],
-                }, {
-                    value: 'pt',
-                    label: _response[1],
-                }, {
-                    value: 'es',
-                    label: _response[2],
-                }, {
-                    value: 'fr',
-                    label: _response[3],
-                }]);
-        });
-    }
-    changeLanguage(language) {
-        this.translateService.use(language.value);
-    }
-}
-I18nService.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: I18nService, deps: [{ token: i1$3.TranslateService }], target: i0.ɵɵFactoryTarget.Injectable });
-I18nService.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: I18nService, providedIn: 'root' });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: I18nService, decorators: [{
-            type: Injectable,
-            args: [{
-                    providedIn: 'root'
-                }]
-        }], ctorParameters: function () { return [{ type: i1$3.TranslateService }]; } });
-
 /*
  * Public API Surface of components
  */
@@ -3591,5 +3530,5 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImpor
  * Generated bundle index. Do not edit.
  */
 
-export { AvatarComponent, AvatarModule, CheckboxComponent, CheckboxModule, ChoseImageComponent, ChoseImageModule, CodeValidationComponent, CodeValidationModule, ColorSelectorComponent, ColorSelectorModule, CreatePasswordComponent, CreatePasswordModule, CropperComponent, CropperModule, CustomSelectComponent, CustomSelectModule, HttpLoaderFactory, I18N_CONFIG, I18nService, InputValidationDirective, InputValidationModule, LoadingButtonDirective, LoadingButtonModule, LocalStorageManager, LogoComponent, LogoModule, ModalComponent, ModalModule, ModalOverlayRef, ModalService, PasswordValidationDirective, PasswordValidationModule, PhoneNumberComponent, PhoneNumberModule, PopoverDirective, PopoverModule, ProfilePreviewComponent, ProfilePreviewModule, RadioButtonComponent, RadioButtonModule, RangeComponent, RangeModule, SpinnerComponent, SpinnerModule, ToogleComponent, ToogleModule, UserStatusBulletComponent, UserStatusBulletModule, convertoToBlobURL };
+export { AvatarComponent, AvatarModule, CheckboxComponent, CheckboxModule, ChoseImageComponent, ChoseImageModule, CodeValidationComponent, CodeValidationModule, ColorSelectorComponent, ColorSelectorModule, CreatePasswordComponent, CreatePasswordModule, CropperComponent, CropperModule, CustomSelectComponent, CustomSelectModule, HttpLoaderFactory, I18N_CONFIG, InputValidationDirective, InputValidationModule, LoadingButtonDirective, LoadingButtonModule, LocalStorageManager, LogoComponent, LogoModule, ModalComponent, ModalModule, ModalOverlayRef, ModalService, PasswordValidationDirective, PasswordValidationModule, PhoneNumberComponent, PhoneNumberModule, PopoverDirective, PopoverModule, ProfilePreviewComponent, ProfilePreviewModule, RadioButtonComponent, RadioButtonModule, RangeComponent, RangeModule, SpinnerComponent, SpinnerModule, ToogleComponent, ToogleModule, UserStatusBulletComponent, UserStatusBulletModule, convertoToBlobURL };
 //# sourceMappingURL=components.mjs.map
