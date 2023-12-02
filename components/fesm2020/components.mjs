@@ -3528,19 +3528,22 @@ class I18nService {
         this.translateService = translateService;
         this.languageOptions = new Subject();
         this.observerLangChange();
+        this.languageOptions
+            .subscribe((response) => console.log('languageOptions: ', response));
     }
     observerLangChange() {
         this.translateService.onLangChange
             .subscribe(() => {
-            this.buildLanguageOptions();
+            this.buildLanguageOptions('observerLangChange');
         });
     }
     start() {
         this.translateService.addLangs(['en', 'pt', 'es', 'fr']);
         this.translateService.setDefaultLang('en');
-        this.buildLanguageOptions();
+        this.buildLanguageOptions('start');
     }
-    buildLanguageOptions() {
+    buildLanguageOptions(from) {
+        console.log(`buildLanguageOptions from ${from}`);
         const ENGLISH = this.translateService.get('ENGLISH');
         const PORTUGUESE = this.translateService.get('PORTUGUESE');
         const SPANISH = this.translateService.get('SPANISH');
