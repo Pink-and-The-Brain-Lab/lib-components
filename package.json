@@ -1,10 +1,10 @@
 {
   "name": "millez-components-lib",
-  "version": "0.0.52",
+  "version": "0.0.72",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build components --configuration production && npm run build:sass && npm run build:images && npm run build:utils",
+    "build": "ng build components --configuration production && npm run build:sass && npm run build:images && npm run build:utils && npm run build:i18n-files",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "build:sass": "npm run build:styles && npm run build:sass-base-styles && npm run build:sass-custom-layout-styles && npm run build:sass-flags-styles && npm run build:sass-helpers-styles && npm run build:sass-overrides-styles",
@@ -15,7 +15,8 @@
     "build:sass-helpers-styles": "copy projects\\components\\src\\lib\\styles\\helpers\\**.scss dist\\assets\\**",
     "build:sass-overrides-styles": "copy projects\\components\\src\\lib\\styles\\overrides-styles\\**.scss dist\\assets\\**",
     "build:utils": "copy projects\\components\\src\\lib\\utils\\**.ts dist\\utils\\**",
-    "build:images": "copy projects\\components\\src\\lib\\assets\\images\\countries-flag\\**.svg dist\\assets\\images\\countries-flag\\**"
+    "build:images": "copy projects\\components\\src\\lib\\assets\\images\\countries-flag\\**.svg dist\\assets\\images\\countries-flag\\**",
+    "build:i18n-files": "copy projects\\components\\src\\lib\\assets\\i18n\\**.json dist\\assets\\i18n\\**"
   },
   "dependencies": {
     "@angular/animations": "^15.1.0",
