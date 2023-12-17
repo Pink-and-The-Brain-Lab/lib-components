@@ -1,6 +1,7 @@
 export abstract class LocalStorageManager {
 
     static set<T>(name: string, value: T): void {
+        LocalStorageManager.remove(name);
         const sanitizedName = LocalStorageManager.sanitizeName(name);
         const stringfyValue = JSON.stringify(value);
         window.localStorage.setItem(`#${sanitizedName}`, stringfyValue);

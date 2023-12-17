@@ -3503,6 +3503,7 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImpor
 
 class LocalStorageManager {
     static set(name, value) {
+        LocalStorageManager.remove(name);
         const sanitizedName = LocalStorageManager.sanitizeName(name);
         const stringfyValue = JSON.stringify(value);
         window.localStorage.setItem(`#${sanitizedName}`, stringfyValue);
