@@ -1,9 +1,9 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output, inject } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { InputType } from './models/input-type';
 import { IPasswordEvent } from './models/password-event';
-import { IMessageValidation } from './models/message-validation';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'cdk-create-password',
@@ -16,9 +16,9 @@ export class CreatePasswordComponent implements OnInit, OnDestroy {
   @Output() passwordValidation = new EventEmitter<boolean>();
   @Output() submitEvent = new EventEmitter<void>();
   @Output() passwordEvent = new EventEmitter<IPasswordEvent>();
-  @Input() messageValidation: IMessageValidation = { password: '', confirmPassword: '' };
   inputConfig: InputType[] = ['password', 'password'];
   isPasswordValid = false;
+  private readonly translateService = inject(TranslateService);
 
   passwordsAreEquals = (): ValidatorFn => {
     return (): ValidationErrors | null => {
