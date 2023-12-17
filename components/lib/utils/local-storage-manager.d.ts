@@ -1,6 +1,12 @@
+import { Observable } from "rxjs";
+import * as i0 from "@angular/core";
 export declare abstract class LocalStorageManager {
-    static set<T>(name: string, value: T): void;
-    static get<T>(name: string): T | null;
-    static remove(name: string): void;
-    static sanitizeName(name: string): string;
+    private storageSub;
+    watchStorage(): Observable<string>;
+    set<T>(name: string, value: T): void;
+    get<T>(name: string): T | null;
+    remove(name: string): void;
+    private sanitizeName;
+    static ɵfac: i0.ɵɵFactoryDeclaration<LocalStorageManager, never>;
+    static ɵprov: i0.ɵɵInjectableDeclaration<LocalStorageManager>;
 }

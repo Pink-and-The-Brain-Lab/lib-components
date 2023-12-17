@@ -3490,14 +3490,20 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImpor
         }] });
 
 class LocalStorageManager {
-    static set(name, value) {
-        LocalStorageManager.remove(name);
-        const sanitizedName = LocalStorageManager.sanitizeName(name);
+    constructor() {
+        this.storageSub = new Subject();
+    }
+    watchStorage() {
+        return this.storageSub.asObservable();
+    }
+    set(name, value) {
+        const sanitizedName = this.sanitizeName(name);
         const stringfyValue = JSON.stringify(value);
         window.localStorage.setItem(`#${sanitizedName}`, stringfyValue);
+        this.storageSub.next('changed');
     }
-    static get(name) {
-        const sanitizedName = LocalStorageManager.sanitizeName(name);
+    get(name) {
+        const sanitizedName = this.sanitizeName(name);
         const value = window.localStorage.getItem(`#${sanitizedName}`);
         if (!!value) {
             const parsedValue = JSON.parse(value);
@@ -3505,14 +3511,23 @@ class LocalStorageManager {
         }
         return null;
     }
-    static remove(name) {
-        const sanitizedName = LocalStorageManager.sanitizeName(name);
+    remove(name) {
+        const sanitizedName = this.sanitizeName(name);
         window.localStorage.removeItem(`#${sanitizedName}`);
+        this.storageSub.next('changed');
     }
-    static sanitizeName(name) {
+    sanitizeName(name) {
         return name.trim().replace(/\s/gi, '_').replace(/[^\w\s]/gi, '').toUpperCase();
     }
 }
+LocalStorageManager.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: LocalStorageManager, deps: [], target: i0.ɵɵFactoryTarget.Injectable });
+LocalStorageManager.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: LocalStorageManager, providedIn: 'root' });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: LocalStorageManager, decorators: [{
+            type: Injectable,
+            args: [{
+                    providedIn: 'root'
+                }]
+        }] });
 
 function HttpLoaderFactory(http) {
     return new TranslateHttpLoader(http);
