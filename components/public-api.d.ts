@@ -46,3 +46,5 @@ export * from './lib/utils/convert-file';
 export * from './lib/utils/local-storage-manager';
 export * from './lib/i18n/i18n.config';
 export * from './lib/i18n/models/language-option.model';
+export * from './lib/utils/enums/storage';
+export * from './lib/utils/enums/theme';

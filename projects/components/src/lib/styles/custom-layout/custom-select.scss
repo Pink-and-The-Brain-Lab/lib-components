@@ -1,8 +1,7 @@
-@import "../variables";
 @import "../em";
 
 .custom-option {
-    color: $emphasis-high;
+    color: var(--emphasis-high);
     cursor: pointer;
 
     span {
@@ -11,7 +10,7 @@
     }
 
     &:hover {
-        background-color: $surface-1;
+        background-color: var(--surface-1);
     }
 
     &.first {
@@ -24,7 +23,7 @@
 }
 
 .divider {
-    background-color: $surface-4;
+    background-color: var(--surface-4);
     height: 1px;
     padding: 0 !important;
 }

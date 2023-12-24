@@ -2,12 +2,12 @@
 @import '@angular/cdk/overlay-prebuilt.css';
 input:-webkit-autofill {
   background-clip: text;
-  -webkit-text-fill-color: #7f858c;
+  -webkit-text-fill-color: var(--emphasis-low);
 }
 
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-  box-shadow: 0 3px 0 -1px #4e5463;
+  box-shadow: 0 3px 0 -1px var(--divider);
 }
 
 .row-form {
@@ -22,35 +22,35 @@ input:-webkit-autofill:active {
   width: 100%;
   padding: 10px 0;
   border: 0;
-  color: #7f858c;
-  box-shadow: 0 2px 0 -1px #4e5463;
+  color: var(--emphasis-low);
+  box-shadow: 0 2px 0 -1px var(--divider);
 }
 .row-form input:focus {
-  box-shadow: 0 3px 0 -1px #4e5463;
+  box-shadow: 0 3px 0 -1px var(--divider);
 }
 .row-form input.invalid {
-  box-shadow: 0 2px 0 -1px #ff5d4f;
+  box-shadow: 0 2px 0 -1px var(--st-red);
 }
 .row-form input.invalid:focus {
-  box-shadow: 0 3px 0 -1px #ff5d4f;
+  box-shadow: 0 3px 0 -1px var(--st-red);
 }
 .row-form input.success {
-  box-shadow: 0 2px 0 -1px #00cb5f;
+  box-shadow: 0 2px 0 -1px var(--st-green);
 }
 .row-form input.success:focus {
-  box-shadow: 0 3px 0 -1px #00cb5f;
+  box-shadow: 0 3px 0 -1px var(--st-green);
 }
 .row-form input.warning {
-  box-shadow: 0 2px 0 -1px #fec23a;
+  box-shadow: 0 2px 0 -1px var(--st-yellow);
 }
 .row-form input.warning:focus {
-  box-shadow: 0 3px 0 -1px #fec23a;
+  box-shadow: 0 3px 0 -1px var(--st-yellow);
 }
 .row-form input.info {
-  box-shadow: 0 2px 0 -1px #109cf1;
+  box-shadow: 0 2px 0 -1px var(--st-blue);
 }
 .row-form input.info:focus {
-  box-shadow: 0 3px 0 -1px #109cf1;
+  box-shadow: 0 3px 0 -1px var(--st-blue);
 }
 .row-form.right-icon input {
   padding-right: 30px;
@@ -61,20 +61,20 @@ input:-webkit-autofill:active {
   top: 11px;
 }
 .row-form.right-icon i.invalid {
-  color: #ff5d4f;
+  color: var(--st-red);
 }
 .row-form.right-icon i.success {
-  color: #00cb5f;
+  color: var(--st-green);
 }
 .row-form.right-icon i.warning {
-  color: #fec23a;
+  color: var(--st-yellow);
 }
 .row-form.right-icon i.info {
-  color: #109cf1;
+  color: var(--st-blue);
 }
 .row-form label {
   font-size: 0.875em;
-  color: #7f858c;
+  color: var(--emphasis-low);
   text-align: left;
   display: block;
   position: absolute;
@@ -92,7 +92,7 @@ input:-webkit-autofill:active {
   position: absolute;
   left: 2px;
   bottom: -15px;
-  color: #ff5d4f;
+  color: var(--st-red);
   text-align: left;
 }
 
@@ -1148,7 +1148,7 @@ h2 {
 }
 
 .custom-option {
-  color: #dfdfdf;
+  color: var(--emphasis-high);
   cursor: pointer;
 }
 .custom-option span {
@@ -1156,7 +1156,7 @@ h2 {
   padding: 4px 8px;
 }
 .custom-option:hover {
-  background-color: #6c717d;
+  background-color: var(--surface-1);
 }
 .custom-option.first {
   border-radius: 8px 8px 0 0;
@@ -1166,7 +1166,7 @@ h2 {
 }
 
 .divider {
-  background-color: #262930;
+  background-color: var(--surface-4);
   height: 1px;
   padding: 0 !important;
 }
@@ -1183,14 +1183,14 @@ h2 {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
   border-radius: 8px;
   overflow: auto;
-  background-color: #444a58;
+  background-color: var(--surface-2);
 }
 
 html,
 body {
   height: 100vh;
   font-size: 1em;
-  background-color: #2f333d;
+  background-color: var(--main);
 }
 
 ul {
@@ -1210,12 +1210,12 @@ ul {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: rgba(111, 120, 140, 0.3);
+  background: var(--alpha-9);
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--alpha-10);
 }
 
 /*# sourceMappingURL=styles.css.map */

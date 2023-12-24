@@ -6,10 +6,10 @@ export class UserStatusBulletComponent {
     }
 }
 UserStatusBulletComponent.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: UserStatusBulletComponent, deps: [], target: i0.ɵɵFactoryTarget.Component });
-UserStatusBulletComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "15.1.2", type: UserStatusBulletComponent, selector: "cdk-user-status-bullet", inputs: { status: "status" }, ngImport: i0, template: "<div class=\"status w-100 h-100 status--{{ status }}\"></div>", styles: [":host{display:block;width:100%;height:100%}.status{border-radius:50%}.status--offline{background-color:#9e9e9e}.status--online{background-color:#00cb5f}.status--busy{background-color:#ff5d4f}.status--away{background-color:#ff8d23}\n"] });
+UserStatusBulletComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "15.1.2", type: UserStatusBulletComponent, selector: "cdk-user-status-bullet", inputs: { status: "status" }, ngImport: i0, template: "<div class=\"status w-100 h-100 status--{{ status }}\"></div>", styles: [":host{display:block;width:100%;height:100%}.status{border-radius:50%}.status--offline{background-color:var(---st-grey)}.status--online{background-color:var(--st-green)}.status--busy{background-color:var(--st-red)}.status--away{background-color:var(--st-orange)}\n"] });
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: UserStatusBulletComponent, decorators: [{
             type: Component,
-            args: [{ selector: 'cdk-user-status-bullet', template: "<div class=\"status w-100 h-100 status--{{ status }}\"></div>", styles: [":host{display:block;width:100%;height:100%}.status{border-radius:50%}.status--offline{background-color:#9e9e9e}.status--online{background-color:#00cb5f}.status--busy{background-color:#ff5d4f}.status--away{background-color:#ff8d23}\n"] }]
+            args: [{ selector: 'cdk-user-status-bullet', template: "<div class=\"status w-100 h-100 status--{{ status }}\"></div>", styles: [":host{display:block;width:100%;height:100%}.status{border-radius:50%}.status--offline{background-color:var(---st-grey)}.status--online{background-color:var(--st-green)}.status--busy{background-color:var(--st-red)}.status--away{background-color:var(--st-orange)}\n"] }]
         }], propDecorators: { status: [{
                 type: Input
             }] } });

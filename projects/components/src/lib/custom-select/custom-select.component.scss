@@ -1,4 +1,3 @@
-@import "../styles/variables";
 @import "../styles/em";
 
 @mixin validate-state($color) {
@@ -20,28 +19,28 @@
         position: absolute;
         right: 3px;
         top: 11px;
-        color: $emphasis-low;
+        color: var(--emphasis-low);
     }
 
     .has-left-icon {
         padding-left: 30px;
     }
 
-    @include validate-state($divider);
+    @include validate-state(var(--divider));
 
     &.invalid {
-        @include validate-state($st-red);
+        @include validate-state(var(--st-red));
     }
 
     &.success {
-        @include validate-state($st-green);
+        @include validate-state(var(--st-green));
     }
 
     &.warning {
-        @include validate-state($st-yellow);
+        @include validate-state(var(--st-yellow));
     }
 
     &.info {
-        @include validate-state($st-blue);
+        @include validate-state(var(--st-blue));
     }
 }

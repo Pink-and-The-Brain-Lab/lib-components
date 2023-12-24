@@ -1,4 +1,7 @@
 @import "variables";
+@import "custom-styles";
+@import '@angular/cdk/overlay-prebuilt.css';
+@import './overrides-styles/cdk-overlay';
 
 $colors: get_theme_colors("lightPurple", $custom-colors);
 $theme-custom: get_theme_colors("lightPurple", $theme-customs);

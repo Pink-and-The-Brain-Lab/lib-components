@@ -6,7 +6,7 @@ html,
 body {
     height: 100vh;
     font-size: to-em(16);
-    background-color: $main;
+    background-color: var(--main);
 }
 
 ul {
@@ -26,10 +26,10 @@ ul {
   
   /* Handle */
   ::-webkit-scrollbar-thumb {
-    background: $alpha-9;
+    background: var(--alpha-9);
   }
   
   /* Handle on hover */
   ::-webkit-scrollbar-thumb:hover {
-    background: $alpha-10;
+    background: var(--alpha-10);
   }

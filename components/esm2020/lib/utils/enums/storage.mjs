@@ -1,0 +1,7 @@
+export var Storage;
+(function (Storage) {
+    Storage["TOKEN"] = "token";
+    Storage["LANGUAGE_OPTIONS"] = "languageOptions";
+    Storage["SELECTED_LAGUAGE"] = "selectedLaguage";
+})(Storage || (Storage = {}));
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoic3RvcmFnZS5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uLy4uL3Byb2plY3RzL2NvbXBvbmVudHMvc3JjL2xpYi91dGlscy9lbnVtcy9zdG9yYWdlLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBLE1BQU0sQ0FBTixJQUFZLE9BSVg7QUFKRCxXQUFZLE9BQU87SUFDZiwwQkFBZSxDQUFBO0lBQ2YsK0NBQW9DLENBQUE7SUFDcEMsK0NBQW9DLENBQUE7QUFDeEMsQ0FBQyxFQUpXLE9BQU8sS0FBUCxPQUFPLFFBSWxCIiwic291cmNlc0NvbnRlbnQiOlsiZXhwb3J0IGVudW0gU3RvcmFnZSB7XHJcbiAgICBUT0tFTiA9ICd0b2tlbicsXHJcbiAgICBMQU5HVUFHRV9PUFRJT05TID0gJ2xhbmd1YWdlT3B0aW9ucycsXHJcbiAgICBTRUxFQ1RFRF9MQUdVQUdFID0gJ3NlbGVjdGVkTGFndWFnZScsXHJcbn1cclxuIl19
