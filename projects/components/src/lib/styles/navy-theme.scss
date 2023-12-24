@@ -1,0 +1,6 @@
+@import "variables";
+
+$colors: get_theme_colors("navy", $custom-colors);
+$theme-custom: get_theme_colors("navy", $theme-customs);
+$theme-gradients: get_theme_colors("navy", $theme-gradients);
+$theme-backgrounds: get_theme_colors("navy", $theme-backgrounds);

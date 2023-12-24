@@ -1,3 +1,6 @@
-// @import "variables";
+@import "variables";
 
-// $colors: get_theme_colors("dark", $custom-colors);
+$colors: get_theme_colors("dark", $custom-colors);
+$theme-custom: get_theme_colors("dark", $theme-customs);
+$theme-gradients: get_theme_colors("dark", $theme-gradients);
+$theme-backgrounds: get_theme_colors("dark", $theme-backgrounds);

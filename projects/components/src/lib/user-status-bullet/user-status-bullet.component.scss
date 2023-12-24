@@ -1,5 +1,10 @@
 @import "../styles/variables";
 
+$st-grey: map-get(map-get($custom-colors, st-grey), dark);
+$st-green: map-get(map-get($custom-colors, st-green), dark);
+$st-red: map-get(map-get($custom-colors, st-red), dark);
+$st-orange: map-get(map-get($custom-colors, st-orange), dark);
+
 :host {
     display: block;
     width: 100%;
