@@ -1,0 +1,3 @@
+@each $color, $colors in $colors {
+  --#{$color}: #{$colors};
+}

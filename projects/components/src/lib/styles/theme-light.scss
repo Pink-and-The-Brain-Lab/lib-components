@@ -1,6 +1,4 @@
 @import "variables";
-
 $colors: get_theme_colors("light", $custom-colors);
-$theme-custom: get_theme_colors("light", $theme-customs);
-$theme-gradients: get_theme_colors("light", $theme-gradients);
-$theme-backgrounds: get_theme_colors("light", $theme-backgrounds);
+@import "overrides-styles/bootstrap-override";
+@import "overrides-styles/build-colors.scss";
