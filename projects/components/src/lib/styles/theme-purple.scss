@@ -1,4 +1,12 @@
 @import "variables";
 $colors: get_theme_colors("purple", $custom-colors);
-@import "overrides-styles/bootstrap-override";
-@import "overrides-styles/build-colors.scss";
+
+:root {
+    @each $color, $colors in $custom-colors {
+        --bs-#{$color}: #{$colors};
+    }
+
+    @each $color, $colors in $colors {
+        --#{$color}: #{$colors};
+    }
+}

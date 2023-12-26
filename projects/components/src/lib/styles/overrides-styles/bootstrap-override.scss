@@ -1,5 +1,0 @@
-:root {
-  @each $color, $colors in $custom-colors {
-    --bs-#{$color}: #{$colors};
-  }
-}
