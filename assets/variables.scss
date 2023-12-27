@@ -1,3 +1,5 @@
+@use "sass:map";
+
 $custom-colors: (
     "white": (
         "dark": #ffffff,
@@ -203,37 +205,14 @@ $custom-colors: (
         "purple": #7b6083,
     ),
 
-    // PRESET colors
-);
-
-// PRESET colors
-// $indigo: #7A87CC;
-// $purple2: #9D7CDC;
-// $purple: #BA69C9;
-// $pink: #F06291;
-// $red: #E9787A;
-// $orange2: #FF8D5B;
-// $orange: #FFA826;
-// $yellow: #F3D457;
-// $green3: #C7D048;
-// $green2: #9CCB63;
-// $green: #72C392;
-// $teal2: #4FCFD7;
-// $teal1: #7CDFE6;
-// $blue: #5CB1FF;
-// $blue2: #43C0FF;
-// $brown: #8D6E62;
-
-$theme-gradients: (
+    
     // to create gradient colors when necessary
-);
-
-$theme-backgrounds: (
+    
     // to create theme backgorund colors when necessary
-);
 
-$theme-customs: (
     // to create theme customs colors when necessary
+
+    // PRESET colors
 );
 
 
@@ -242,13 +221,13 @@ $theme-customs: (
     $set: ();
 
     @each $theme, $color in $colors {
-        $set: map_merge(
+        $set: map.merge(
                 $set,
                 ( $theme: rgba($color, .3) ),
             )
     }
 
-    $custom-colors: map_merge( $custom-colors, (#{$color}-alpha: $set) );
+    $custom-colors: map.merge( $custom-colors, (#{$color}-alpha: $set) );
 }
 
 @each $color, $colors in $custom-colors {
@@ -257,13 +236,13 @@ $theme-customs: (
     @if (str-index($color, 'invers') !=null) {
         @for $i from 0 through 10 {
             @each $theme, $color in $colors {
-                $set: map_merge(
+                $set: map.merge(
                         $set,
                         ( $theme: rgba($color, ($i / 10)) ),
                     );
             }
 
-            $custom-colors: map_merge(
+            $custom-colors: map.merge(
                     $custom-colors,
                     ( #{$color}-alpha-#{$i * 10}: $set)
                 );
@@ -274,12 +253,14 @@ $theme-customs: (
 @function get_theme_colors($theme, $map) {
     $colors: ();
     @each $color, $themes in $map {
-      $colors: map_merge(
+        
+      $colors: map.merge(
         $colors,
         (
-          $color: map_get($themes, $theme),
+          $color: map.get($themes, $theme),
         )
       );
     }
+
     @return $colors;
   }

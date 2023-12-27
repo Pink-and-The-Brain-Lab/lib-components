@@ -1,7 +1,7 @@
 import * as i0 from '@angular/core';
 import { Component, Input, NgModule, Directive, Optional, forwardRef, HostListener, EventEmitter, Output, Host, TemplateRef, ContentChild, Injectable, QueryList, ViewChildren, ViewChild, InjectionToken, Inject, Injector, ViewContainerRef, inject } from '@angular/core';
 import * as i1 from '@angular/common';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DOCUMENT } from '@angular/common';
 import * as i1$1 from '@angular/cdk/overlay';
 import { OverlayConfig, OverlayModule, OverlayContainer, FullscreenOverlayContainer } from '@angular/cdk/overlay';
 import { TemplatePortal, ComponentPortal, PortalModule } from '@angular/cdk/portal';
@@ -3559,6 +3559,7 @@ var Storage;
     Storage["TOKEN"] = "token";
     Storage["LANGUAGE_OPTIONS"] = "languageOptions";
     Storage["SELECTED_LAGUAGE"] = "selectedLaguage";
+    Storage["SELECTED_THEME"] = "selectedTheme";
 })(Storage || (Storage = {}));
 
 var Theme;
@@ -3570,6 +3571,35 @@ var Theme;
     Theme["PURPLE"] = "purple";
 })(Theme || (Theme = {}));
 
+class ThemeChangerService {
+    constructor() {
+        this.document = inject(DOCUMENT);
+    }
+    loadTheme(theme) {
+        const cssFileTheme = `${theme}.css`;
+        const cssLinkElement = this.document.getElementById('client-theme');
+        if (cssLinkElement) {
+            cssLinkElement.href = cssFileTheme;
+            return;
+        }
+        const headElement = this.document.getElementsByTagName('head')[0];
+        const newCssLinkElement = this.document.createElement('link');
+        newCssLinkElement.id = 'client-theme';
+        newCssLinkElement.type = 'text/css';
+        newCssLinkElement.rel = 'stylesheet';
+        newCssLinkElement.href = cssFileTheme;
+        headElement.appendChild(newCssLinkElement);
+    }
+}
+ThemeChangerService.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: ThemeChangerService, deps: [], target: i0.ɵɵFactoryTarget.Injectable });
+ThemeChangerService.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: ThemeChangerService, providedIn: 'root' });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: ThemeChangerService, decorators: [{
+            type: Injectable,
+            args: [{
+                    providedIn: 'root'
+                }]
+        }] });
+
 /*
  * Public API Surface of components
  */
@@ -3578,5 +3608,5 @@ var Theme;
  * Generated bundle index. Do not edit.
  */
 
-export { AvatarComponent, AvatarModule, CheckboxComponent, CheckboxModule, ChoseImageComponent, ChoseImageModule, CodeValidationComponent, CodeValidationModule, ColorSelectorComponent, ColorSelectorModule, CreatePasswordComponent, CreatePasswordModule, CropperComponent, CropperModule, CustomSelectComponent, CustomSelectModule, HttpLoaderFactory, I18N_CONFIG, InputValidationDirective, InputValidationModule, LoadingButtonDirective, LoadingButtonModule, LocalStorageManager, LogoComponent, LogoModule, ModalComponent, ModalModule, ModalOverlayRef, ModalService, PasswordValidationDirective, PasswordValidationModule, PhoneNumberComponent, PhoneNumberModule, PopoverDirective, PopoverModule, ProfilePreviewComponent, ProfilePreviewModule, RadioButtonComponent, RadioButtonModule, RangeComponent, RangeModule, SpinnerComponent, SpinnerModule, Storage, Theme, ToogleComponent, ToogleModule, UserStatusBulletComponent, UserStatusBulletModule, convertoToBlobURL };
+export { AvatarComponent, AvatarModule, CheckboxComponent, CheckboxModule, ChoseImageComponent, ChoseImageModule, CodeValidationComponent, CodeValidationModule, ColorSelectorComponent, ColorSelectorModule, CreatePasswordComponent, CreatePasswordModule, CropperComponent, CropperModule, CustomSelectComponent, CustomSelectModule, HttpLoaderFactory, I18N_CONFIG, InputValidationDirective, InputValidationModule, LoadingButtonDirective, LoadingButtonModule, LocalStorageManager, LogoComponent, LogoModule, ModalComponent, ModalModule, ModalOverlayRef, ModalService, PasswordValidationDirective, PasswordValidationModule, PhoneNumberComponent, PhoneNumberModule, PopoverDirective, PopoverModule, ProfilePreviewComponent, ProfilePreviewModule, RadioButtonComponent, RadioButtonModule, RangeComponent, RangeModule, SpinnerComponent, SpinnerModule, Storage, Theme, ThemeChangerService, ToogleComponent, ToogleModule, UserStatusBulletComponent, UserStatusBulletModule, convertoToBlobURL };
 //# sourceMappingURL=components.mjs.map

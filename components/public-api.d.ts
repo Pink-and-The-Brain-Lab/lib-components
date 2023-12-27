@@ -48,3 +48,4 @@ export * from './lib/i18n/i18n.config';
 export * from './lib/i18n/models/language-option.model';
 export * from './lib/utils/enums/storage';
 export * from './lib/utils/enums/theme';
+export * from './lib/services/theme-changer.service';
