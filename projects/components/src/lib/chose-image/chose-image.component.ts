@@ -1,5 +1,5 @@
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { convertoToBlobURL } from '../utils/convert-file';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, inject } from '@angular/core';
+import { FileConversor } from '../utils/convert-file';
 
 @Component({
   selector: 'cdk-chose-image',
@@ -13,6 +13,8 @@ export class ChoseImageComponent {
   @Output() imageFile = new EventEmitter<string>();
   @ViewChild('inputFile') inputFile: ElementRef = {} as ElementRef;
 
+  private readonly fileConversor = inject(FileConversor);
+
   selectFile() {
     this.inputFile.nativeElement.click();
   }
@@ -21,7 +23,7 @@ export class ChoseImageComponent {
     const target = event.target as HTMLInputElement;
     if (target.files?.length) {
       const image = target.files[0];
-      convertoToBlobURL(image).then(
+      this.fileConversor.convertoToBlobURL(image).then(
         response => this.imageFile.emit(response as string)
       );
     }

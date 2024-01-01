@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { ChoseImageComponent } from './chose-image.component';
 
 describe('ChoseImageComponent', () => {
@@ -21,20 +21,21 @@ describe('ChoseImageComponent', () => {
   });
 
   it('should trigger input file click', () => {
-    const spy = jest.spyOn(component.inputFile.nativeElement, 'click');
+    const spy = spyOn(component.inputFile.nativeElement, 'click');
     component.selectFile();
     expect(spy).toHaveBeenCalled();
   });
 
-  it('should get a file and convert into blob url', () => {
-    const spy = jest.spyOn(component.imageFile, 'emit');
+  it('should get a file and convert into blob url', (done) => {
+    const spyFileConversor = spyOn(component['fileConversor'], 'convertoToBlobURL').and.returnValue(Promise.resolve(''));
+    const spy = spyOn(component.imageFile, 'emit');
     const event = {
       target: { files: [ new File([], 'file') ] }
     } as unknown as Event;
     component.getFile(event);
-    setTimeout(() => {
-      expect(spy).toHaveBeenCalled(); 
-    }, 100);
-    jest.useFakeTimers();
+    spyFileConversor.calls.mostRecent().returnValue.then(() => {
+      expect(spy).toHaveBeenCalled();
+      done();
+    });
   });
 });

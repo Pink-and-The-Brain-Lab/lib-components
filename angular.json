@@ -116,8 +116,9 @@
             "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
-            "assets": ["src/favicon.ico", "src/assets"],
+            "assets": ["src/favicon.ico", "src/assets"],  
             "styles": ["src/styles.scss"],
+            "codeCoverage": true,
             "scripts": []
           }
         }
@@ -148,6 +149,7 @@
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
             "tsConfig": "projects/components/tsconfig.spec.json",
+            "codeCoverage": true,
             "polyfills": ["zone.js", "zone.js/testing"]
           }
         }

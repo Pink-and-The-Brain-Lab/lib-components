@@ -4,7 +4,7 @@ import { Observable, Subject } from "rxjs";
 @Injectable({
     providedIn: 'root'
 })
-export abstract class LocalStorageManager {
+export class LocalStorageManager {
 
     private storageSub = new Subject<string>();
 
