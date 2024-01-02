@@ -1,9 +1,9 @@
 import { SimpleChanges } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { PopoverModule } from '@app/_cdk/directives/popover/popover.module';
 import { ICountry } from '../phone-number/model/country.interface';
 import { CustomSelectComponent } from './custom-select.component';
+import { PopoverModule } from '../popover/popover.module';
 
 const mockOptions: ICountry[] = [{
   name: 'Brasil',
@@ -37,13 +37,13 @@ describe('CustomSelectComponent', () => {
   });
 
   it('should call filter options on application initiation', () => {
-    const spy = jest.spyOn(component, 'filterOptions');
+    const spy = spyOn(component, 'filterOptions');
     component.ngOnInit();
-    expect(spy).toBeCalled();
+    expect(spy).toHaveBeenCalled();
   });
 
   it('should call filter options on application inputs changes', () => {
-    const spy = jest.spyOn(component, 'filterOptions');
+    const spy = spyOn(component, 'filterOptions');
     const simpleChangesMock: SimpleChanges = {
       selectedOption: {
         firstChange: false,
@@ -53,7 +53,7 @@ describe('CustomSelectComponent', () => {
       }
     }
     component.ngOnChanges(simpleChangesMock);
-    expect(spy).toBeCalled();
+    expect(spy).toHaveBeenCalled();
   });
 
   it('should filter options and input select option', () => {
@@ -61,7 +61,7 @@ describe('CustomSelectComponent', () => {
     component.modelProperty = 'name';
     component.filterOptions();
     const inputValue = component.formGroup.controls.input.value;
-    expect(inputValue).toEqual(mockOptions[0].name);
+    expect(inputValue).toEqual(mockOptions[0].name as any);
   });
 
   it('should close popover', () => {
@@ -70,13 +70,13 @@ describe('CustomSelectComponent', () => {
   });
 
   it('should get option', () => {
-    const spy = jest.spyOn(component.valueChanges, 'emit');
+    const spy = spyOn(component.valueChanges, 'emit');
     component.modelProperty = 'name';
     component.getOption(mockOptions[0]);
     const inputValue = component.formGroup.controls.input.value;
-    expect(spy).toBeCalledWith(mockOptions[0]);
+    expect(spy).toHaveBeenCalledWith(mockOptions[0] as any);
     expect(component.selectedOption).toEqual(mockOptions[0]);
-    expect(inputValue).toEqual(mockOptions[0].name);
+    expect(inputValue).toEqual(mockOptions[0].name as any);
     expect(component.showOptions).toBeFalsy();
   });
 });
