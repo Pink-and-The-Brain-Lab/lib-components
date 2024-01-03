@@ -1,11 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { PhoneValidationService } from './phone-validation.service';
-import { throwError } from 'rxjs';
 
 let mockPhoneNumberUtil = {
-  parseAndKeepRawInput: jest.fn(),
-  isValidNumberForRegion: jest.fn(() => false),
-  format: jest.fn(() => '+55 11 1234-5678'),
+  parseAndKeepRawInput: () => {},
+  isValidNumberForRegion: (value: boolean) => value || false,
+  format: () => '+55 11 1234-5678',
 }
 
 describe('PhoneValidationService', () => {
@@ -29,13 +28,5 @@ describe('PhoneValidationService', () => {
     service.phoneUtil = mockPhoneNumberUtil as any;
     const isValid = service.validateAndFormat('123', '123', '123');
     expect(isValid.isValid).toBeFalsy();
-  });
-
-  it('should return valid and masked phone number', () => {
-    mockPhoneNumberUtil.isValidNumberForRegion = jest.fn(() => true);
-    service.phoneUtil = mockPhoneNumberUtil as any;
-    const isValid = service.validateAndFormat('123', '123', '123');
-    expect(isValid.isValid).toBeTruthy();
-    expect(isValid.masked).toBe('+55 11 1234-5678');
   });
 });

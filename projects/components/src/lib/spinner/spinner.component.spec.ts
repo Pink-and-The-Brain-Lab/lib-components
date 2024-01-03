@@ -17,7 +17,7 @@ describe('SpinnerComponent', () => {
       ],
       providers: [{
         provide: LoadingButtonDirective,
-        useValue: jest.fn()
+        useValue: {}
       }]
     })
     .compileComponents();

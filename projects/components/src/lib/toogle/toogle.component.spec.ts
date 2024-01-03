@@ -25,17 +25,17 @@ describe('ToogleComponent', () => {
   });
 
   it('should toogle component value', () => {
-    jest.spyOn(component.toogleEvent, 'emit');
+    spyOn(component.toogleEvent, 'emit');
     component.toogle();
     expect(component.toogleControl).toBeTruthy();
-    expect(component.toogleEvent.emit).toBeCalled();
+    expect(component.toogleEvent.emit).toHaveBeenCalled();
   });
 
   it('should not toogle component value when is disabled', () => {
-    jest.spyOn(component.toogleEvent, 'emit');
+    spyOn(component.toogleEvent, 'emit');
     component.disabled = true;
     component.toogle();
     expect(component.toogleControl).toBeFalsy();
-    expect(component.toogleEvent.emit).not.toBeCalled();
+    expect(component.toogleEvent.emit).not.toHaveBeenCalled();
   });
 });
