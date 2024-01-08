@@ -1,5 +1,6 @@
 import { DOCUMENT } from "@angular/common";
 import { Injectable, inject } from "@angular/core";
+import { Theme } from "../../public-api";
 
 @Injectable({
     providedIn: 'root'
@@ -8,7 +9,7 @@ export class ThemeChangerService {
 
     private readonly document = inject(DOCUMENT);
 
-    public loadTheme(theme: string) {
+    public loadTheme(theme: Theme) {
         const cssFileTheme = `${theme}.css`;
         const cssLinkElement = this.document.getElementById('client-theme') as HTMLLinkElement;
 
@@ -17,12 +18,11 @@ export class ThemeChangerService {
             return;
         }
 
-        const headElement = this.document.getElementsByTagName('head')[0];
         const newCssLinkElement = this.document.createElement('link');
         newCssLinkElement.id = 'client-theme';
         newCssLinkElement.type = 'text/css';
         newCssLinkElement.rel = 'stylesheet';
         newCssLinkElement.href = cssFileTheme as string;
-        headElement.appendChild(newCssLinkElement);
+        this.document.head?.appendChild(newCssLinkElement);
     }
 }
