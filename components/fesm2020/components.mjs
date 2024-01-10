@@ -1,5 +1,5 @@
 import * as i0 from '@angular/core';
-import { Component, Input, NgModule, Directive, Optional, forwardRef, HostListener, EventEmitter, Output, Host, TemplateRef, ContentChild, Injectable, QueryList, ViewChildren, ViewChild, InjectionToken, Inject, Injector, ViewContainerRef, inject } from '@angular/core';
+import { Component, Input, NgModule, Directive, Optional, forwardRef, HostListener, EventEmitter, Output, Host, TemplateRef, ContentChild, Injectable, QueryList, ViewChildren, inject, ViewChild, InjectionToken, Inject, Injector, ViewContainerRef } from '@angular/core';
 import * as i1 from '@angular/common';
 import { CommonModule, DOCUMENT } from '@angular/common';
 import * as i1$1 from '@angular/cdk/overlay';
@@ -15,7 +15,7 @@ import { ImageCropperComponent, ImageCropperModule } from 'ngx-image-cropper';
 import * as i4 from 'ng2-tooltip-directive';
 import { TooltipModule } from 'ng2-tooltip-directive';
 import * as i5 from '@ngx-translate/core';
-import { TranslateService, TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
@@ -2496,6 +2496,10 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImpor
 class PhoneNumberComponent {
     constructor(phoneValidationService) {
         this.phoneValidationService = phoneValidationService;
+        this.labelPhoneNumberValidation = 'Phone number is invalid';
+        this.phoneValidated = false;
+        this.phoneAvailable = false;
+        this.isLoading = false;
         this.validationPhoneEvent = new EventEmitter();
         this.isValidPhoneNumber = () => {
             return (control) => {
@@ -2520,11 +2524,7 @@ class PhoneNumberComponent {
         };
         this.options = [];
         this.selectedOption = new Country();
-        this.phoneValidated = false;
-        this.phoneAvailable = false;
-        this.isLoading = false;
         this.verifiedPhoneNumber = '';
-        this.labelPhoneNumberValidation = 'Phone number is invalid';
         this.formGroup = new FormGroup({
             phoneNumber: new FormControl('', [Validators.required, this.isValidPhoneNumber()])
         });
@@ -2553,30 +2553,24 @@ class PhoneNumberComponent {
         if (!hasEqualsDialCode)
             this.selectedOption = new Country(countries[0].name, countries[0].dial_code, countries[0].code, countries[0].latitude, countries[0].longitude);
     }
-    verifyPhoneNumber() {
-        this.isLoading = true;
-        setTimeout(() => {
-            this.isLoading = false;
-            this.phoneValidated = true;
-            this.phoneAvailable = true;
-            this.verifiedPhoneNumber = this.phoneNumber.value;
-            this.validationPhoneEvent.emit(this.phoneAvailable);
-            // EXEMPLO DE ERRO NA VALIDAÇÃO DO TELEFONE
-            // this.phoneAvailable = false;
-            // this.labelPhoneNumberValidation = 'Phone number unvailable';
-            // this.phoneNumber.setErrors({ isInvalidPhoneNumber: true });
-        }, 3000);
-    }
     get phoneNumber() {
         return this.formGroup.controls.phoneNumber;
     }
 }
 PhoneNumberComponent.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: PhoneNumberComponent, deps: [{ token: PhoneValidationService }], target: i0.ɵɵFactoryTarget.Component });
-PhoneNumberComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "15.1.2", type: PhoneNumberComponent, selector: "cdk-phone-number", outputs: { validationPhoneEvent: "validationPhoneEvent" }, ngImport: i0, template: "<form [formGroup]=\"formGroup\" class=\"d-flex flex-column\" (submit)=\"verifyPhoneNumber()\">\r\n  <div class=\"d-flex justify-content-between\">\r\n    <div class=\"row-form mt-0 flex-grow-0\">\r\n      <cdk-custom-select\r\n        placeholder=\"\"\r\n        modelProperty=\"dial_code\"\r\n        label=\"code\"\r\n        [options]=\"options\"\r\n        [selectedOption]=\"selectedOption\"\r\n        [isValid]=\"phoneNumber && phoneNumber.touched && !phoneNumber.errors\"\r\n        (valueChanges)=\"getSelectedCountry($event)\"\r\n        [hasLeftIcon]=\"true\"\r\n        [hasDivider]=\"true\"\r\n        class=\"me-3 d-block\"\r\n      >\r\n        <ng-template #customTemplate let-item let-index let-_index=\"index\">\r\n          <span>\r\n            <i class=\"me-2 flag-icon flag-icon-{{ item?.flag }}\"></i>\r\n            ({{ item?.dial_code }}) {{ item?.name }}\r\n          </span>\r\n\r\n          <span aria-hidden=\"true\" *ngIf=\"_index === 1\" class=\"divider\"></span>\r\n        </ng-template>\r\n\r\n        <ng-template #selectedTemplate let-item>\r\n          <i class=\"me-2 flag-icon flag-icon-{{ item?.flag }}\"></i>\r\n        </ng-template>\r\n      </cdk-custom-select>\r\n    </div>\r\n\r\n    <div class=\"row-form position-relative flex-grow-1 w-100\">\r\n      <input\r\n        type=\"text\"\r\n        id=\"phoneNumber\"\r\n        formControlName=\"phoneNumber\"\r\n        cdkInputValidation\r\n        [class.validated]=\"phoneValidated\"\r\n      />\r\n      <label for=\"phoneNumber\">Phone number</label>\r\n\r\n      <small *ngIf=\"phoneNumber && phoneNumber.touched && phoneNumber.errors\">\r\n        <span *ngIf=\"phoneNumber && phoneNumber.errors['required']\">Phone number is required</span>\r\n        <span *ngIf=\"phoneNumber && phoneNumber.value.length && phoneNumber.errors['isInvalidPhoneNumber']\">{{ labelPhoneNumberValidation }}</span>\r\n      </small>\r\n\r\n      <span class=\"validation-icon\">\r\n        <i class=\"bi bi-check2 check\" *ngIf=\"phoneValidated && phoneAvailable\"></i>\r\n        <i class=\"bi bi-x-lg error\" *ngIf=\"phoneValidated && !phoneAvailable\"></i>\r\n      </span>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"d-flex justify-content-end mt-3\">\r\n    <button type=\"submit\" class=\"btn btn-dark\" [disabled]=\"!phoneNumber.value.length || phoneNumber.errors\" [cdkLoadingButton]=\"isLoading\" *ngIf=\"!phoneValidated || !phoneAvailable\">\r\n      <cdk-spinner>Verify Phone</cdk-spinner>\r\n    </button>\r\n    <button type=\"button\" class=\"btn btn-outline-success\" disabled *ngIf=\"phoneValidated && phoneAvailable\">Phone Verified</button>\r\n  </div>\r\n\r\n</form>\r\n", styles: ["form{width:100%;max-width:500px}form cdk-custom-select{width:90px}form input.validated{padding-right:30px}form .validation-icon{position:absolute;top:11px;right:3px}form .validation-icon .check{color:var(--st-green)}form .validation-icon .error{color:var(--st-red)}\n"], dependencies: [{ kind: "directive", type: i1.NgIf, selector: "[ngIf]", inputs: ["ngIf", "ngIfThen", "ngIfElse"] }, { kind: "component", type: CustomSelectComponent, selector: "cdk-custom-select", inputs: ["options", "placeholder", "modelProperty", "label", "selectedOption", "isValid", "hasLeftIcon", "hasDivider"], outputs: ["valueChanges"] }, { kind: "directive", type: i1$2.ɵNgNoValidate, selector: "form:not([ngNoForm]):not([ngNativeValidate])" }, { kind: "directive", type: i1$2.DefaultValueAccessor, selector: "input:not([type=checkbox])[formControlName],textarea[formControlName],input:not([type=checkbox])[formControl],textarea[formControl],input:not([type=checkbox])[ngModel],textarea[ngModel],[ngDefaultControl]" }, { kind: "directive", type: i1$2.NgControlStatus, selector: "[formControlName],[ngModel],[formControl]" }, { kind: "directive", type: i1$2.NgControlStatusGroup, selector: "[formGroupName],[formArrayName],[ngModelGroup],[formGroup],form:not([ngNoForm]),[ngForm]" }, { kind: "directive", type: i1$2.FormGroupDirective, selector: "[formGroup]", inputs: ["formGroup"], outputs: ["ngSubmit"], exportAs: ["ngForm"] }, { kind: "directive", type: i1$2.FormControlName, selector: "[formControlName]", inputs: ["formControlName", "disabled", "ngModel"], outputs: ["ngModelChange"] }, { kind: "directive", type: InputValidationDirective, selector: "[cdkInputValidation]" }, { kind: "directive", type: LoadingButtonDirective, selector: "[cdkLoadingButton]", inputs: ["cdkLoadingButton"] }, { kind: "component", type: SpinnerComponent, selector: "cdk-spinner" }] });
+PhoneNumberComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "15.1.2", type: PhoneNumberComponent, selector: "cdk-phone-number", inputs: { labelPhoneNumberValidation: "labelPhoneNumberValidation", phoneValidated: "phoneValidated", phoneAvailable: "phoneAvailable", isLoading: "isLoading" }, outputs: { validationPhoneEvent: "validationPhoneEvent" }, ngImport: i0, template: "<form [formGroup]=\"formGroup\" class=\"d-flex flex-column\">\r\n  <div class=\"d-flex justify-content-between\">\r\n    <div class=\"row-form mt-0 flex-grow-0\">\r\n      <cdk-custom-select\r\n        placeholder=\"\"\r\n        modelProperty=\"dial_code\"\r\n        label=\"code\"\r\n        [options]=\"options\"\r\n        [selectedOption]=\"selectedOption\"\r\n        [isValid]=\"phoneNumber && phoneNumber.touched && !phoneNumber.errors\"\r\n        (valueChanges)=\"getSelectedCountry($event)\"\r\n        [hasLeftIcon]=\"true\"\r\n        [hasDivider]=\"true\"\r\n        class=\"me-3 d-block\"\r\n      >\r\n        <ng-template #customTemplate let-item let-index let-_index=\"index\">\r\n          <span>\r\n            <i class=\"me-2 flag-icon flag-icon-{{ item?.flag }}\"></i>\r\n            ({{ item?.dial_code }}) {{ item?.name }}\r\n          </span>\r\n\r\n          <span aria-hidden=\"true\" *ngIf=\"_index === 1\" class=\"divider\"></span>\r\n        </ng-template>\r\n\r\n        <ng-template #selectedTemplate let-item>\r\n          <i class=\"me-2 flag-icon flag-icon-{{ item?.flag }}\"></i>\r\n        </ng-template>\r\n      </cdk-custom-select>\r\n    </div>\r\n\r\n    <div class=\"row-form position-relative flex-grow-1 w-100\">\r\n      <input\r\n        type=\"text\"\r\n        id=\"phoneNumber\"\r\n        formControlName=\"phoneNumber\"\r\n        cdkInputValidation\r\n        [class.validated]=\"phoneValidated\"\r\n      />\r\n      <label for=\"phoneNumber\">Phone number</label>\r\n\r\n      <small *ngIf=\"phoneNumber && phoneNumber.touched && phoneNumber.errors\">\r\n        <span *ngIf=\"phoneNumber && phoneNumber.errors['required']\">Phone number is required</span>\r\n        <span *ngIf=\"phoneNumber && phoneNumber.value.length && phoneNumber.errors['isInvalidPhoneNumber']\">{{ labelPhoneNumberValidation }}</span>\r\n      </small>\r\n\r\n      <span class=\"validation-icon\">\r\n        <i class=\"bi bi-check2 check\" *ngIf=\"phoneValidated && phoneAvailable\"></i>\r\n        <i class=\"bi bi-x-lg error\" *ngIf=\"phoneValidated && !phoneAvailable\"></i>\r\n      </span>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"d-flex justify-content-end mt-3\">\r\n    <button type=\"submit\" class=\"btn btn-dark\" [disabled]=\"!phoneNumber.value.length || phoneNumber.errors\" [cdkLoadingButton]=\"isLoading\" *ngIf=\"!phoneValidated || !phoneAvailable\">\r\n      <cdk-spinner>Verify Phone</cdk-spinner>\r\n    </button>\r\n    <button type=\"button\" class=\"btn btn-outline-success\" disabled *ngIf=\"phoneValidated && phoneAvailable\">Phone Verified</button>\r\n  </div>\r\n\r\n</form>\r\n", styles: ["form{width:100%;max-width:500px}form cdk-custom-select{width:90px}form input.validated{padding-right:30px}form .validation-icon{position:absolute;top:11px;right:3px}form .validation-icon .check{color:var(--st-green)}form .validation-icon .error{color:var(--st-red)}\n"], dependencies: [{ kind: "directive", type: i1.NgIf, selector: "[ngIf]", inputs: ["ngIf", "ngIfThen", "ngIfElse"] }, { kind: "component", type: CustomSelectComponent, selector: "cdk-custom-select", inputs: ["options", "placeholder", "modelProperty", "label", "selectedOption", "isValid", "hasLeftIcon", "hasDivider"], outputs: ["valueChanges"] }, { kind: "directive", type: i1$2.ɵNgNoValidate, selector: "form:not([ngNoForm]):not([ngNativeValidate])" }, { kind: "directive", type: i1$2.DefaultValueAccessor, selector: "input:not([type=checkbox])[formControlName],textarea[formControlName],input:not([type=checkbox])[formControl],textarea[formControl],input:not([type=checkbox])[ngModel],textarea[ngModel],[ngDefaultControl]" }, { kind: "directive", type: i1$2.NgControlStatus, selector: "[formControlName],[ngModel],[formControl]" }, { kind: "directive", type: i1$2.NgControlStatusGroup, selector: "[formGroupName],[formArrayName],[ngModelGroup],[formGroup],form:not([ngNoForm]),[ngForm]" }, { kind: "directive", type: i1$2.FormGroupDirective, selector: "[formGroup]", inputs: ["formGroup"], outputs: ["ngSubmit"], exportAs: ["ngForm"] }, { kind: "directive", type: i1$2.FormControlName, selector: "[formControlName]", inputs: ["formControlName", "disabled", "ngModel"], outputs: ["ngModelChange"] }, { kind: "directive", type: InputValidationDirective, selector: "[cdkInputValidation]" }, { kind: "directive", type: LoadingButtonDirective, selector: "[cdkLoadingButton]", inputs: ["cdkLoadingButton"] }, { kind: "component", type: SpinnerComponent, selector: "cdk-spinner" }] });
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: PhoneNumberComponent, decorators: [{
             type: Component,
-            args: [{ selector: 'cdk-phone-number', template: "<form [formGroup]=\"formGroup\" class=\"d-flex flex-column\" (submit)=\"verifyPhoneNumber()\">\r\n  <div class=\"d-flex justify-content-between\">\r\n    <div class=\"row-form mt-0 flex-grow-0\">\r\n      <cdk-custom-select\r\n        placeholder=\"\"\r\n        modelProperty=\"dial_code\"\r\n        label=\"code\"\r\n        [options]=\"options\"\r\n        [selectedOption]=\"selectedOption\"\r\n        [isValid]=\"phoneNumber && phoneNumber.touched && !phoneNumber.errors\"\r\n        (valueChanges)=\"getSelectedCountry($event)\"\r\n        [hasLeftIcon]=\"true\"\r\n        [hasDivider]=\"true\"\r\n        class=\"me-3 d-block\"\r\n      >\r\n        <ng-template #customTemplate let-item let-index let-_index=\"index\">\r\n          <span>\r\n            <i class=\"me-2 flag-icon flag-icon-{{ item?.flag }}\"></i>\r\n            ({{ item?.dial_code }}) {{ item?.name }}\r\n          </span>\r\n\r\n          <span aria-hidden=\"true\" *ngIf=\"_index === 1\" class=\"divider\"></span>\r\n        </ng-template>\r\n\r\n        <ng-template #selectedTemplate let-item>\r\n          <i class=\"me-2 flag-icon flag-icon-{{ item?.flag }}\"></i>\r\n        </ng-template>\r\n      </cdk-custom-select>\r\n    </div>\r\n\r\n    <div class=\"row-form position-relative flex-grow-1 w-100\">\r\n      <input\r\n        type=\"text\"\r\n        id=\"phoneNumber\"\r\n        formControlName=\"phoneNumber\"\r\n        cdkInputValidation\r\n        [class.validated]=\"phoneValidated\"\r\n      />\r\n      <label for=\"phoneNumber\">Phone number</label>\r\n\r\n      <small *ngIf=\"phoneNumber && phoneNumber.touched && phoneNumber.errors\">\r\n        <span *ngIf=\"phoneNumber && phoneNumber.errors['required']\">Phone number is required</span>\r\n        <span *ngIf=\"phoneNumber && phoneNumber.value.length && phoneNumber.errors['isInvalidPhoneNumber']\">{{ labelPhoneNumberValidation }}</span>\r\n      </small>\r\n\r\n      <span class=\"validation-icon\">\r\n        <i class=\"bi bi-check2 check\" *ngIf=\"phoneValidated && phoneAvailable\"></i>\r\n        <i class=\"bi bi-x-lg error\" *ngIf=\"phoneValidated && !phoneAvailable\"></i>\r\n      </span>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"d-flex justify-content-end mt-3\">\r\n    <button type=\"submit\" class=\"btn btn-dark\" [disabled]=\"!phoneNumber.value.length || phoneNumber.errors\" [cdkLoadingButton]=\"isLoading\" *ngIf=\"!phoneValidated || !phoneAvailable\">\r\n      <cdk-spinner>Verify Phone</cdk-spinner>\r\n    </button>\r\n    <button type=\"button\" class=\"btn btn-outline-success\" disabled *ngIf=\"phoneValidated && phoneAvailable\">Phone Verified</button>\r\n  </div>\r\n\r\n</form>\r\n", styles: ["form{width:100%;max-width:500px}form cdk-custom-select{width:90px}form input.validated{padding-right:30px}form .validation-icon{position:absolute;top:11px;right:3px}form .validation-icon .check{color:var(--st-green)}form .validation-icon .error{color:var(--st-red)}\n"] }]
-        }], ctorParameters: function () { return [{ type: PhoneValidationService }]; }, propDecorators: { validationPhoneEvent: [{
+            args: [{ selector: 'cdk-phone-number', template: "<form [formGroup]=\"formGroup\" class=\"d-flex flex-column\">\r\n  <div class=\"d-flex justify-content-between\">\r\n    <div class=\"row-form mt-0 flex-grow-0\">\r\n      <cdk-custom-select\r\n        placeholder=\"\"\r\n        modelProperty=\"dial_code\"\r\n        label=\"code\"\r\n        [options]=\"options\"\r\n        [selectedOption]=\"selectedOption\"\r\n        [isValid]=\"phoneNumber && phoneNumber.touched && !phoneNumber.errors\"\r\n        (valueChanges)=\"getSelectedCountry($event)\"\r\n        [hasLeftIcon]=\"true\"\r\n        [hasDivider]=\"true\"\r\n        class=\"me-3 d-block\"\r\n      >\r\n        <ng-template #customTemplate let-item let-index let-_index=\"index\">\r\n          <span>\r\n            <i class=\"me-2 flag-icon flag-icon-{{ item?.flag }}\"></i>\r\n            ({{ item?.dial_code }}) {{ item?.name }}\r\n          </span>\r\n\r\n          <span aria-hidden=\"true\" *ngIf=\"_index === 1\" class=\"divider\"></span>\r\n        </ng-template>\r\n\r\n        <ng-template #selectedTemplate let-item>\r\n          <i class=\"me-2 flag-icon flag-icon-{{ item?.flag }}\"></i>\r\n        </ng-template>\r\n      </cdk-custom-select>\r\n    </div>\r\n\r\n    <div class=\"row-form position-relative flex-grow-1 w-100\">\r\n      <input\r\n        type=\"text\"\r\n        id=\"phoneNumber\"\r\n        formControlName=\"phoneNumber\"\r\n        cdkInputValidation\r\n        [class.validated]=\"phoneValidated\"\r\n      />\r\n      <label for=\"phoneNumber\">Phone number</label>\r\n\r\n      <small *ngIf=\"phoneNumber && phoneNumber.touched && phoneNumber.errors\">\r\n        <span *ngIf=\"phoneNumber && phoneNumber.errors['required']\">Phone number is required</span>\r\n        <span *ngIf=\"phoneNumber && phoneNumber.value.length && phoneNumber.errors['isInvalidPhoneNumber']\">{{ labelPhoneNumberValidation }}</span>\r\n      </small>\r\n\r\n      <span class=\"validation-icon\">\r\n        <i class=\"bi bi-check2 check\" *ngIf=\"phoneValidated && phoneAvailable\"></i>\r\n        <i class=\"bi bi-x-lg error\" *ngIf=\"phoneValidated && !phoneAvailable\"></i>\r\n      </span>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"d-flex justify-content-end mt-3\">\r\n    <button type=\"submit\" class=\"btn btn-dark\" [disabled]=\"!phoneNumber.value.length || phoneNumber.errors\" [cdkLoadingButton]=\"isLoading\" *ngIf=\"!phoneValidated || !phoneAvailable\">\r\n      <cdk-spinner>Verify Phone</cdk-spinner>\r\n    </button>\r\n    <button type=\"button\" class=\"btn btn-outline-success\" disabled *ngIf=\"phoneValidated && phoneAvailable\">Phone Verified</button>\r\n  </div>\r\n\r\n</form>\r\n", styles: ["form{width:100%;max-width:500px}form cdk-custom-select{width:90px}form input.validated{padding-right:30px}form .validation-icon{position:absolute;top:11px;right:3px}form .validation-icon .check{color:var(--st-green)}form .validation-icon .error{color:var(--st-red)}\n"] }]
+        }], ctorParameters: function () { return [{ type: PhoneValidationService }]; }, propDecorators: { labelPhoneNumberValidation: [{
+                type: Input
+            }], phoneValidated: [{
+                type: Input
+            }], phoneAvailable: [{
+                type: Input
+            }], isLoading: [{
+                type: Input
+            }], validationPhoneEvent: [{
                 type: Output
             }] } });
 
@@ -2760,16 +2754,28 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImpor
                 }]
         }] });
 
-const convertoToBlobURL = (file) => new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => {
-        const srcData = new Blob([new Uint8Array(reader.result)], { type: file.type });
-        const urlFile = URL.createObjectURL(srcData);
-        resolve(urlFile);
-    };
-    reader.onerror = reject;
-    reader.readAsArrayBuffer(file);
-});
+class FileConversor {
+    convertoToBlobURL(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => {
+                const srcData = new Blob([new Uint8Array(reader.result)], { type: file.type });
+                const urlFile = URL.createObjectURL(srcData);
+                resolve(urlFile);
+            };
+            reader.onerror = reject;
+            reader.readAsArrayBuffer(file);
+        });
+    }
+}
+FileConversor.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: FileConversor, deps: [], target: i0.ɵɵFactoryTarget.Injectable });
+FileConversor.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: FileConversor, providedIn: 'root' });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: FileConversor, decorators: [{
+            type: Injectable,
+            args: [{
+                    providedIn: 'root'
+                }]
+        }] });
 
 class ChoseImageComponent {
     constructor() {
@@ -2777,6 +2783,7 @@ class ChoseImageComponent {
         this.aditionalText = 'or choose a color below';
         this.imageFile = new EventEmitter();
         this.inputFile = {};
+        this.fileConversor = inject(FileConversor);
     }
     selectFile() {
         this.inputFile.nativeElement.click();
@@ -2785,7 +2792,7 @@ class ChoseImageComponent {
         const target = event.target;
         if (target.files?.length) {
             const image = target.files[0];
-            convertoToBlobURL(image).then(response => this.imageFile.emit(response));
+            this.fileConversor.convertoToBlobURL(image).then(response => this.imageFile.emit(response));
         }
     }
 }
@@ -3260,7 +3267,7 @@ class CheckboxComponent {
         this.label = '';
         this.value = false;
         this.change = new EventEmitter();
-        this.id = Math.round(Math.random() * 100000);
+        this.id = new Date().getTime();
         this.form = new FormGroup({
             input: new FormControl(this.value)
         });
@@ -3391,38 +3398,42 @@ class CreatePasswordComponent {
         this.passwordEvent = new EventEmitter();
         this.inputConfig = ['password', 'password'];
         this.isPasswordValid = false;
-        this.translateService = inject(TranslateService);
         this.passwordsAreEquals = () => {
             return () => {
-                return this.password?.value === this.confirmPassword?.value ? null : { passwordsDiferent: true };
+                return this.password?.value === this.confirmPassword?.value
+                    ? null
+                    : { passwordsDiferent: true };
             };
         };
         this.form = new FormGroup({
             password: new FormControl('', [Validators.required]),
-            confirmPassword: new FormControl('', [Validators.required, this.passwordsAreEquals()]),
+            confirmPassword: new FormControl('', [
+                Validators.required,
+                this.passwordsAreEquals(),
+            ]),
         });
     }
     ngOnInit() {
-        this.form.valueChanges
-            .pipe(takeUntil(this.destroy$))
-            .subscribe(() => {
-            this.passwordValidation.emit(this._passwordValidation);
-            if (!this._passwordValidation)
-                return;
-            this.passwordEvent.emit({
-                password: this.password?.value,
-                confirmPassword: this.confirmPassword?.value
-            });
-        });
+        this.watchInputValuesChanges();
     }
     ngOnDestroy() {
         this.destroy$.next(true);
         this.destroy$.unsubscribe();
     }
+    watchInputValuesChanges() {
+        this.form.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
+            this.passwordValidation.emit(this._passwordValidation);
+            if (!this._passwordValidation)
+                return;
+            this.passwordEvent.emit({
+                password: this.password?.value,
+                confirmPassword: this.confirmPassword?.value,
+            });
+        });
+    }
     validatePassword(value) {
         this.isPasswordValid = value;
     }
-    ;
     get password() {
         return this.form?.get('password');
     }
@@ -3430,9 +3441,9 @@ class CreatePasswordComponent {
         return this.form?.get('confirmPassword');
     }
     get _passwordValidation() {
-        const arePassValid = this.password?.valid && this.confirmPassword?.valid;
+        const arePassValid = !!this.password?.valid && !!this.confirmPassword?.valid;
         const arePassEquals = this.password?.value === this.confirmPassword?.value;
-        return this.isPasswordValid && !!arePassValid && arePassEquals;
+        return this.isPasswordValid && arePassValid && arePassEquals;
     }
     togglePasswordVisibility(index, type) {
         this.inputConfig[index] = type;
@@ -3570,13 +3581,12 @@ class ThemeChangerService {
             cssLinkElement.href = cssFileTheme;
             return;
         }
-        const headElement = this.document.getElementsByTagName('head')[0];
         const newCssLinkElement = this.document.createElement('link');
         newCssLinkElement.id = 'client-theme';
         newCssLinkElement.type = 'text/css';
         newCssLinkElement.rel = 'stylesheet';
         newCssLinkElement.href = cssFileTheme;
-        headElement.appendChild(newCssLinkElement);
+        this.document.head?.appendChild(newCssLinkElement);
     }
 }
 ThemeChangerService.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "15.1.2", ngImport: i0, type: ThemeChangerService, deps: [], target: i0.ɵɵFactoryTarget.Injectable });
@@ -3596,5 +3606,5 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.1.2", ngImpor
  * Generated bundle index. Do not edit.
  */
 
-export { AvatarComponent, AvatarModule, CheckboxComponent, CheckboxModule, ChoseImageComponent, ChoseImageModule, CodeValidationComponent, CodeValidationModule, ColorSelectorComponent, ColorSelectorModule, CreatePasswordComponent, CreatePasswordModule, CropperComponent, CropperModule, CustomSelectComponent, CustomSelectModule, HttpLoaderFactory, I18N_CONFIG, InputValidationDirective, InputValidationModule, LoadingButtonDirective, LoadingButtonModule, LocalStorageManager, LogoComponent, LogoModule, ModalComponent, ModalModule, ModalOverlayRef, ModalService, PasswordValidationDirective, PasswordValidationModule, PhoneNumberComponent, PhoneNumberModule, PopoverDirective, PopoverModule, ProfilePreviewComponent, ProfilePreviewModule, RadioButtonComponent, RadioButtonModule, RangeComponent, RangeModule, SpinnerComponent, SpinnerModule, Storage, Theme, ThemeChangerService, ToogleComponent, ToogleModule, UserStatusBulletComponent, UserStatusBulletModule, convertoToBlobURL };
+export { AvatarComponent, AvatarModule, CheckboxComponent, CheckboxModule, ChoseImageComponent, ChoseImageModule, CodeValidationComponent, CodeValidationModule, ColorSelectorComponent, ColorSelectorModule, CreatePasswordComponent, CreatePasswordModule, CropperComponent, CropperModule, CustomSelectComponent, CustomSelectModule, FileConversor, HttpLoaderFactory, I18N_CONFIG, InputValidationDirective, InputValidationModule, LoadingButtonDirective, LoadingButtonModule, LocalStorageManager, LogoComponent, LogoModule, ModalComponent, ModalModule, ModalOverlayRef, ModalService, PasswordValidationDirective, PasswordValidationModule, PhoneNumberComponent, PhoneNumberModule, PopoverDirective, PopoverModule, ProfilePreviewComponent, ProfilePreviewModule, RadioButtonComponent, RadioButtonModule, RangeComponent, RangeModule, SpinnerComponent, SpinnerModule, Storage, Theme, ThemeChangerService, ToogleComponent, ToogleModule, UserStatusBulletComponent, UserStatusBulletModule };
 //# sourceMappingURL=components.mjs.map

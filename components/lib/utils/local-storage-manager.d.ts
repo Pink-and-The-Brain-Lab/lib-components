@@ -1,6 +1,6 @@
 import { Observable } from "rxjs";
 import * as i0 from "@angular/core";
-export declare abstract class LocalStorageManager {
+export declare class LocalStorageManager {
     private storageSub;
     watchStorage(): Observable<string>;
     set<T>(name: string, value: T): void;

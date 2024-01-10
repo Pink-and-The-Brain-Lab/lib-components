@@ -10,7 +10,6 @@ export declare class CreatePasswordComponent implements OnInit, OnDestroy {
     passwordEvent: EventEmitter<IPasswordEvent>;
     inputConfig: InputType[];
     isPasswordValid: boolean;
-    private readonly translateService;
     passwordsAreEquals: () => ValidatorFn;
     form: FormGroup<{
         password: FormControl<string | null>;
@@ -18,6 +17,7 @@ export declare class CreatePasswordComponent implements OnInit, OnDestroy {
     }>;
     ngOnInit(): void;
     ngOnDestroy(): void;
+    private watchInputValuesChanges;
     validatePassword(value: boolean): void;
     get password(): AbstractControl | null;
     get confirmPassword(): AbstractControl | null;

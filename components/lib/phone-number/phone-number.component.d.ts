@@ -6,15 +6,15 @@ import { PhoneValidationService } from './service/phone-validation.service';
 import * as i0 from "@angular/core";
 export declare class PhoneNumberComponent implements OnInit, OnDestroy {
     private phoneValidationService;
+    labelPhoneNumberValidation: string;
+    phoneValidated: boolean;
+    phoneAvailable: boolean;
+    isLoading: boolean;
     validationPhoneEvent: EventEmitter<boolean>;
     isValidPhoneNumber: () => ValidatorFn;
     options: ICountry[];
     selectedOption: Country;
-    phoneValidated: boolean;
-    phoneAvailable: boolean;
-    isLoading: boolean;
     verifiedPhoneNumber: string;
-    labelPhoneNumberValidation: string;
     formGroup: FormGroup<{
         phoneNumber: FormControl<string | null>;
     }>;
@@ -25,8 +25,7 @@ export declare class PhoneNumberComponent implements OnInit, OnDestroy {
     getSelectedCountry(country: ICountry): void;
     getCountryByPhoneNumber(phoneNumber: string): void;
     checkIfHasEqualsDialCode(countries: ICountry[]): void;
-    verifyPhoneNumber(): void;
     get phoneNumber(): FormControl;
     static ɵfac: i0.ɵɵFactoryDeclaration<PhoneNumberComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDeclaration<PhoneNumberComponent, "cdk-phone-number", never, {}, { "validationPhoneEvent": "validationPhoneEvent"; }, never, never, false, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<PhoneNumberComponent, "cdk-phone-number", never, { "labelPhoneNumberValidation": "labelPhoneNumberValidation"; "phoneValidated": "phoneValidated"; "phoneAvailable": "phoneAvailable"; "isLoading": "isLoading"; }, { "validationPhoneEvent": "validationPhoneEvent"; }, never, never, false, never>;
 }

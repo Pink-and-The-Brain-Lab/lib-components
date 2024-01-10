@@ -5,6 +5,7 @@ export declare class ChoseImageComponent {
     aditionalText: string;
     imageFile: EventEmitter<string>;
     inputFile: ElementRef;
+    private readonly fileConversor;
     selectFile(): void;
     getFile(event: Event): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<ChoseImageComponent, never>;
