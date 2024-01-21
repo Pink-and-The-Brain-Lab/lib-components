@@ -4,7 +4,6 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  inject,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -17,8 +16,6 @@ import {
 import { Subject, takeUntil } from 'rxjs';
 import { InputType } from './models/input-type';
 import { IPasswordEvent } from './models/password-event';
-import { TranslateService } from '@ngx-translate/core';
-
 @Component({
   selector: 'cdk-create-password',
   templateUrl: './create-password.component.html',
