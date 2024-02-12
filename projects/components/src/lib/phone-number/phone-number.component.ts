@@ -17,7 +17,7 @@ export class PhoneNumberComponent implements OnInit, OnDestroy {
   @Input() phoneValidated = false;
   @Input() phoneAvailable = false;
   @Input() isLoading = false;
-  @Output() validationPhoneEvent = new EventEmitter<boolean>();
+  @Output() validatePhoneEvent = new EventEmitter<string>();
 
   isValidPhoneNumber = (): ValidatorFn => {
     return (control: AbstractControl): ValidationErrors | null => {
@@ -26,10 +26,8 @@ export class PhoneNumberComponent implements OnInit, OnDestroy {
       if (validation.masked === control.value) return null;
       this.labelPhoneNumberValidation = 'Phone number is invalid';
       this.phoneValidated = false;
-      this.validationPhoneEvent.emit(false);
       
       if (this.verifiedPhoneNumber.length && control.value === this.verifiedPhoneNumber.replace(/\s|-/gi, '')) {
-        this.validationPhoneEvent.emit(true);
         this.phoneValidated = true;
         return null;
       }
@@ -86,4 +84,8 @@ export class PhoneNumberComponent implements OnInit, OnDestroy {
     return this.formGroup.controls.phoneNumber;
   }
 
+  validatePhone() {
+    this.validatePhoneEvent.emit(this.phoneNumber.value);
+    this.isLoading= true;    
+  }
 }
