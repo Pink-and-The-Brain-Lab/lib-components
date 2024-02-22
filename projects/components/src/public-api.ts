@@ -39,6 +39,7 @@ export * from './lib/code-validation/code-validation.component';
 export * from './lib/code-validation/code-validation.module';
 
 export * from './lib/chose-image/chose-image.component';
+export * from './lib/chose-image/models/image-upload.interface';
 export * from './lib/chose-image/chose-image.module';
 
 export * from './lib/profile-preview/profile-preview.component';
