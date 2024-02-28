@@ -1,6 +1,6 @@
 import { DOCUMENT } from "@angular/common";
 import { Injectable, inject } from "@angular/core";
-import { Theme } from "../../public-api";
+import { LocalStorageManager, Storage, Theme } from "../../public-api";
 
 @Injectable({
     providedIn: 'root'
@@ -8,10 +8,12 @@ import { Theme } from "../../public-api";
 export class ThemeChangerService {
 
     private readonly document = inject(DOCUMENT);
+    private readonly localStorageManager = inject(LocalStorageManager);
 
     public loadTheme(theme: Theme) {
         const cssFileTheme = `${theme}.css`;
         const cssLinkElement = this.document.getElementById('client-theme') as HTMLLinkElement;
+        this.localStorageManager.set<Theme>(Storage.SELECTED_THEME, theme);
 
         if (cssLinkElement) {
             cssLinkElement.href = cssFileTheme;
