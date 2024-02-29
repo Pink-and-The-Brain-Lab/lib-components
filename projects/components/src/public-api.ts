@@ -82,3 +82,8 @@ export * from './lib/utils/enums/theme';
 
 // services
 export * from './lib/services/theme-changer.service';
+
+// states
+export * from './lib/states/actions/dashboard-visualization-control.action';
+export * from './lib/states/models/dashboard-visualization-control.interface';
+export * from './lib/states/state/dashboard-visualization-control.state';
