@@ -87,3 +87,6 @@ export * from './lib/services/theme-changer.service';
 export * from './lib/states/actions/dashboard-visualization-control.action';
 export * from './lib/states/models/dashboard-visualization-control.interface';
 export * from './lib/states/state/dashboard-visualization-control.state';
+export * from './lib/states/actions/language-change.action';
+export * from './lib/states/models/language-change.interface';
+export * from './lib/states/state/language-change.state';
