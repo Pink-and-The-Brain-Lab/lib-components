@@ -90,3 +90,6 @@ export * from './lib/states/state/dashboard-visualization-control.state';
 export * from './lib/states/actions/language-change.action';
 export * from './lib/states/models/language-change.interface';
 export * from './lib/states/state/language-change.state';
+export * from './lib/states/actions/profile.action';
+export * from './lib/states/models/profile.interface';
+export * from './lib/states/state/profile.state';
