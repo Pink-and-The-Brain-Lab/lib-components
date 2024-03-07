@@ -18,9 +18,4 @@ export class ProfilesState {
     profiles(ctx: StateContext<IProfile[]>, action: ProfileAction): void {
         ctx.setState(action.profiles);
     }
-
-    @Selector()
-    static orderedByActive(state: IProfile[]) {
-        return state.sort((a,b) => (a.selected < b.selected) ? 1 : ((b.selected < a.selected) ? -1 : 0));
-    }
 }
