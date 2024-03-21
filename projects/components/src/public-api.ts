@@ -83,6 +83,11 @@ export * from './lib/utils/enums/theme';
 // services
 export * from './lib/services/theme-changer.service';
 
+// mocks
+export * from './lib/mocks/http-error-response.test.mock';
+export * from './lib/mocks/subscribe-method.test.mock';
+export * from './lib/mocks/toastr-service.test.mock';
+
 // states
 export * from './lib/states/actions/dashboard-visualization-control.action';
 export * from './lib/states/models/dashboard-visualization-control.interface';
@@ -92,4 +97,7 @@ export * from './lib/states/models/language-change.interface';
 export * from './lib/states/state/language-change.state';
 export * from './lib/states/actions/profile.action';
 export * from './lib/states/models/profile.interface';
-export * from './lib/states/state/profile.state';
+export * from './lib/states/state/profiles.state';
+export * from './lib/states/actions/update-profile.action';
+export * from './lib/states/models/update-profile.interface';
+export * from './lib/states/state/update-profile.state';
