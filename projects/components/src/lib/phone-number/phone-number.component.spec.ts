@@ -67,10 +67,11 @@ describe('PhoneNumberComponent', () => {
   });
 
   it('should validate when phone number already validated and the number changed', () => {
-    const spy = spyOn(component.validationPhoneEvent, 'emit');
+    const spy = spyOn(component.validatePhoneEvent, 'emit');
     component.verifiedPhoneNumber = '5511912345678';
     component.formGroup.controls.phoneNumber.patchValue('5511912345678');
-    expect(spy).toHaveBeenCalledWith(true);
+    component.validatePhone();
+    expect(spy).toHaveBeenCalledWith('5511912345678');
     expect(component.phoneValidated).toBeTruthy();
   });
 
