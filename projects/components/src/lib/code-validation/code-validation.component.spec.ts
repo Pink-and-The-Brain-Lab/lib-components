@@ -122,4 +122,10 @@ describe('CodeValidationComponent', () => {
     const value = component.formGroup.controls._0.value;
     expect(value).toBe('6');
   });
+
+  it('should not paste code in input if on paste event get undefined', () => {
+    const spy = spyOn(component, 'inputPastedCode' as any);
+    component.onPaste(undefined as any);
+    expect(spy).not.toHaveBeenCalled();
+  });
 });

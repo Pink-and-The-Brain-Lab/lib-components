@@ -8,11 +8,8 @@ import { PositionOption } from './popover-positions.map';
   selector: '[cdkPopover]'
 })
 export class PopoverDirective {
-  
-  // @ts-ignore
-  private overlayRef: OverlayRef;
-  // @ts-ignore
-  private _target: HTMLElement;
+  private overlayRef!: OverlayRef;
+  private _target!: HTMLElement;
   private _positons: ConnectedPosition = PopoverPositions.getPosition('EBSB');
   private _isFullScreen = false;
   
@@ -57,11 +54,13 @@ export class PopoverDirective {
       width: this._isFullScreen ? '100%' : 'auto',
       disposeOnNavigation: true,
     });
+    this.createOverlay(config);
+  }
 
+  private createOverlay(config: OverlayConfig) {
     this.overlayRef = this.overlay.create(config);
     const component = new TemplatePortal(this.template, this.viewContainerRef);
     this.overlayRef.attach(component);
-
     this.overlayRef.backdropClick().subscribe(event => {
       this.cdkPopover = false;
       this.close(event);

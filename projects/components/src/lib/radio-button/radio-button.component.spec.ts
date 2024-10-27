@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RadioButtonComponent } from './radio-button.component';
 
@@ -10,12 +10,13 @@ describe('RadioButtonComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ RadioButtonComponent ],
-      imports: [ FormsModule ]
+      imports: [ FormsModule ],
     })
     .compileComponents();
 
     fixture = TestBed.createComponent(RadioButtonComponent);
     component = fixture.componentInstance;
+    fixture.debugElement.injector.get(NG_VALUE_ACCESSOR);
     fixture.detectChanges();
   });
 

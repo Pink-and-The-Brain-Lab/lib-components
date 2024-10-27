@@ -98,4 +98,12 @@ describe('PhoneNumberComponent', () => {
     component.checkIfHasEqualsDialCode([mockCountryInterfaced]);
     expect(component.selectedOption.name).toBe(mockCountryInterfaced.name as any);
   });
+
+  it('should use control value', () => {
+    const mockPhoneValidationService = TestBed.inject(PhoneValidationService);
+    spyOn(mockPhoneValidationService, 'validateAndFormat').and.returnValue({ masked: null } as any);
+    component.formGroup.controls.phoneNumber.patchValue('5511912345678');
+    const inputError = component.phoneNumber.errors || {};
+    expect(inputError['isInvalidPhoneNumber']).toBeTrue();
+  });
 });

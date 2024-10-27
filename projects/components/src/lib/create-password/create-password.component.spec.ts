@@ -86,4 +86,12 @@ describe('CreatePasswordComponent', () => {
     component.submit();
     expect(spy).not.toHaveBeenCalled();
   });
+
+  it('should get an error when passwords are diferent', () => {
+    component.form.patchValue({
+      password: 'abcd1234',
+      confirmPassword: '1234abcd',
+    });
+    expect(component._passwordValidation).toBeFalse();
+  });
 });

@@ -14,16 +14,13 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 export class RadioButtonComponent<T> implements ControlValueAccessor {
 
   @Input() disabled = false;
-  // @ts-ignore
-  @Input() value: T;
+  @Input() value!: T;
   @Input() name = '';
   @Input() position: 'start' | 'end' = 'start';
-  // @ts-ignore
-  model: T;
+  model!: T;
   id = `radio_${(Math.round(Math.random() * 1000000)).toString().padStart(10, '0')}`;
-
-  onChange: Function = () => {};
-  onTouched: Function = () => {};
+  onChange: Function = new Function();
+  onTouched: Function = new Function();
 
   registerOnChange(fn: Function): void {
     this.onChange = fn;
@@ -40,9 +37,9 @@ export class RadioButtonComponent<T> implements ControlValueAccessor {
   @HostListener('click', ['$event'])
   @HostListener('window:keydown.enter', ['$event'])
   @HostListener('window:keydown.space', ['$event'])
-  click(e: MouseEvent) {
-    e.stopPropagation();
-    e.preventDefault();
+  click(event: MouseEvent) {
+    event.stopPropagation();
+    event.preventDefault();
     if (this.disabled) return;
     this.changed(this.value);
   }

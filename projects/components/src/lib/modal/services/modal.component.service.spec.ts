@@ -1,9 +1,12 @@
-import { TestBed } from '@angular/core/testing';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { ModalService } from './modal.component.service';
-import { Overlay } from '@angular/cdk/overlay';
+import { Overlay, OverlayRef } from '@angular/cdk/overlay';
+import { of } from 'rxjs';
+import { IModalConfig } from '../interfaces/modal-data.interface';
 
 describe('ModalService', () => {
   let service: ModalService<any, any>;
+  let mockOverlayRef: any;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -12,7 +15,13 @@ describe('ModalService', () => {
         Overlay,
       ]
     });
+    mockOverlayRef = {
+      backdropClick: jasmine.createSpy('backdropClick').and.returnValue(of(null)),
+      dispose: jasmine.createSpy('dispose')
+    };
+
     service = TestBed.inject(ModalService);
+    service['overlayRef'] = mockOverlayRef;
   });
 
   it('should be created', () => {
@@ -45,5 +54,34 @@ describe('ModalService', () => {
     const spy = spyOn(service.componentResultData, 'next');
     service.getComponentResultData({} as any);
     expect(spy).toHaveBeenCalledWith({});
+  });
+
+  it('should listen backdrop click', () => {
+    service['overlayRef']?.backdropClick().subscribe(() => {
+      service['overlayRef']?.dispose();
+    });
+    mockOverlayRef.backdropClick().subscribe();
+    expect(mockOverlayRef.dispose).toHaveBeenCalled();
+  });
+
+  it('should subscribe to backdropClick and dispose the overlay when clickOutsideToClose is true', () => {
+    const modalConfig: IModalConfig<any, any> = { clickOutsideToClose: true };
+    service.listenBackdropClick(modalConfig);
+    expect(mockOverlayRef.backdropClick).toHaveBeenCalled();
+    expect(mockOverlayRef.dispose).toHaveBeenCalled();
+  });
+
+  it('should not subscribe to backdropClick when clickOutsideToClose is false', () => {
+    const modalConfig: IModalConfig<any, any> = { clickOutsideToClose: false };
+    service.listenBackdropClick(modalConfig);
+    expect(mockOverlayRef.backdropClick).not.toHaveBeenCalled();
+    expect(mockOverlayRef.dispose).not.toHaveBeenCalled();
+  });
+
+  it('should not subscribe to backdropClick when clickOutsideToClose is undefined', () => {
+    const modalConfig: IModalConfig<any, any> = { clickOutsideToClose: undefined };
+    service.listenBackdropClick(modalConfig);
+    expect(mockOverlayRef.backdropClick).not.toHaveBeenCalled();
+    expect(mockOverlayRef.dispose).not.toHaveBeenCalled();
   });
 });

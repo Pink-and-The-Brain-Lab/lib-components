@@ -29,4 +29,14 @@ describe('PhoneValidationService', () => {
     const isValid = service.validateAndFormat('123', '123', '123');
     expect(isValid.isValid).toBeFalsy();
   });
+
+  it('should validate and format phone number', () => {
+    service.phoneUtil = {
+      ...mockPhoneNumberUtil,
+      isValidNumberForRegion: (value: boolean) => true
+    } as any;
+    const isValid = service.validateAndFormat('992442247', 'BR', '+55');
+    expect(isValid.isValid).toBeTrue();
+    expect(isValid.masked).toBe('+55 11 1234-5678');
+  });
 });

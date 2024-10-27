@@ -23,18 +23,13 @@ export class PhoneValidationService {
 
   validateAndFormat(phoneNumber: string, countryCode: string, dialCode: string): IPhoneValidation {
     const number = phoneNumber.split(dialCode).slice(-1).pop() || '';
-    
-    try {
-      const rawNumber = this.phoneUtil.parseAndKeepRawInput(number, countryCode);
-      const isValid = this.phoneUtil.isValidNumberForRegion(rawNumber, countryCode);
-      if (!isValid) return { isValid };
+    const rawNumber = this.phoneUtil.parseAndKeepRawInput(number, countryCode);
+    const isValid = this.phoneUtil.isValidNumberForRegion(rawNumber, countryCode);
+    if (!isValid) return { isValid, masked: phoneNumber };
 
-      return {
-        isValid,
-        masked: this.phoneUtil.format(rawNumber, this.PNF.INTERNATIONAL)
-      }
-    } catch {
-      return { isValid: false };
+    return {
+      isValid,
+      masked: this.phoneUtil.format(rawNumber, this.PNF.INTERNATIONAL)
     }
   }
 }

@@ -33,7 +33,7 @@ export class PhoneNumberComponent implements OnInit, OnDestroy {
       }
 
       if (validation.isValid) {
-        control.setValue(validation.masked || control.value);
+        control.setValue(validation.masked);
         return null;
       }
     
