@@ -20,16 +20,16 @@
     "build:images": "copy projects\\components\\src\\lib\\assets\\images\\countries-flag\\**.svg dist\\assets\\images\\countries-flag\\**"
   },
   "dependencies": {
-    "@angular/animations": "17.3.12",
+    "@angular/animations": "18.2.10",
     "@angular/cdk": "17.3.10",
-    "@angular/common": "17.3.12",
-    "@angular/compiler": "17.3.12",
-    "@angular/core": "17.3.12",
-    "@angular/elements": "17.3.12",
-    "@angular/forms": "17.3.12",
-    "@angular/platform-browser": "17.3.12",
-    "@angular/platform-browser-dynamic": "17.3.12",
-    "@angular/router": "17.3.12",
+    "@angular/common": "18.2.10",
+    "@angular/compiler": "18.2.10",
+    "@angular/core": "18.2.10",
+    "@angular/elements": "18.2.10",
+    "@angular/forms": "18.2.10",
+    "@angular/platform-browser": "18.2.10",
+    "@angular/platform-browser-dynamic": "18.2.10",
+    "@angular/router": "18.2.10",
     "@ngx-translate/core": "14.0.0",
     "@ngx-translate/http-loader": "7.0.0",
     "@ngxs/store": "3.8.2",
@@ -41,9 +41,9 @@
     "zone.js": "0.14.10"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "17.3.11",
-    "@angular/cli": "17.3.11",
-    "@angular/compiler-cli": "17.3.12",
+    "@angular-devkit/build-angular": "18.2.11",
+    "@angular/cli": "18.2.11",
+    "@angular/compiler-cli": "18.2.10",
     "@types/google-libphonenumber": "7.4.23",
     "@types/jasmine": "4.3.0",
     "jasmine-core": "4.5.0",
@@ -52,7 +52,7 @@
     "karma-coverage": "2.2.0",
     "karma-jasmine": "5.1.0",
     "karma-jasmine-html-reporter": "2.0.0",
-    "ng-packagr": "17.3.0",
+    "ng-packagr": "18.2.1",
     "typescript": "5.4.5"
   }
 }
