@@ -27,10 +27,14 @@
 
             <div class="col-6">
                 <div class="d-flex align-items-center justify-content-between">
-                    <i class="bi bi-arrow-clockwise" tooltip="Rotate" placement="top" (click)="rotateImage()"></i>
-                    <i class="bi bi-symmetry-vertical" tooltip="Invert" placement="top" (click)="invertImage()"></i>
-                    <i class="bi bi-dash" tooltip="Zoom out" placement="top" (click)="zoomOutImage()"></i>
-                    <i class="bi bi-plus" tooltip="Zoom in" placement="top" (click)="zoomInImage()"></i>
+                    <!--  tooltip="Rotate" -->
+                    <i class="bi bi-arrow-clockwise" placement="top" (click)="rotateImage()"></i>
+                    <!-- tooltip="Invert" -->
+                    <i class="bi bi-symmetry-vertical" placement="top" (click)="invertImage()"></i>
+                    <!-- tooltip="Zoom out" -->
+                    <i class="bi bi-dash" placement="top" (click)="zoomOutImage()"></i>
+                    <!--  tooltip="Zoom in" -->
+                    <i class="bi bi-plus" placement="top" (click)="zoomInImage()"></i>
                 </div>
             </div>
         </div>

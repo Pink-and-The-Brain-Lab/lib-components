@@ -3,7 +3,7 @@ import { CropperComponent } from './cropper.component';
 import { AvatarModule } from '../avatar/avatar.module';
 import { ImageCroppedEvent, ImageCropperModule } from 'ngx-image-cropper';
 import { RangeModule } from '../range/range.module';
-import { TooltipModule } from 'ng2-tooltip-directive';
+// import { TooltipModule } from 'ng2-tooltip-directive';
 import { IMAGE_DATA } from '../modal/interfaces/image-data.const';
 import { MODAL_SERVICE_DATA } from '../modal/interfaces/modal-service-data.const';
 
@@ -22,7 +22,7 @@ describe('CropperComponent', () => {
         AvatarModule,
         ImageCropperModule,
         RangeModule,
-        TooltipModule,
+        // TooltipModule,
       ],
       providers: [
         { provide: IMAGE_DATA, useValue: '' },

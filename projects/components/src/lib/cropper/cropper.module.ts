@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CropperComponent } from './cropper.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
-import { TooltipModule } from 'ng2-tooltip-directive';
+// import { TooltipModule } from 'ng2-tooltip-directive';
 import { AvatarModule } from '../avatar/avatar.module';
 import { RangeModule } from '../range/range.module';
 
@@ -18,7 +18,7 @@ import { RangeModule } from '../range/range.module';
     AvatarModule,
     ImageCropperModule,
     RangeModule,
-    TooltipModule,
+    // TooltipModule,
   ]
 })
 export class CropperModule { }
