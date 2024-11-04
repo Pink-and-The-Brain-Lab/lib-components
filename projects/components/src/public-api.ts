@@ -68,6 +68,9 @@ export * from './lib/password-validation/password-validation.module';
 export * from './lib/create-password/create-password.component';
 export * from './lib/create-password/create-password.module';
 
+export * from './lib/tooltip/tooltip.directive';
+export * from './lib/tooltip/tooltip.module';
+
 // utils
 export * from './lib/utils/convert-file';
 export * from './lib/utils/local-storage-manager';

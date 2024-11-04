@@ -5,6 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AvatarModule, CodeValidationModule, LoadingButtonModule, SpinnerModule } from 'components';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TooltipModule } from 'projects/components/src/public-api';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ReactiveFormsModule,
     SpinnerModule,
     LoadingButtonModule,
+    TooltipModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
