@@ -13,4 +13,5 @@ export interface IProfile {
     validated: boolean;
     selected: boolean;
     language: string;
+    createdAt: number;
 }
