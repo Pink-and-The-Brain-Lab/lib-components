@@ -6,7 +6,8 @@
     "declaration": true,
     "declarationMap": true,
     "inlineSources": true,
-    "types": []
+    "typeRoots": ["./node_modules/@types"],
+    "types": ["google-libphonenumber"]
   },
   "exclude": [
     "**/*.spec.ts"

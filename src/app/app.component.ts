@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Theme, ThemeChangerService } from 'components';
 
 @Component({
   selector: 'app-root',
@@ -7,8 +8,12 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'lib-components';
-
   isLoading = false;
+  private readonly themeChangerService = inject(ThemeChangerService);
+
+  constructor() {
+    this.themeChangerService.loadTheme(Theme.DARK);
+  }
 
   validate(code: string) {
     console.log(code)

@@ -19,9 +19,6 @@ import { PortalModule } from '@angular/cdk/portal';
   ],
   providers: [
     ModalService,
-  ],
-  entryComponents: [
-    ModalComponent
   ]
 })
 export class ModalModule { }
