@@ -33,5 +33,4 @@ export class AvatarComponent {
 
   @Input()
   name = '';
-
 }

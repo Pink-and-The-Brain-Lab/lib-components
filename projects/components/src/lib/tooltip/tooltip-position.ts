@@ -54,18 +54,20 @@ const LEFT_POSITION = [LEFT, TOP, BOTTOM, RIGHT];
 const DEFAULT_POSITION = [TOP, BOTTOM, LEFT, RIGHT];
 
 type PositionMap = {
-    [K in TooltipePlacement]: ConnectedPosition[];
-}
-
-const POSITION_MAP: PositionMap = {
-    top: DEFAULT_POSITION,
-    bottom: BOTTOM_POSITION,
-    left: LEFT_POSITION,
-    right: RIGHT_POSITION,
-    auto: DEFAULT_POSITION,
-    'bottom-left': BOTTOM_LEFT_POSITION,
+  [K in TooltipePlacement]: ConnectedPosition[];
 };
 
-export function getPositionRoles(position: TooltipePlacement): ConnectedPosition[] {
-    return POSITION_MAP[position];
+const POSITION_MAP: PositionMap = {
+  top: DEFAULT_POSITION,
+  bottom: BOTTOM_POSITION,
+  left: LEFT_POSITION,
+  right: RIGHT_POSITION,
+  auto: DEFAULT_POSITION,
+  'bottom-left': BOTTOM_LEFT_POSITION,
+};
+
+export function getPositionRoles(
+  position: TooltipePlacement
+): ConnectedPosition[] {
+  return POSITION_MAP[position];
 }
