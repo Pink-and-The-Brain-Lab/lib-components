@@ -1,41 +1,50 @@
-// import { ComponentFixture, TestBed } from '@angular/core/testing';
-// import { ToogleComponent } from './toogle.component';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TooltipComponent } from './tooltip.component';
+import { TooltipePlacement } from './tooltip-placement.type';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-// describe('ToogleComponent', () => {
-//   let component: ToogleComponent;
-//   let fixture: ComponentFixture<ToogleComponent>;
+describe('TooltipComponent', () => {
+  let component: TooltipComponent;
+  let fixture: ComponentFixture<TooltipComponent>;
 
-//   beforeEach(async () => {
-//     await TestBed.configureTestingModule({
-//       declarations: [ ToogleComponent ]
-//     })
-//     .compileComponents();
-//   });
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [TooltipComponent],
+      imports: [BrowserAnimationsModule], // Required for animations
+    }).compileComponents();
+  });
 
-//   beforeEach(() => {
-//     fixture = TestBed.createComponent(ToogleComponent);
-//     component = fixture.componentInstance;
-//     fixture.detectChanges();
-//   });
+  beforeEach(() => {
+    fixture = TestBed.createComponent(TooltipComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
 
-//   it('should create', () => {
-//     expect(component).toBeTruthy();
-//     expect(component.toogleControl).toBeFalsy();
-//     expect(component.disabled).toBeFalsy();
-//   });
+  it('should create the component', () => {
+    expect(component).toBeTruthy();
+  });
 
-//   it('should toogle component value', () => {
-//     spyOn(component.toogleEvent, 'emit');
-//     component.toogle();
-//     expect(component.toogleControl).toBeTruthy();
-//     expect(component.toogleEvent.emit).toHaveBeenCalled();
-//   });
+  it('should have default placement as "auto"', () => {
+    expect(component.placement).toBe('auto');
+  });
 
-//   it('should not toogle component value when is disabled', () => {
-//     spyOn(component.toogleEvent, 'emit');
-//     component.disabled = true;
-//     component.toogle();
-//     expect(component.toogleControl).toBeFalsy();
-//     expect(component.toogleEvent.emit).not.toHaveBeenCalled();
-//   });
-// });
+  it('should bind the placement class correctly', () => {
+    component.placement = 'top' as TooltipePlacement;
+    fixture.detectChanges();
+    const tooltipElement: HTMLElement = fixture.nativeElement;
+    expect(tooltipElement.classList.contains('top')).toBeTrue();
+  });
+
+  it('should bind the noMax class correctly', () => {
+    component.noMax = true;
+    fixture.detectChanges();
+    const tooltipElement: HTMLElement = fixture.nativeElement;
+    expect(tooltipElement.classList.contains('no-max')).toBeTrue();
+  });
+
+  it('should update the text input correctly', () => {
+    component.text = 'Test Tooltip';
+    fixture.detectChanges();
+    expect(component.text).toBe('Test Tooltip');
+  });
+});

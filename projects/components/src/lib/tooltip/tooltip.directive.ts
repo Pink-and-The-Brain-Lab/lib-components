@@ -13,7 +13,6 @@ export class TooltipDirective {
   @Input() hideTooltip = false;
   @Input() placement: TooltipePlacement = "auto";
   @Input() noMax = false;
-  @Input() slim = false;
 
   private overlayRef!: OverlayRef;
 
@@ -22,12 +21,6 @@ export class TooltipDirective {
     private overlayPositionBuilder: OverlayPositionBuilder,
     private elementRef: ElementRef,
   ) {}
-
-  private hasTouch() {
-    return (
-      "ontouchstart" in document.documentElement || navigator.maxTouchPoints > 0
-    );
-  }
 
   @HostListener("mouseenter")
   show() {
@@ -41,10 +34,6 @@ export class TooltipDirective {
       .withGrowAfterOpen(true);
 
     this.overlayRef = this.overlay.create({ positionStrategy });
-
-    if (this.hasTouch() && this.slim) {
-      return;
-    }
 
     const tooltipRef: ComponentRef<TooltipComponent> =
       this.overlayRef.attach(new ComponentPortal(TooltipComponent));
