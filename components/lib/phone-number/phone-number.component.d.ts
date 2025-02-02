@@ -10,7 +10,7 @@ export declare class PhoneNumberComponent implements OnInit, OnDestroy {
     phoneValidated: boolean;
     phoneAvailable: boolean;
     isLoading: boolean;
-    validationPhoneEvent: EventEmitter<boolean>;
+    validatePhoneEvent: EventEmitter<string>;
     isValidPhoneNumber: () => ValidatorFn;
     options: ICountry[];
     selectedOption: Country;
@@ -26,6 +26,7 @@ export declare class PhoneNumberComponent implements OnInit, OnDestroy {
     getCountryByPhoneNumber(phoneNumber: string): void;
     checkIfHasEqualsDialCode(countries: ICountry[]): void;
     get phoneNumber(): FormControl;
+    validatePhone(): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<PhoneNumberComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDeclaration<PhoneNumberComponent, "cdk-phone-number", never, { "labelPhoneNumberValidation": "labelPhoneNumberValidation"; "phoneValidated": "phoneValidated"; "phoneAvailable": "phoneAvailable"; "isLoading": "isLoading"; }, { "validationPhoneEvent": "validationPhoneEvent"; }, never, never, false, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<PhoneNumberComponent, "cdk-phone-number", never, { "labelPhoneNumberValidation": { "alias": "labelPhoneNumberValidation"; "required": false; }; "phoneValidated": { "alias": "phoneValidated"; "required": false; }; "phoneAvailable": { "alias": "phoneAvailable"; "required": false; }; "isLoading": { "alias": "isLoading"; "required": false; }; }, { "validatePhoneEvent": "validatePhoneEvent"; }, never, never, false, never>;
 }

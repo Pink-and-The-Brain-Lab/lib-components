@@ -9,5 +9,5 @@ export declare class ProfilePreviewComponent {
     get isDefaultUserName(): boolean;
     get isDefaultProfileName(): boolean;
     static ɵfac: i0.ɵɵFactoryDeclaration<ProfilePreviewComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDeclaration<ProfilePreviewComponent, "app-profile-preview", never, { "color": "color"; "imageFile": "imageFile"; "userName": "userName"; "profileName": "profileName"; }, {}, never, never, false, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<ProfilePreviewComponent, "app-profile-preview", never, { "color": { "alias": "color"; "required": false; }; "imageFile": { "alias": "imageFile"; "required": false; }; "userName": { "alias": "userName"; "required": false; }; "profileName": { "alias": "profileName"; "required": false; }; }, {}, never, never, false, never>;
 }

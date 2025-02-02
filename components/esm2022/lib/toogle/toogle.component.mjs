@@ -1,0 +1,28 @@
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import * as i0 from "@angular/core";
+export class ToogleComponent {
+    constructor() {
+        this.toogleControl = false;
+        this.disabled = false;
+        this.toogleEvent = new EventEmitter();
+    }
+    toogle() {
+        if (this.disabled)
+            return;
+        this.toogleControl = !this.toogleControl;
+        this.toogleEvent.emit(this.toogleControl);
+    }
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "18.2.10", ngImport: i0, type: ToogleComponent, deps: [], target: i0.ɵɵFactoryTarget.Component }); }
+    static { this.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "18.2.10", type: ToogleComponent, selector: "cdk-toogle", inputs: { toogleControl: "toogleControl", disabled: "disabled" }, outputs: { toogleEvent: "toogleEvent" }, ngImport: i0, template: "<div\r\n    class=\"toogle d-flex\"\r\n    [class.toogle--on]=\"toogleControl\"\r\n    [class.toogle--off]=\"!toogleControl\"\r\n    [class.toogle--disabled]=\"disabled\"\r\n    (click)=\"toogle()\"\r\n>\r\n    <div\r\n        class=\"toogle__bullet\"\r\n        [class.toogle__bullet--on]=\"toogleControl\"\r\n        [class.toogle__bullet--off]=\"!toogleControl\"\r\n        [class.toogle__bullet--disabled]=\"disabled\"\r\n    ></div>\r\n</div>", styles: [".toogle{padding:2px;width:38px;height:20px;background-color:var(--alpha-9);border-radius:16px;position:relative;cursor:pointer}.toogle *{transition:all .2s ease-in-out}.toogle--on{background-color:var(--primary)}.toogle--disabled{background-color:var(--alpha-9)}.toogle__bullet{width:16px;height:16px;background:var(--white);border-radius:50%;position:absolute;top:2px}.toogle__bullet--on{right:2px}.toogle__bullet--off{right:20px}.toogle__bullet--disabled{right:20px;background-color:var(--support-14)}\n"] }); }
+}
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "18.2.10", ngImport: i0, type: ToogleComponent, decorators: [{
+            type: Component,
+            args: [{ selector: 'cdk-toogle', template: "<div\r\n    class=\"toogle d-flex\"\r\n    [class.toogle--on]=\"toogleControl\"\r\n    [class.toogle--off]=\"!toogleControl\"\r\n    [class.toogle--disabled]=\"disabled\"\r\n    (click)=\"toogle()\"\r\n>\r\n    <div\r\n        class=\"toogle__bullet\"\r\n        [class.toogle__bullet--on]=\"toogleControl\"\r\n        [class.toogle__bullet--off]=\"!toogleControl\"\r\n        [class.toogle__bullet--disabled]=\"disabled\"\r\n    ></div>\r\n</div>", styles: [".toogle{padding:2px;width:38px;height:20px;background-color:var(--alpha-9);border-radius:16px;position:relative;cursor:pointer}.toogle *{transition:all .2s ease-in-out}.toogle--on{background-color:var(--primary)}.toogle--disabled{background-color:var(--alpha-9)}.toogle__bullet{width:16px;height:16px;background:var(--white);border-radius:50%;position:absolute;top:2px}.toogle__bullet--on{right:2px}.toogle__bullet--off{right:20px}.toogle__bullet--disabled{right:20px;background-color:var(--support-14)}\n"] }]
+        }], propDecorators: { toogleControl: [{
+                type: Input
+            }], disabled: [{
+                type: Input
+            }], toogleEvent: [{
+                type: Output
+            }] } });
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoidG9vZ2xlLmNvbXBvbmVudC5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uL3Byb2plY3RzL2NvbXBvbmVudHMvc3JjL2xpYi90b29nbGUvdG9vZ2xlLmNvbXBvbmVudC50cyIsIi4uLy4uLy4uLy4uLy4uL3Byb2plY3RzL2NvbXBvbmVudHMvc3JjL2xpYi90b29nbGUvdG9vZ2xlLmNvbXBvbmVudC5odG1sIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBLE9BQU8sRUFBRSxTQUFTLEVBQUUsWUFBWSxFQUFFLEtBQUssRUFBRSxNQUFNLEVBQUUsTUFBTSxlQUFlLENBQUM7O0FBT3ZFLE1BQU0sT0FBTyxlQUFlO0lBTDVCO1FBT1csa0JBQWEsR0FBRyxLQUFLLENBQUM7UUFDdEIsYUFBUSxHQUFHLEtBQUssQ0FBQztRQUNoQixnQkFBVyxHQUFHLElBQUksWUFBWSxFQUFXLENBQUM7S0FRckQ7SUFOQyxNQUFNO1FBQ0osSUFBSSxJQUFJLENBQUMsUUFBUTtZQUFFLE9BQU87UUFDMUIsSUFBSSxDQUFDLGFBQWEsR0FBRyxDQUFDLElBQUksQ0FBQyxhQUFhLENBQUM7UUFDekMsSUFBSSxDQUFDLFdBQVcsQ0FBQyxJQUFJLENBQUMsSUFBSSxDQUFDLGFBQWEsQ0FBQyxDQUFDO0lBQzVDLENBQUM7K0dBVlUsZUFBZTttR0FBZixlQUFlLDZKQ1A1QixpY0FhTTs7NEZETk8sZUFBZTtrQkFMM0IsU0FBUzsrQkFDRSxZQUFZOzhCQU1iLGFBQWE7c0JBQXJCLEtBQUs7Z0JBQ0csUUFBUTtzQkFBaEIsS0FBSztnQkFDSSxXQUFXO3NCQUFwQixNQUFNIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgQ29tcG9uZW50LCBFdmVudEVtaXR0ZXIsIElucHV0LCBPdXRwdXQgfSBmcm9tICdAYW5ndWxhci9jb3JlJztcclxuXHJcbkBDb21wb25lbnQoe1xyXG4gIHNlbGVjdG9yOiAnY2RrLXRvb2dsZScsXHJcbiAgdGVtcGxhdGVVcmw6ICcuL3Rvb2dsZS5jb21wb25lbnQuaHRtbCcsXHJcbiAgc3R5bGVVcmxzOiBbJy4vdG9vZ2xlLmNvbXBvbmVudC5zY3NzJ11cclxufSlcclxuZXhwb3J0IGNsYXNzIFRvb2dsZUNvbXBvbmVudCB7XHJcblxyXG4gIEBJbnB1dCgpIHRvb2dsZUNvbnRyb2wgPSBmYWxzZTtcclxuICBASW5wdXQoKSBkaXNhYmxlZCA9IGZhbHNlO1xyXG4gIEBPdXRwdXQoKSB0b29nbGVFdmVudCA9IG5ldyBFdmVudEVtaXR0ZXI8Ym9vbGVhbj4oKTtcclxuXHJcbiAgdG9vZ2xlKCkge1xyXG4gICAgaWYgKHRoaXMuZGlzYWJsZWQpIHJldHVybjtcclxuICAgIHRoaXMudG9vZ2xlQ29udHJvbCA9ICF0aGlzLnRvb2dsZUNvbnRyb2w7XHJcbiAgICB0aGlzLnRvb2dsZUV2ZW50LmVtaXQodGhpcy50b29nbGVDb250cm9sKTtcclxuICB9XHJcblxyXG59XHJcbiIsIjxkaXZcclxuICAgIGNsYXNzPVwidG9vZ2xlIGQtZmxleFwiXHJcbiAgICBbY2xhc3MudG9vZ2xlLS1vbl09XCJ0b29nbGVDb250cm9sXCJcclxuICAgIFtjbGFzcy50b29nbGUtLW9mZl09XCIhdG9vZ2xlQ29udHJvbFwiXHJcbiAgICBbY2xhc3MudG9vZ2xlLS1kaXNhYmxlZF09XCJkaXNhYmxlZFwiXHJcbiAgICAoY2xpY2spPVwidG9vZ2xlKClcIlxyXG4+XHJcbiAgICA8ZGl2XHJcbiAgICAgICAgY2xhc3M9XCJ0b29nbGVfX2J1bGxldFwiXHJcbiAgICAgICAgW2NsYXNzLnRvb2dsZV9fYnVsbGV0LS1vbl09XCJ0b29nbGVDb250cm9sXCJcclxuICAgICAgICBbY2xhc3MudG9vZ2xlX19idWxsZXQtLW9mZl09XCIhdG9vZ2xlQ29udHJvbFwiXHJcbiAgICAgICAgW2NsYXNzLnRvb2dsZV9fYnVsbGV0LS1kaXNhYmxlZF09XCJkaXNhYmxlZFwiXHJcbiAgICA+PC9kaXY+XHJcbjwvZGl2PiJdfQ==

@@ -4,9 +4,8 @@ import * as i2 from "@angular/common";
 import * as i3 from "../avatar/avatar.module";
 import * as i4 from "ngx-image-cropper";
 import * as i5 from "../range/range.module";
-import * as i6 from "ng2-tooltip-directive";
 export declare class CropperModule {
     static ɵfac: i0.ɵɵFactoryDeclaration<CropperModule, never>;
-    static ɵmod: i0.ɵɵNgModuleDeclaration<CropperModule, [typeof i1.CropperComponent], [typeof i2.CommonModule, typeof i3.AvatarModule, typeof i4.ImageCropperModule, typeof i5.RangeModule, typeof i6.TooltipModule], [typeof i2.CommonModule]>;
+    static ɵmod: i0.ɵɵNgModuleDeclaration<CropperModule, [typeof i1.CropperComponent], [typeof i2.CommonModule, typeof i3.AvatarModule, typeof i4.ImageCropperModule, typeof i5.RangeModule], [typeof i2.CommonModule]>;
     static ɵinj: i0.ɵɵInjectorDeclaration<CropperModule>;
 }

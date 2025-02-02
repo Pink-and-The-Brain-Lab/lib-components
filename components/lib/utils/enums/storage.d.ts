@@ -1,6 +1,9 @@
 export declare enum Storage {
-    TOKEN = "token",
-    LANGUAGE_OPTIONS = "languageOptions",
-    SELECTED_LAGUAGE = "selectedLaguage",
-    SELECTED_THEME = "selectedTheme"
+    SELECTED_THEME = "SELECTED_THEME",
+    PROFILE_ID = "PROFILE_ID",
+    LANGUAGE_OPTIONS = "LANGUAGE_OPTIONS",
+    TOKEN = "TOKEN",
+    USER = "USER",
+    STAY_LOGGED_IN = "STAY_LOGGED_IN",
+    SELECTED_LAGUAGE = "SELECTED_LAGUAGE"
 }

@@ -6,5 +6,5 @@ export declare class ToogleComponent {
     toogleEvent: EventEmitter<boolean>;
     toogle(): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<ToogleComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDeclaration<ToogleComponent, "cdk-toogle", never, { "toogleControl": "toogleControl"; "disabled": "disabled"; }, { "toogleEvent": "toogleEvent"; }, never, never, false, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<ToogleComponent, "cdk-toogle", never, { "toogleControl": { "alias": "toogleControl"; "required": false; }; "disabled": { "alias": "disabled"; "required": false; }; }, { "toogleEvent": "toogleEvent"; }, never, never, false, never>;
 }

@@ -7,5 +7,5 @@ export declare class RangeComponent {
     selectedRange: EventEmitter<string>;
     change(event: Event): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<RangeComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDeclaration<RangeComponent, "cdk-range", never, { "min": "min"; "max": "max"; "step": "step"; }, { "selectedRange": "selectedRange"; }, never, never, false, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<RangeComponent, "cdk-range", never, { "min": { "alias": "min"; "required": false; }; "max": { "alias": "max"; "required": false; }; "step": { "alias": "step"; "required": false; }; }, { "selectedRange": "selectedRange"; }, never, never, false, never>;
 }

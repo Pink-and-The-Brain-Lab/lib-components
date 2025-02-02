@@ -17,6 +17,7 @@ export declare class PopoverDirective {
     close: (event: MouseEvent) => void;
     constructor(overlay: Overlay, template: TemplateRef<object>, viewContainerRef: ViewContainerRef);
     open(): void;
+    private createOverlay;
     static ɵfac: i0.ɵɵFactoryDeclaration<PopoverDirective, never>;
-    static ɵdir: i0.ɵɵDirectiveDeclaration<PopoverDirective, "[cdkPopover]", never, { "cdkPopover": "cdkPopover"; "target": "cdkPopoverTarget"; "positions": "cdkPopoverPositions"; "isFullscreen": "cdkPopoverFullScreen"; "close": "cdkPopoverClose"; }, {}, never, never, false, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<PopoverDirective, "[cdkPopover]", never, { "cdkPopover": { "alias": "cdkPopover"; "required": false; }; "target": { "alias": "cdkPopoverTarget"; "required": false; }; "positions": { "alias": "cdkPopoverPositions"; "required": false; }; "isFullscreen": { "alias": "cdkPopoverFullScreen"; "required": false; }; "close": { "alias": "cdkPopoverClose"; "required": false; }; }, {}, never, never, false, never>;
 }

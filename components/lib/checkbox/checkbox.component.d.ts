@@ -12,5 +12,5 @@ export declare class CheckboxComponent {
     get input(): boolean;
     changeValue(): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<CheckboxComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDeclaration<CheckboxComponent, "cdk-checkbox", never, { "label": "label"; "value": "value"; }, { "change": "change"; }, never, never, false, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<CheckboxComponent, "cdk-checkbox", never, { "label": { "alias": "label"; "required": false; }; "value": { "alias": "value"; "required": false; }; }, { "change": "change"; }, never, never, false, never>;
 }

@@ -15,5 +15,5 @@ export declare class PasswordValidationDirective implements AfterViewInit {
     private validatePassword;
     private colorizeElements;
     static ɵfac: i0.ɵɵFactoryDeclaration<PasswordValidationDirective, never>;
-    static ɵdir: i0.ɵɵDirectiveDeclaration<PasswordValidationDirective, "[cdkPasswordValidation]", never, { "password": "cdkPasswordValidation"; }, { "isValid": "isValid"; }, never, never, false, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<PasswordValidationDirective, "[cdkPasswordValidation]", never, { "password": { "alias": "cdkPasswordValidation"; "required": false; }; }, { "isValid": "isValid"; }, never, never, false, never>;
 }
