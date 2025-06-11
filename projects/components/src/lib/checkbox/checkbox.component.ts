@@ -12,7 +12,7 @@ export class CheckboxComponent {
   @Input() value = false;
   @Output() change = new EventEmitter<boolean>();
 
-  id = Math.round(Math.random() * 100000);
+  id = new Date().getTime();
   
   form = new FormGroup({
     input: new FormControl(this.value)

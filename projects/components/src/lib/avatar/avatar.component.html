@@ -8,7 +8,7 @@
     [style.backgroundImage]="'url(' + imageUrl + ')'"
     [style.backgroundColor]="color"
   >
-    <span *ngIf="!imageUrl.length && name.length">{{ name[0] }}</span>
+    <span *ngIf="!imageUrl?.length && name.length">{{ name[0] }}</span>
   </div>
 
   <div *ngIf="maskType === 'status'" class="avatar__status">

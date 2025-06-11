@@ -109,9 +109,10 @@ export class CodeValidationComponent
 
   @HostListener('paste', ['$event'])
   onPaste(event: ClipboardEvent): void {
-    const clipboardData = event.clipboardData;
+    const clipboardData = event?.clipboardData;
     const pastedText = clipboardData?.getData('text');
-    this.inputPastedCode(pastedText || '');
+    if (!pastedText) return;
+    this.inputPastedCode(pastedText);
   }
 
   private inputPastedCode(code: string) {

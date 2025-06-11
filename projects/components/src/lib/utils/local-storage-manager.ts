@@ -1,13 +1,26 @@
-export abstract class LocalStorageManager {
+import { Injectable } from "@angular/core";
+import { Observable, Subject } from "rxjs";
 
-    static set<T>(name: string, value: T): void {
-        const sanitizedName = LocalStorageManager.sanitizeName(name);
+@Injectable({
+    providedIn: 'root'
+})
+export class LocalStorageManager {
+
+    private storageSub = new Subject<string>();
+
+    watchStorage(): Observable<string> {
+        return this.storageSub.asObservable();
+    }
+
+    set<T>(name: string, value: T): void {
+        const sanitizedName = this.sanitizeName(name);
         const stringfyValue = JSON.stringify(value);
         window.localStorage.setItem(`#${sanitizedName}`, stringfyValue);
+        this.storageSub.next('changed');
     }
     
-    static get<T>(name: string): T | null {
-        const sanitizedName = LocalStorageManager.sanitizeName(name);
+    get<T>(name: string): T | null {
+        const sanitizedName = this.sanitizeName(name);
         const value = window.localStorage.getItem(`#${sanitizedName}`);
         if (!!value) {
             const parsedValue: T = JSON.parse(value);
@@ -16,12 +29,13 @@ export abstract class LocalStorageManager {
         return null;
     }
     
-    static remove(name: string): void {
-        const sanitizedName = LocalStorageManager.sanitizeName(name);
+    remove(name: string): void {
+        const sanitizedName = this.sanitizeName(name);
         window.localStorage.removeItem(`#${sanitizedName}`);
+        this.storageSub.next('changed');
     }
 
-    static sanitizeName(name: string): string {
+    private sanitizeName(name: string): string {
         return name.trim().replace(/\s/gi, '_').replace(/[^\w\s]/gi, '').toUpperCase();
     }
 }

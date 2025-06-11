@@ -1,20 +1,19 @@
-@import "../styles/variables";
 @import "../styles/em";
 
 .content {
     width: 240px;
     min-height: 280px;
-    background-color: $support-8;
+    background-color: var(--support-8);
     padding: 16px;
 
     .user-name {
         font-size: to-em(18);
         font-weight: 600;
         line-height: to-em(28);
-        color: $emphasis-high;
+        color: var(--emphasis-high);
 
         &.blink {
-            background-color: $surface-4;
+            background-color: var(--surface-4);
             width: 136px;
             height: 16px;
             border-radius: 50px;
@@ -27,10 +26,10 @@
         font-weight: 600;
         line-height: 16px;
         text-transform: uppercase;
-        color: $emphasis-medium;
+        color: var(--emphasis-medium);
 
         &.blink {
-            background-color: $surface-4;
+            background-color: var(--surface-4);
             width: 80px;
             height: 10px;
             border-radius: 50px;
@@ -39,6 +38,6 @@
     }
 
     .default-text {
-        color: $emphasis-low;
+        color: var(--emphasis-low);
     }
 }

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { countriesCode } from './data/countries-codes';
@@ -13,7 +13,11 @@ import { PhoneValidationService } from './service/phone-validation.service';
 })
 export class PhoneNumberComponent implements OnInit, OnDestroy {
 
-  @Output() validationPhoneEvent = new EventEmitter<boolean>();
+  @Input() labelPhoneNumberValidation = 'Phone number is invalid';
+  @Input() phoneValidated = false;
+  @Input() phoneAvailable = false;
+  @Input() isLoading = false;
+  @Output() validatePhoneEvent = new EventEmitter<string>();
 
   isValidPhoneNumber = (): ValidatorFn => {
     return (control: AbstractControl): ValidationErrors | null => {
@@ -22,16 +26,14 @@ export class PhoneNumberComponent implements OnInit, OnDestroy {
       if (validation.masked === control.value) return null;
       this.labelPhoneNumberValidation = 'Phone number is invalid';
       this.phoneValidated = false;
-      this.validationPhoneEvent.emit(false);
       
       if (this.verifiedPhoneNumber.length && control.value === this.verifiedPhoneNumber.replace(/\s|-/gi, '')) {
-        this.validationPhoneEvent.emit(true);
         this.phoneValidated = true;
         return null;
       }
 
       if (validation.isValid) {
-        control.setValue(validation.masked || control.value);
+        control.setValue(validation.masked);
         return null;
       }
     
@@ -41,11 +43,7 @@ export class PhoneNumberComponent implements OnInit, OnDestroy {
 
   options: ICountry[] = [];
   selectedOption = new Country();
-  phoneValidated = false;
-  phoneAvailable = false;
-  isLoading = false;
   verifiedPhoneNumber = '';
-  labelPhoneNumberValidation = 'Phone number is invalid';
   formGroup = new FormGroup({
     phoneNumber: new FormControl('', [Validators.required, this.isValidPhoneNumber()])
   });
@@ -82,25 +80,12 @@ export class PhoneNumberComponent implements OnInit, OnDestroy {
     this.selectedOption = new Country(countries[0].name, countries[0].dial_code, countries[0].code, countries[0].latitude, countries[0].longitude);
   }
 
-  verifyPhoneNumber() {
-    this.isLoading = true;
-
-    setTimeout(() => {
-      this.isLoading = false;
-      this.phoneValidated = true;
-      this.phoneAvailable = true;
-      this.verifiedPhoneNumber = this.phoneNumber.value;
-      this.validationPhoneEvent.emit(this.phoneAvailable);
-
-      // EXEMPLO DE ERRO NA VALIDAÇÃO DO TELEFONE
-      // this.phoneAvailable = false;
-      // this.labelPhoneNumberValidation = 'Phone number unvailable';
-      // this.phoneNumber.setErrors({ isInvalidPhoneNumber: true });
-    }, 3000);
-  }
-
   get phoneNumber(): FormControl {
     return this.formGroup.controls.phoneNumber;
   }
 
+  validatePhone() {
+    this.validatePhoneEvent.emit(this.phoneNumber.value);
+    this.isLoading= true;    
+  }
 }

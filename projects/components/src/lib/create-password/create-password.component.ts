@@ -1,16 +1,27 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import {
+  Component,
+  EventEmitter,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { InputType } from './models/input-type';
 import { IPasswordEvent } from './models/password-event';
-
 @Component({
-  selector: 'app-create-password',
+  selector: 'cdk-create-password',
   templateUrl: './create-password.component.html',
-  styleUrls: ['./create-password.component.scss']
+  styleUrls: ['./create-password.component.scss'],
 })
 export class CreatePasswordComponent implements OnInit, OnDestroy {
-
   private destroy$ = new Subject<boolean>();
   @Output() passwordValidation = new EventEmitter<boolean>();
   @Output() submitEvent = new EventEmitter<void>();
@@ -20,30 +31,22 @@ export class CreatePasswordComponent implements OnInit, OnDestroy {
 
   passwordsAreEquals = (): ValidatorFn => {
     return (): ValidationErrors | null => {
-      return this.password?.value === this.confirmPassword?.value ? null : { passwordsDiferent: true };
-    }
-  }
+      return this.password?.value === this.confirmPassword?.value
+        ? null
+        : { passwordsDiferent: true };
+    };
+  };
 
   form = new FormGroup({
     password: new FormControl('', [Validators.required]),
-    confirmPassword: new FormControl('', [Validators.required, this.passwordsAreEquals()]),
+    confirmPassword: new FormControl('', [
+      Validators.required,
+      this.passwordsAreEquals(),
+    ]),
   });
 
   ngOnInit(): void {
-    this.form.valueChanges
-      .pipe(
-        takeUntil(this.destroy$)
-      )
-      .subscribe(
-        () => {
-          this.passwordValidation.emit(this._passwordValidation);
-          if (!this._passwordValidation) return;
-          this.passwordEvent.emit({
-            password: this.password?.value,
-            confirmPassword: this.confirmPassword?.value
-          });
-        }
-      );
+    this.watchInputValuesChanges();
   }
 
   ngOnDestroy(): void {
@@ -51,10 +54,20 @@ export class CreatePasswordComponent implements OnInit, OnDestroy {
     this.destroy$.unsubscribe();
   }
 
+  private watchInputValuesChanges() {
+    this.form.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.passwordValidation.emit(this._passwordValidation);
+      if (!this._passwordValidation) return;
+      this.passwordEvent.emit({
+        password: this.password?.value,
+        confirmPassword: this.confirmPassword?.value,
+      });
+    });
+  }
 
   validatePassword(value: boolean) {
     this.isPasswordValid = value;
-  };
+  }
 
   get password(): AbstractControl | null {
     return this.form?.get('password');
@@ -65,9 +78,10 @@ export class CreatePasswordComponent implements OnInit, OnDestroy {
   }
 
   get _passwordValidation(): boolean {
-    const arePassValid = this.password?.valid && this.confirmPassword?.valid;
+    const arePassValid =
+      !!this.password?.valid && !!this.confirmPassword?.valid;
     const arePassEquals = this.password?.value === this.confirmPassword?.value;
-    return this.isPasswordValid && !!arePassValid && arePassEquals;
+    return this.isPasswordValid && arePassValid && arePassEquals;
   }
 
   togglePasswordVisibility(index: number, type: InputType) {
@@ -78,5 +92,4 @@ export class CreatePasswordComponent implements OnInit, OnDestroy {
     if (!this._passwordValidation) return;
     this.submitEvent.emit();
   }
-
 }

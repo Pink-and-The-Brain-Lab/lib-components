@@ -1,63 +1,65 @@
-<div class="content">
-  <div class="row-form position-relative m-0" #content>
-    <div class="country-flag" *ngIf="selectedOption">
-      <ng-container
-        *ngTemplateOutlet="
-          selectedTemplate;
-          context: { $implicit: selectedOption }
-        "
-      ></ng-container>
+<ng-container *ngIf="options.length">
+  <div class="content">
+    <div class="row-form position-relative m-0" #content>
+      <div class="country-flag" *ngIf="selectedOption">
+        <ng-container
+          *ngTemplateOutlet="
+            selectedTemplate;
+            context: { $implicit: selectedOption }
+          "
+        ></ng-container>
+      </div>
+
+      <form [formGroup]="formGroup">
+        <input
+          type="text"
+          (focus)="showOptions = true"
+          [attr.placeholder]="placeholder"
+          formControlName="input"
+          [class.has-left-icon]="hasLeftIcon"
+          [class.not-empty]="selectedOption[modelProperty]"
+          [class.success]="isValid"
+          readonly
+          id="select"
+        />
+        <label for="select">{{ label }}</label>
+      </form>
+
+      <span class="arrow">
+        <i class="bi bi-chevron-down" *ngIf="!showOptions"></i>
+        <i class="bi bi-chevron-up" *ngIf="showOptions"></i>
+      </span>
     </div>
-
-    <form [formGroup]="formGroup">
-      <input
-        type="text"
-        (focus)="showOptions = true"
-        [attr.placeholder]="placeholder"
-        formControlName="input"
-        [class.has-left-icon]="hasLeftIcon"
-        [class.not-empty]="selectedOption[modelProperty]"
-        [class.success]="isValid"
-        readonly
-        id="select"
-      />
-      <label for="select">{{ label }}</label>
-    </form>
-
-    <span class="arrow">
-      <i class="bi bi-chevron-down" *ngIf="!showOptions"></i>
-      <i class="bi bi-chevron-up" *ngIf="showOptions"></i>
-    </span>
   </div>
-</div>
 
-<ul
-  class="options m-0"
-  *cdkPopover="
-    showOptions;
-    target: content;
-    close: closePopover;
-    positions: 'SBST'
-  "
->
-  <ng-container
-    *ngFor="
-      let item of options;
-      let first = first;
-      let last = last;
-      let index = index
+  <ul
+    class="options m-0"
+    *cdkPopover="
+      showOptions;
+      target: content;
+      close: closePopover;
+      positions: 'SBST'
     "
   >
-    <li
-      class="custom-option"
-      [class.first]="first"
-      [class.last]="last"
-      (click)="getOption(item)"
+    <ng-container
+      *ngFor="
+        let item of options;
+        let first = first;
+        let last = last;
+        let index = index
+      "
     >
-      <ng-container
-        *ngTemplateOutlet="customTemplate; context: { $implicit: item, index }"
-      ></ng-container>
-    </li>
-    <li class="divider" *ngIf="hasDivider && index === 1"></li>
-  </ng-container>
-</ul>
+      <li
+        class="custom-option"
+        [class.first]="first"
+        [class.last]="last"
+        (click)="getOption(item)"
+      >
+        <ng-container
+          *ngTemplateOutlet="customTemplate; context: { $implicit: item, index }"
+        ></ng-container>
+      </li>
+      <li class="divider" *ngIf="hasDivider && index === 1"></li>
+    </ng-container>
+  </ul>
+</ng-container>

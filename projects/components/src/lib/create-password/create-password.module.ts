@@ -4,6 +4,7 @@ import { CreatePasswordComponent } from './create-password.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputValidationModule } from '../input-validation/input-validation.module';
 import { PasswordValidationModule } from '../password-validation/password-validation.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { PasswordValidationModule } from '../password-validation/password-valida
     FormsModule,
     ReactiveFormsModule,
     PasswordValidationModule,
+    TranslateModule.forChild(),
   ]
 })
 export class CreatePasswordModule { }

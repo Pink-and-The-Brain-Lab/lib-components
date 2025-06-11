@@ -10,12 +10,12 @@
 
 input:-webkit-autofill {
     background-clip: text;
-    -webkit-text-fill-color: $emphasis-low;
+    -webkit-text-fill-color: var(--emphasis-low);
 }
 
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-    box-shadow: 0 3px 0 -1px $divider;
+    box-shadow: 0 3px 0 -1px var(--divider);
 }
 
 .row-form {
@@ -31,23 +31,23 @@ input:-webkit-autofill:active {
         width: 100%;
         padding: 10px 0;
         border: 0;
-        color: $emphasis-low;
-        @include input-state($divider);
+        color: var(--emphasis-low);
+        @include input-state(var(--divider));
 
         &.invalid {
-            @include input-state($st-red);
+            @include input-state(var(--st-red));
         }
 
         &.success {
-            @include input-state($st-green);
+            @include input-state(var(--st-green));
         }
 
         &.warning {
-            @include input-state($st-yellow);
+            @include input-state(var(--st-yellow));
         }
 
         &.info {
-            @include input-state($st-blue);
+            @include input-state(var(--st-blue));
         }
     }
 
@@ -62,26 +62,26 @@ input:-webkit-autofill:active {
             top: 11px;
 
             &.invalid {
-                color: $st-red;
+                color: var(--st-red);
             }
     
             &.success {
-                color: $st-green;
+                color: var(--st-green);
             }
     
             &.warning {
-                color: $st-yellow;
+                color: var(--st-yellow);
             }
     
             &.info {
-                color: $st-blue;
+                color: var(--st-blue);
             }
         }
     }
 
     label {
         font-size: to-em(14);
-        color: $emphasis-low;
+        color: var(--emphasis-low);
         text-align: left;
         display: block;
         position: absolute;
@@ -101,7 +101,7 @@ input:-webkit-autofill:active {
         position: absolute;
         left: 2px;
         bottom: -15px;
-        color: $st-red;
+        color: var(--st-red);
         text-align: left;
     }
 }

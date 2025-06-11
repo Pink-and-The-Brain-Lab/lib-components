@@ -21,7 +21,7 @@ describe('ColorSelectorComponent', () => {
   });
 
   it('should emit selected color', () => {
-    const spy = jest.spyOn(component.colorChanged, 'emit');
+    const spy = spyOn(component.colorChanged, 'emit');
     component.selectColor('#8D6E62');
     expect(spy).toHaveBeenCalledWith('#8D6E62');
     expect(component.selectedColor).toBe('#8D6E62');

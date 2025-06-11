@@ -7,6 +7,7 @@ export declare class CodeValidationComponent implements OnInit, OnDestroy, After
     validate: EventEmitter<string>;
     private destroy$;
     private focusedInput;
+    private backspaceControl;
     formGroup: FormGroup<{
         _0: FormControl<string | null>;
         _1: FormControl<string | null>;
@@ -27,5 +28,5 @@ export declare class CodeValidationComponent implements OnInit, OnDestroy, After
     private inputPastedCode;
     validateCode(): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<CodeValidationComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDeclaration<CodeValidationComponent, "cdk-code-validation", never, { "isLoading": "isLoading"; }, { "validate": "validate"; }, never, never, false, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<CodeValidationComponent, "cdk-code-validation", never, { "isLoading": { "alias": "isLoading"; "required": false; }; }, { "validate": "validate"; }, never, never, false, never>;
 }

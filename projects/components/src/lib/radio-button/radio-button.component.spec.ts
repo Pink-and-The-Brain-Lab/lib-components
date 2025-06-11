@@ -1,21 +1,22 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { RadioButtomComponent } from './radio-button.component';
+import { RadioButtonComponent } from './radio-button.component';
 
-describe('RadioButtomComponent', () => {
-  let component: RadioButtomComponent<any>;
-  let fixture: ComponentFixture<RadioButtomComponent<any>>;
+describe('RadioButtonComponent', () => {
+  let component: RadioButtonComponent<any>;
+  let fixture: ComponentFixture<RadioButtonComponent<any>>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RadioButtomComponent ],
-      imports: [ FormsModule ]
+      declarations: [ RadioButtonComponent ],
+      imports: [ FormsModule ],
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(RadioButtomComponent);
+    fixture = TestBed.createComponent(RadioButtonComponent);
     component = fixture.componentInstance;
+    fixture.debugElement.injector.get(NG_VALUE_ACCESSOR);
     fixture.detectChanges();
   });
 
@@ -46,16 +47,16 @@ describe('RadioButtomComponent', () => {
   });
 
   it('should change value', () => {
-    jest.spyOn(component, 'onChange' as any);
-    jest.spyOn(component, 'onTouched' as any);
+    spyOn(component, 'onChange' as any);
+    spyOn(component, 'onTouched' as any);
     component.changed('Dark');
     expect(component.model).toBeTruthy();
-    expect(component.onChange).toBeCalledWith('Dark');
-    expect(component.onTouched).toBeCalled();
+    expect(component.onChange).toHaveBeenCalledWith('Dark');
+    expect(component.onTouched).toHaveBeenCalled();
   });
 
   it('should listen click event', () => {
-    jest.spyOn(component, 'changed');
+    spyOn(component, 'changed');
     const element = fixture.debugElement.query(By.css('label'));
     element.nativeElement.click();
     fixture.detectChanges();
@@ -63,7 +64,7 @@ describe('RadioButtomComponent', () => {
   });
 
   it('should listen keydown event with enter key', () => {
-    jest.spyOn(component, 'changed');
+    spyOn(component, 'changed');
     const event = new KeyboardEvent('keydown', { key: 'enter' })
     window.dispatchEvent(event);
     fixture.detectChanges();
@@ -71,7 +72,7 @@ describe('RadioButtomComponent', () => {
   });
 
   it('should listen keydown event with space key', () => {
-    jest.spyOn(component, 'changed');
+    spyOn(component, 'changed');
     const event = new KeyboardEvent('keydown', { key: 'space' })
     window.dispatchEvent(event);
     fixture.detectChanges();
@@ -79,7 +80,7 @@ describe('RadioButtomComponent', () => {
   });
 
   it('should listen keydown event and not call changed when disabled is true', () => {
-    jest.spyOn(component, 'changed');
+    spyOn(component, 'changed');
     component.disabled = true;
     const event = new KeyboardEvent('keydown', { key: 'enter' })
     window.dispatchEvent(event);

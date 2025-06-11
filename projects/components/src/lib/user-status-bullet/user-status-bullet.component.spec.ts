@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { UserStatusBulletComponent } from './user-status-bullet.component';
 
 describe('UserStatusBulletComponent', () => {

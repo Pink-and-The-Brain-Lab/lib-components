@@ -39,6 +39,7 @@ export * from './lib/code-validation/code-validation.component';
 export * from './lib/code-validation/code-validation.module';
 
 export * from './lib/chose-image/chose-image.component';
+export * from './lib/chose-image/models/image-upload.interface';
 export * from './lib/chose-image/chose-image.module';
 
 export * from './lib/profile-preview/profile-preview.component';
@@ -67,6 +68,10 @@ export * from './lib/password-validation/password-validation.module';
 export * from './lib/create-password/create-password.component';
 export * from './lib/create-password/create-password.module';
 
+export * from './lib/tooltip/tooltip.component';
+export * from './lib/tooltip/tooltip.directive';
+export * from './lib/tooltip/tooltip.module';
+
 // utils
 export * from './lib/utils/convert-file';
 export * from './lib/utils/local-storage-manager';
@@ -74,3 +79,29 @@ export * from './lib/utils/local-storage-manager';
 // i18n
 export * from './lib/i18n/i18n.config';
 export * from './lib/i18n/models/language-option.model';
+
+// enums
+export * from './lib/utils/enums/storage';
+export * from './lib/utils/enums/theme';
+
+// services
+export * from './lib/services/theme-changer.service';
+
+// mocks
+export * from './lib/mocks/http-error-response.test.mock';
+export * from './lib/mocks/subscribe-method.test.mock';
+export * from './lib/mocks/toastr-service.test.mock';
+
+// states
+export * from './lib/states/actions/dashboard-visualization-control.action';
+export * from './lib/states/models/dashboard-visualization-control.interface';
+export * from './lib/states/state/dashboard-visualization-control.state';
+export * from './lib/states/actions/language-change.action';
+export * from './lib/states/models/language-change.interface';
+export * from './lib/states/state/language-change.state';
+export * from './lib/states/actions/profile.action';
+export * from './lib/states/models/profile.interface';
+export * from './lib/states/state/profiles.state';
+export * from './lib/states/actions/update-profile.action';
+export * from './lib/states/models/update-profile.interface';
+export * from './lib/states/state/update-profile.state';

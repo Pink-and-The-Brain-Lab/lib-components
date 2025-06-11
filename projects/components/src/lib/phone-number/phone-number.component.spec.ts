@@ -1,14 +1,14 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { InputValidationModule } from '@app/_cdk/directives/input-validation/input-validation.module';
-import { LoadingButtonModule } from '@app/_cdk/directives/loading-button/loading-button.module';
 import { CustomSelectModule } from '../custom-select/custom-select.module';
 import { SpinnerModule } from '../spinner/spinner.module';
 import { PhoneNumberComponent } from './phone-number.component';
 import { Country } from './model/country.model';
 import { PhoneValidationService } from './service/phone-validation.service';
 import { ICountry } from './model/country.interface';
+import { InputValidationModule } from '../input-validation/input-validation.module';
+import { LoadingButtonModule } from '../loading-button/loading-button.module';
 
 const countryMock = new Country('Brasil', '+55', 'BR', 0, 0);
 const mockCountryInterfaced: ICountry = {
@@ -20,11 +20,11 @@ const mockCountryInterfaced: ICountry = {
 }
 
 const mockPhoneValidationService = {
-  validateAndFormat: jest.fn(() => ({
+  validateAndFormat: () => ({
     isValid: true,
     masked: '+55 11 91234-5678'
-  })),
-  filterCountryCode: jest.fn(() => [mockCountryInterfaced])
+  }),
+  filterCountryCode: () => [mockCountryInterfaced]
 }
 
 describe('PhoneNumberComponent', () => {
@@ -67,10 +67,11 @@ describe('PhoneNumberComponent', () => {
   });
 
   it('should validate when phone number already validated and the number changed', () => {
-    const spy = jest.spyOn(component.validationPhoneEvent, 'emit');
+    const spy = spyOn(component.validatePhoneEvent, 'emit');
     component.verifiedPhoneNumber = '5511912345678';
     component.formGroup.controls.phoneNumber.patchValue('5511912345678');
-    expect(spy).toBeCalledWith(true);
+    component.validatePhone();
+    expect(spy).toHaveBeenCalledWith('5511912345678');
     expect(component.phoneValidated).toBeTruthy();
   });
 
@@ -88,21 +89,21 @@ describe('PhoneNumberComponent', () => {
   });
 
   it('should get country by phone number', () => {
-    const spy = jest.spyOn(component, 'checkIfHasEqualsDialCode');
+    const spy = spyOn(component, 'checkIfHasEqualsDialCode');
     component.getCountryByPhoneNumber('+55 11 91234-5678');
-    expect(spy).toBeCalledWith([mockCountryInterfaced]);
+    expect(spy).toHaveBeenCalledWith([mockCountryInterfaced]);
   });
 
   it('should check if equals dial code', () => {
     component.checkIfHasEqualsDialCode([mockCountryInterfaced]);
-    expect(component.selectedOption.name).toBe(mockCountryInterfaced.name);
+    expect(component.selectedOption.name).toBe(mockCountryInterfaced.name as any);
   });
 
-  it('should verify if phone is available', () => {
-    jest.useFakeTimers();
-    const spy = jest.spyOn(component.validationPhoneEvent, 'emit');
-    component.verifyPhoneNumber();
-    jest.advanceTimersByTime(3000);
-    expect(spy).toHaveBeenCalledWith(true);
+  it('should use control value', () => {
+    const mockPhoneValidationService = TestBed.inject(PhoneValidationService);
+    spyOn(mockPhoneValidationService, 'validateAndFormat').and.returnValue({ masked: null } as any);
+    component.formGroup.controls.phoneNumber.patchValue('5511912345678');
+    const inputError = component.phoneNumber.errors || {};
+    expect(inputError['isInvalidPhoneNumber']).toBeTrue();
   });
 });

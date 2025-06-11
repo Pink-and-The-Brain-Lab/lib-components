@@ -21,11 +21,11 @@ describe('RangeComponent', () => {
   });
 
   it('should emit changed value', () => {
-    const spy = jest.spyOn(component.selectedRange, 'emit');
+    const spy = spyOn(component.selectedRange, 'emit');
     const event = {
       target: { value: '50' }
     } as unknown as Event;
     component.change(event);
-    expect(spy).toBeCalledWith('50')
+    expect(spy).toHaveBeenCalledWith('50')
   });
 });

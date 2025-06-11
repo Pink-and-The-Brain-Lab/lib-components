@@ -9,5 +9,5 @@ export declare class LoadingButtonDirective implements OnChanges {
     ngOnChanges({ cdkLoadingButton }: SimpleChanges): void;
     updateButton(): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<LoadingButtonDirective, never>;
-    static ɵdir: i0.ɵɵDirectiveDeclaration<LoadingButtonDirective, "[cdkLoadingButton]", never, { "cdkLoadingButton": "cdkLoadingButton"; }, {}, never, never, false, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<LoadingButtonDirective, "[cdkLoadingButton]", never, { "cdkLoadingButton": { "alias": "cdkLoadingButton"; "required": false; }; }, {}, never, never, false, never>;
 }
