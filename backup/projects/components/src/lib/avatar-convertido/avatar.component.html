@@ -1,0 +1,26 @@
+<div class="avatar avatar--{{ size }}">
+  <div
+    class="
+      avatar__mask
+      avatar__mask--{{ mask }}
+      avatar__mask--{{ mask }}--{{ maskType }}
+      avatar__mask--{{ mask }}--{{ status.length ? 'status' : '' }}--{{ maskType }}
+    "
+    [style.backgroundImage]="'url(' + imageUrl + ')'"
+    [style.backgroundColor]="color"
+  >
+    <span *ngIf="!imageUrl?.length && name.length">{{ name[0] }}</span>
+  </div>
+
+  <div *ngIf="status?.length" class="avatar__status">
+    <cdk-user-status-bullet [status]="status || 'online'"></cdk-user-status-bullet>
+  </div>
+
+  <div class="avatar__fixed" *ngIf="maskType === 'fixed'">
+    <i class="bi bi-pin-angle-fill"></i>
+  </div>
+
+  <div class="avatar__checked" *ngIf="maskType === 'check'">
+    <i class="bi bi-check-lg"></i>
+  </div>
+</div>
