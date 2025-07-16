@@ -1,0 +1,8 @@
+@import "../styles/em";
+
+p {
+    font-weight: 600;
+    font-size: to-em(14);
+    color: var(--emphasis-medium);
+    margin: 0;
+}
