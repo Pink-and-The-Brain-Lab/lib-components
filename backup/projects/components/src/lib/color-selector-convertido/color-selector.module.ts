@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ChoseImageComponent } from './chose-image.component';
+import { ColorSelectorComponent } from './color-selector.component';
 
 @NgModule({
   declarations: [
-    ChoseImageComponent
+    ColorSelectorComponent
   ],
   exports: [
-    ChoseImageComponent
+    ColorSelectorComponent
   ],
   imports: [
     CommonModule
   ]
 })
-export class ChoseImageModule { }
+export class ColorSelectorModule { }
