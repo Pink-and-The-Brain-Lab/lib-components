@@ -1,0 +1,13 @@
+<div class="content p-4">
+    <header class="d-flex justify-content-between align-items-center mb-4">
+        <h2>{{ modalData.title }}</h2>
+        <button type="button" class="close" *ngIf="modalData.showCloseButton" (click)="close()"><i class="bi bi-x-lg"></i></button>
+    </header>
+
+    <ng-template #modalContainer></ng-template>
+    
+    <footer class="d-flex justify-content-end align-items-center mt-4">
+        <button type="button" class="btn btn-outline-secondary me-2" *ngIf="modalData.declineButtonLabel?.length" (click)="decline()">{{ modalData.declineButtonLabel }}</button>
+        <button type="button" class="btn btn-primary" *ngIf="modalData.acceptButtonLabel?.length" (click)="accept()">{{ modalData.acceptButtonLabel }}</button>
+    </footer>
+</div>

@@ -1,0 +1,28 @@
+form {
+    width: 100%;
+    max-width: 500px;
+
+    cdk-custom-select {
+        width: 90px;
+    }
+    
+    input {
+        &.validated {
+            padding-right: 30px;
+        }
+    }
+    
+    .validation-icon {
+        position: absolute;
+        top: 11px;
+        right: 3px;
+    
+        .check {
+            color: var(--st-green);
+        }
+    
+        .error {
+            color: var(--st-red);
+        }
+    }
+}
