@@ -1,0 +1,18 @@
+@import "../styles/em";
+
+:host {
+    display: flex;
+    width: 100%;
+    position: relative;
+    justify-content: center;
+
+    .spinner {
+        position: absolute;
+        top: -5px;
+    }
+}
+
+.spinner-border {
+    width: to-em(20);
+    height: to-em(20);
+}
