@@ -1,0 +1,5 @@
+<div class="d-flex mt-4 align-items-center">
+    <button type="button" class="btn btn-outline-secondary" (click)="selectFile()">{{ buttonText }}</button>
+    <p class="ms-3">{{ aditionalText }}</p>
+    <input type="file" accept="image/*" hidden #inputFile (change)="getFile($event)" />
+</div>

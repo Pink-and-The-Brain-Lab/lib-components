@@ -1,0 +1,45 @@
+@import "../styles/variables";
+
+.toogle {
+    padding: 2px;
+    width: 38px;
+    height: 20px;
+    background-color: var(--alpha-9);
+    border-radius: 16px;
+    position: relative;
+    cursor: pointer;
+
+    * {
+        transition: all .2s ease-in-out;
+    }
+
+    &--on {
+        background-color: var(--primary);
+    }
+
+    &--disabled {
+        background-color: var(--alpha-9);
+    }
+
+    &__bullet {
+        width: 16px;
+        height: 16px;
+        background: var(--white);
+        border-radius: 50%;
+        position: absolute;
+        top: 2px;
+
+        &--on {
+            right: 2px;
+        }
+
+        &--off {
+            right: 20px;
+        }
+
+        &--disabled {
+            right: 20px;
+            background-color: var(--support-14);
+        }
+    }
+}
