@@ -1,0 +1,60 @@
+:host {
+  display: block;
+  font-family: sans-serif;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+canvas {
+  border: 1px solid #ccc;
+  
+  // NOVO: Muda o cursor baseado no modo atual
+  &.is-pan-mode {
+    cursor: grab;
+    &:active {
+      cursor: grabbing;
+    }
+  }
+  &.is-draw-mode {
+    cursor: crosshair;
+  }
+}
+
+// NOVO: Estilos para os controles de modo
+.mode-controls {
+    display: flex;
+    gap: 0.5rem;
+    background-color: #f0f0f0;
+    padding: 0.25rem;
+    border-radius: 8px;
+
+    button {
+        padding: 0.5rem 1rem;
+        border: 1px solid transparent;
+        background: none;
+        cursor: pointer;
+        border-radius: 6px;
+        font-weight: 500;
+        
+        &.active {
+            background-color: white;
+            border-color: #ccc;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+    }
+}
+
+.controls,
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+// ... (resto do CSS permanece o mesmo) ...

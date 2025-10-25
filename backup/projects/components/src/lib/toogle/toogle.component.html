@@ -1,0 +1,14 @@
+<div
+    class="toogle d-flex"
+    [class.toogle--on]="toogleControl"
+    [class.toogle--off]="!toogleControl"
+    [class.toogle--disabled]="disabled"
+    (click)="toogle()"
+>
+    <div
+        class="toogle__bullet"
+        [class.toogle__bullet--on]="toogleControl"
+        [class.toogle__bullet--off]="!toogleControl"
+        [class.toogle__bullet--disabled]="disabled"
+    ></div>
+</div>

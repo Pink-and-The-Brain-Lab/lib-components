@@ -1,0 +1,10 @@
+.error-message {
+    &.hidden {
+        display: none;
+    }
+}
+
+i {
+    color: var(--emphasis-low);
+    cursor: pointer;
+}
