@@ -1,0 +1,366 @@
+.bullet-status--offline {
+  background-color: var(--st-grey);
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.bullet-status--online {
+  background-color: var(--st-green);
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.bullet-status--busy {
+  background-color: var(--st-red);
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.bullet-status--away {
+  background-color: var(--st-orange);
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.custom-checkbox-input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.custom-checkbox-input:checked + .custom-checkbox-label::before {
+  background-color: var(--emphasis-high);
+  border-color: var(--emphasis-high);
+}
+
+.custom-checkbox-input:checked + .custom-checkbox-label::after {
+  opacity: 1;
+  transform: rotate(45deg) scale(1);
+}
+
+.custom-checkbox-input:disabled + .custom-checkbox-label {
+  opacity: 0.8;
+  cursor: not-allowed;
+}
+
+.custom-checkbox-input:disabled:not(:checked) + .custom-checkbox-label:hover::before {
+  border-color: var(--support-14);
+}
+
+.custom-checkbox-input:focus-visible + .custom-checkbox-label::before {
+  box-shadow: 0 0 0 3px var(--primary);
+}
+
+.custom-checkbox-label {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+  padding: 5px 0;
+  transition: color 0.1s ease;
+}
+
+.custom-checkbox-label::before {
+  content: "";
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--support-14);
+  border-radius: 3px;
+  margin-right: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.custom-checkbox-label::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 9px;
+  width: 6px;
+  height: 10px;
+  border: solid var(--surface-5);
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg) scale(0);
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.custom-checkbox-label:hover::before {
+  border-color: var(--primary);
+}
+
+.custom-checkbox-input:checked:not(:disabled) + .custom-checkbox-label:hover::before {
+  background-color: var(--emphasis-low);
+  border-color: var(--emphasis-low);
+}
+
+.text--xs {
+  font-size: 0.75em;
+}
+
+.text--sm {
+  font-size: 0.875em;
+}
+
+.text--md {
+  font-size: 1em;
+}
+
+.text--lg {
+  font-size: 1.125em;
+}
+
+.text--xl {
+  font-size: 1.25em;
+}
+
+.text--xxl {
+  font-size: 1.5em;
+}
+
+.text--high {
+  color: var(--emphasis-high);
+}
+
+.text--medium {
+  color: var(--emphasis-medium);
+}
+
+.text--low {
+  color: var(--emphasis-low);
+}
+
+.text--100 {
+  font-weight: 100;
+}
+
+.text--200 {
+  font-weight: 200;
+}
+
+.text--300 {
+  font-weight: 300;
+}
+
+.text--400 {
+  font-weight: 400;
+}
+
+.text--500 {
+  font-weight: 500;
+}
+
+.text--600 {
+  font-weight: 600;
+}
+
+.text--700 {
+  font-weight: 700;
+}
+
+.text--800 {
+  font-weight: 800;
+}
+
+.text--900 {
+  font-weight: 900;
+}
+
+.text--lower {
+  text-transform: lowercase;
+}
+
+.text--upper {
+  text-transform: uppercase;
+}
+
+input:-webkit-autofill {
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: var(--emphasis-low);
+}
+
+input:-webkit-autofill:focus, input:-webkit-autofill:active {
+  box-shadow: 0 3px 0 -1px var(--divider);
+}
+
+.row-form {
+  position: relative;
+  margin-top: 1em;
+}
+
+.row-form * {
+  transition: all 0.3s ease-in-out;
+}
+
+.row-form input {
+  background-color: rgba(0, 0, 0, 0);
+  width: 100%;
+  padding: 10px 0;
+  border: 0;
+  color: var(--emphasis-low);
+  box-shadow: 0 2px 0 -1px var(--divider);
+}
+
+.row-form input:focus {
+  box-shadow: 0 3px 0 -1px var(--divider);
+}
+
+.row-form input.invalid {
+  box-shadow: 0 2px 0 -1px var(--st-red);
+}
+
+.row-form input.invalid:focus {
+  box-shadow: 0 3px 0 -1px var(--st-red);
+}
+
+.row-form input.success {
+  box-shadow: 0 2px 0 -1px var(--st-green);
+}
+
+.row-form input.success:focus {
+  box-shadow: 0 3px 0 -1px var(--st-green);
+}
+
+.row-form input.warning {
+  box-shadow: 0 2px 0 -1px var(--st-yellow);
+}
+
+.row-form input.warning:focus {
+  box-shadow: 0 3px 0 -1px var(--st-yellow);
+}
+
+.row-form input.info {
+  box-shadow: 0 2px 0 -1px var(--st-blue);
+}
+
+.row-form input.info:focus {
+  box-shadow: 0 3px 0 -1px var(--st-blue);
+}
+
+.row-form.right-icon input {
+  padding-right: 30px;
+}
+
+.row-form.right-icon i {
+  position: absolute;
+  right: 5px;
+  top: 11px;
+}
+
+.row-form.right-icon i.invalid {
+  color: var(--st-red);
+}
+
+.row-form.right-icon i.success {
+  color: var(--st-green);
+}
+
+.row-form.right-icon i.warning {
+  color: var(--st-yellow);
+}
+
+.row-form.right-icon i.info {
+  color: var(--st-blue);
+}
+
+.row-form label {
+  font-size: 0.875em;
+  color: var(--emphasis-low);
+  text-align: left;
+  display: block;
+  position: absolute;
+  top: 11px;
+  margin-left: 2px;
+}
+
+.row-form input:-moz-placeholder + label {
+  font-size: 0.75em;
+  top: -8px;
+}
+
+.row-form input:focus + label, .row-form input:placeholder-shown + label, .row-form input.not-empty + label {
+  font-size: 0.75em;
+  top: -8px;
+}
+
+.row-form small {
+  font-size: 0.625em;
+  position: absolute;
+  left: 2px;
+  bottom: -18px;
+  color: var(--st-red);
+  text-align: left;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+.h-100 {
+  height: 100%;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.d-block {
+  display: block;
+}
+
+.d-flex {
+  display: flex;
+}
+
+:root {
+  --bs-primary: var(--primary);
+  --bs-secondary: var(--secondary);
+  --bs-success: var(--success);
+  --bs-info: var(--info);
+  --bs-warning: var(--warning);
+  --bs-danger: var(--danger);
+}
+
+html, body {
+  height: 100vh;
+  font-size: 1em;
+  background-color: var(--main);
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--alpha-9);
+}
+
+::-webkit-scrollbar-thum html,
+body {
+  background-color: var(--main) !important;
+}
